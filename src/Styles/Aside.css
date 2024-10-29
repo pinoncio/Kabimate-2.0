@@ -1,0 +1,21 @@
+/* Aside.css */
+.main-sidebar {
+    background-color: #a47551; /* Color del sidenav */
+  }
+  
+  .nav-link {
+    color: #ffffff; /* Color del texto de los enlaces */
+  }
+  
+  .nav-link:hover {
+    background-color: #8b5b48; /* Color de fondo al pasar el ratón */
+  }
+  
+  .form-control-sidebar {
+    color: #ffffff; /* Color del texto del buscador */
+  }
+  
+  .form-control-sidebar::placeholder {
+    color: #ffffff; /* Color del placeholder */
+  }
+  

@@ -1,0 +1,88 @@
+.home-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Mantener el fondo completo y restar la altura del navbar */
+    background-image: url('../Images/email-pattern.png'); /* Ruta local del patrón */
+    background-size: 150px; /* Ajusta el tamaño del patrón según tu preferencia */
+    background-repeat: repeat; /* Repetir el patrón */
+    background-color: #f5f5f0; /* Blanco beige (opcional) */
+    text-align: center; /* Centra el texto */
+    padding: 20px; /* Espaciado interno */
+
+}
+
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los inputs se ajusten */
+    justify-content: center; /* Centra el formulario */
+    margin-bottom: 20px; /* Espacio debajo del formulario */
+}
+
+.search-input {
+    margin: 5px; /* Margen entre inputs */
+    padding: 10px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde de entrada */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 1rem; /* Tamaño de fuente */
+}
+
+.search-button {
+    padding: 10px 20px; /* Espaciado del botón */
+    background-color: #a47551; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    margin: 5px; /* Margen alrededor del botón */
+}
+
+.search-button:hover {
+    background-color: #8b6140; /* Color al pasar el mouse */
+}
+
+.container-grid {
+    display: grid; /* Usa grid para los contenedores */
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    gap: 20px; /* Espacio entre contenedores */
+    max-width: 1200px; /* Ancho máximo de la cuadrícula */
+    margin: 0 auto; /* Centra la cuadrícula */
+}
+
+.container {
+    background-color: #fff; /* Fondo blanco para cada contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Esconde cualquier contenido desbordado */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.image-wrapper {
+    padding: 10px; /* Espacio alrededor de la imagen */
+    background-color: #f5f5f0; /* Color de fondo para el contenedor de la imagen (opcional) */
+    border-radius: 8px; /* Bordes redondeados para el contenedor de la imagen */
+}
+
+.container-image {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+    height: 200px; /* Ajusta la altura de la imagen */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+}
+
+.container-description {
+    padding: 10px; /* Espaciado interno */
+    font-size: 1rem; /* Tamaño de fuente */
+}
+
+.home-title {
+    color: #a47551; /* Café claro */
+    font-size: 3rem; /* Tamaño del título */
+    margin-bottom: 10px;
+}
+
+.home-subtitle {
+    font-size: 1.5rem; /* Tamaño del subtítulo */
+    color: #a47551; /* Café claro */
+}
