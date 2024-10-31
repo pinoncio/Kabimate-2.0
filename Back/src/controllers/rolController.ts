@@ -3,7 +3,7 @@ import { Rol } from '../models/rolModel';
 
 export const getRoles = async(req: Request, res: Response) =>{ 
     try {
-        const roles = await Rol.findAll({attributes:['ID_ROL','NOMBRE_ROL']});
+        const roles = await Rol.findAll();
         res.json(roles)
     }catch (error) {
         console.error(error);

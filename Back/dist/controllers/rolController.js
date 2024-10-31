@@ -13,7 +13,7 @@ exports.activarRol = exports.getRol = exports.deleteRol = exports.updateRol = ex
 const rolModel_1 = require("../models/rolModel");
 const getRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const roles = yield rolModel_1.Rol.findAll({ attributes: ['ID_ROL', 'NOMBRE_ROL'] });
+        const roles = yield rolModel_1.Rol.findAll();
         res.json(roles);
     }
     catch (error) {
