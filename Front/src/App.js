@@ -7,9 +7,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import UserPage from './pages/User';
-import RolPage from './pages/rol';
+import RolPage from './pages/Rol';
 import Insti from './pages/Insti';
-import { AuthProvider } from './services/AuthContext'; // Importar el AuthProvider
+import Cabana from './pages/Cabana';
+import { AuthProvider } from './services/AuthContext'; 
 
 export default function App() {
   return (
@@ -29,7 +30,9 @@ export default function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="/user" element={<UserPage />} />
               <Route path="/rol" element={<RolPage />} />
-              <Route path='/institucion' element={<Insti />} />
+              <Route path="/institucion" element={<Insti />} />
+              <Route path="/gcabana" element={<Cabana />} />
+              {/* Agrega aquí otras rutas que necesites */}
             </Routes>
           </div>
 

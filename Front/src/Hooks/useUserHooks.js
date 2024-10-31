@@ -1,7 +1,7 @@
 // hooks/useUser.js
 import { useEffect, useState } from 'react';
 import { show_alerta } from '../functions';
-import { getUsers, createUser, updateUser, activateUser, deactivateUser } from '../services/user';
+import { getUsers, createUser, updateUser, activateUser } from '../services/user';
 import { getRoles } from '../services/rol';
 import { getInstituciones } from '../services/Insti';
 import '../Styles/user.css';
@@ -149,28 +149,29 @@ const useUser = () => {
   };
 
   // Nueva función toggleUserStatus
-  const toggleUserStatus = async (id_usuario) => {
+  const handleToggleCuenta = async (id_usuario, nuevoEstado) => {
     try {
-      const user = users.find(user => user.ID_USUARIO === id_usuario);
-      if (!user) {
-        show_alerta('Usuario no encontrado', 'error');
-        return;
-      }
-
-      let response;
-      if (user.estado_cuenta) {
-        response = await deactivateUser(id_usuario);
-      } else {
-        response = await activateUser(id_usuario);
-      }
-
-      show_alerta(response.msg, 'success');
-      getAllUsers();
+      // Convertimos el valor booleano a 1 o 0 para enviar al backend
+      const estadoNumerico = nuevoEstado ? 1 : 0;
+      await activateUser(id_usuario, estadoNumerico);
+  
+      // Actualizamos el estado local para reflejar true o false en la interfaz
+      getAllUsers((prevUsuarios) =>
+        prevUsuarios.map((user) =>
+          user.ID_USUARIO === id_usuario ? { ...user, ESTADO_CUENTA: nuevoEstado } : user
+        )
+      );
+  
+      // Mensaje de confirmación
+      const mensaje = nuevoEstado ? 'Cuenta Desbloqueada con éxito' : 'Cuenta Bloqueada con éxito';
+      show_alerta(mensaje, 'success');
+  
     } catch (error) {
-      console.error('Error al cambiar el estado del usuario:', error);
-      show_alerta('Error al cambiar el estado del usuario', 'error');
+      console.error('Error al activar/desactivar la cuenta:', error);
+      show_alerta('Error al cambiar el estado de la cuenta', 'error');
     }
   };
+  
 
   const getRoleName = (id_rol) => {
     const role = roles.find((r) => r.ID_ROL === id_rol);
@@ -216,7 +217,7 @@ const useUser = () => {
     getAllInstituciones,
     getRoleName,
     getInstitucionName,
-    toggleUserStatus,
+    handleToggleCuenta,
   };
 };
 

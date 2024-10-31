@@ -32,7 +32,7 @@ const UserPage = () => {
     validar,
     getRoleName,
     getInstitucionName,
-    toggleUserStatus,
+    handleToggleCuenta,
   } = useUser();
 
   return (
@@ -91,15 +91,15 @@ const UserPage = () => {
                       <td>{getRoleName(user.ID_ROL_USUARIO)}</td>
                       <td>{getInstitucionName(user.ID_INSTITUCION_USUARIO)}</td>
                       <td>
-                        <label className='switch'>
-                          <input 
-                            type='checkbox' 
-                            checked={user.ESTADO_CUENTA} 
-                            onChange={() => toggleUserStatus(user.ID_USUARIO)}
-                          />
-                          <span className='slider round'></span>
-                        </label>
-                      </td>
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          checked={user.ESTADO_CUENTA === true}
+                          onChange={() => handleToggleCuenta(user.ID_USUARIO, !user.ESTADO_CUENTA)}
+                        />
+                        <span className="slider round"></span>
+                      </label>
+                    </td>
                       <td>
                         <button 
                           onClick={() => openModal(2, user.ID_USUARIO, user.NOMBRE1_USUARIO, user.NOMBRE2_USUARIO, user.APELLIDO1_USUARIO, user.APELLIDO2_USUARIO, user.RUT_USUARIO,

@@ -116,12 +116,26 @@ const useInstituciones = () => {
     });
   };
 
-  const handleToggleInstitucion = async (id_institucion, trigger) => {
+  const handleToggleInstitucion = async (id_institucion, nuevoEstado) => {
     try {
-      await activarInstitucion(id_institucion, trigger);
-      console.log(`Institución ${id_institucion} ${trigger === 1 ? 'activado' : 'desactivado'}`);
+      // Convertimos el valor booleano a 1 o 0 para enviar al backend
+      const estadoNumerico = nuevoEstado ? 1 : 0;
+      await activarInstitucion(id_institucion, estadoNumerico);
+  
+      // Actualizamos el estado local para reflejar true o false en la interfaz
+      setInstitucion((prevInstituciones) =>
+        prevInstituciones.map((inst) =>
+          inst.ID_INSTITUCION === id_institucion ? { ...inst, ESTADO_INSTITUCION: nuevoEstado } : inst
+        )
+      );
+  
+      // Mensaje de confirmación
+      const mensaje = nuevoEstado ? 'Institucion Desbloqueado con éxito' : 'Institucion Bloqueado con éxito';
+      show_alerta(mensaje, 'success');
+  
     } catch (error) {
-      console.error('Error al activar/desactivar la institución:', error);
+      console.error('Error al activar/desactivar la Institucion:', error);
+      show_alerta('Error al cambiar el estado del Institucion', 'error');
     }
   };
 

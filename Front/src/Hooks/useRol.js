@@ -117,15 +117,24 @@ export const useRol = () => {
    // Función para activar/desactivar el rol
    const handleToggleRol = async (id_rol, nuevoEstado) => {
     try {
-      await activarRol(id_rol, nuevoEstado); // Envía el valor a la base de datos
+      // Convertimos el valor booleano a 1 o 0 para enviar al backend
+      const estadoNumerico = nuevoEstado ? 1 : 0;
+      await activarRol(id_rol, estadoNumerico);
+  
+      // Actualizamos el estado local para reflejar true o false en la interfaz
       setRoles((prevRoles) =>
         prevRoles.map((rol) =>
           rol.ID_ROL === id_rol ? { ...rol, ESTADO_ROL: nuevoEstado } : rol
         )
       );
-      console.log(`Rol ${id_rol} ${nuevoEstado === 1 ? 'activado' : 'desactivado'}`);
+  
+      // Mensaje de confirmación
+      const mensaje = nuevoEstado ? 'Rol Desbloqueado con éxito' : 'Rol Bloqueado con éxito';
+      show_alerta(mensaje, 'success');
+  
     } catch (error) {
       console.error('Error al activar/desactivar el rol:', error);
+      show_alerta('Error al cambiar el estado del rol', 'error');
     }
   };
   

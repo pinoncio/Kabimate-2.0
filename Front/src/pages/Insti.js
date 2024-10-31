@@ -60,7 +60,8 @@ const InstiPage = () => {
                     <th>#</th>
                     <th>NOMBRE</th>
                     <th>TIPO</th>
-                    <th></th>
+                    <th>ESTADO</th>
+                    <th>ACCIONES</th>
                   </tr>
                 </thead>
                 <tbody className='table-group-divider'>
@@ -69,6 +70,16 @@ const InstiPage = () => {
                       <td>{i + 1}</td>
                       <td>{inst.NOMBRE_INSTITUCION}</td>
                       <td>{inst.TIPO_INSTITUCION}</td>
+                      <td>
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          checked={inst.ESTADO_INSTITUCION === true}
+                          onChange={() => handleToggleInstitucion(inst.ID_INSTITUCION, !inst.ESTADO_INSTITUCION)}
+                        />
+                        <span className="slider round"></span>
+                      </label>
+                      </td>
                       <td>
                         <button 
                           onClick={() => openModal(2, inst.ID_INSTITUCION, inst.NOMBRE_INSTITUCION, inst.TIPO_INSTITUCION)}

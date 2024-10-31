@@ -47,23 +47,12 @@ export const deleteUser = async (id_usuario) => {
 export const getUser = (id_usuario) => axios.get(`${url}/${id_usuario}`);
 
 
-export const activateUser = async (id_usuario) => {
+export const activateUser = async (id_usuario, trigger) => {
   try {
-    const response = await axios.put(`${url}/activar/${id_usuario}`);
+    const response = await axios.put(`${url}/activar/${id_usuario}`, { trigger });
     return response.data;
   } catch (error) {
-    console.error('Error al activar el usuario:', error);
-    throw error;
-  }
-};
-
-// Desactivar usuario
-export const deactivateUser = async (id_usuario) => {
-  try {
-    const response = await axios.put(`${url}/desactivar/${id_usuario}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error al desactivar el usuario:', error);
+    console.error('Error al activar/desactivar el usuario:', error);
     throw error;
   }
 };
