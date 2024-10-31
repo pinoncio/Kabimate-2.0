@@ -1,6 +1,6 @@
 // hooks/useRol.js
 import { useState, useEffect } from 'react';
-import { getRoles, createRol, updateRol, deleteRol } from '../services/rol';
+import { getRoles, createRol, updateRol, deleteRol, activarRol } from '../services/rol';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { show_alerta } from '../functions';
@@ -22,6 +22,7 @@ export const useRol = () => {
     try {
       const rolesData = await getRoles();
       setRoles(rolesData);
+      console.log(rolesData);
     } catch (error) {
       console.error('Error al obtener roles:', error);
     }
@@ -52,21 +53,30 @@ export const useRol = () => {
     try {
       const response = await createRol(rol);
       show_alerta(response.msg, 'success');
+      document.getElementById('btnCerrar').click(); // Cierra el modal
       fetchAllRoles();
     } catch (error) {
       show_alerta('Error al crear el rol', 'error');
     }
   };
-
+  
   const updateExistingRol = async (id_rol, rol) => {
     try {
       const response = await updateRol(id_rol, rol);
       show_alerta('El rol fue editado con éxito.', 'success');
-      fetchAllRoles();
+      document.getElementById('btnCerrar').click(); // Cierra el modal
+      // Actualiza el rol en el estado local sin reordenar
+      setRoles((prevRoles) =>
+        prevRoles.map((item) =>
+          item.ID_ROL === id_rol ? { ...item, NOMBRE_ROL: rol.nombre_rol } : item
+        )
+      );
     } catch (error) {
       show_alerta('Error al actualizar el rol', 'error');
     }
   };
+  
+  
 
   const deleteRolById = async (id_rol, nombre_rol) => {
     MySwal.fire({
@@ -80,6 +90,8 @@ export const useRol = () => {
       if (result.isConfirmed) {
         try {
           await deleteRol(id_rol);
+          
+          // Actualiza la lista de roles eliminando el rol específico
           setRoles((prevRoles) => prevRoles.filter((rol) => rol.ID_ROL !== id_rol));
   
           // Mensaje de confirmación después de eliminar el rol
@@ -101,16 +113,34 @@ export const useRol = () => {
       }
     });
   };
+
+   // Función para activar/desactivar el rol
+   const handleToggleRol = async (id_rol, nuevoEstado) => {
+    try {
+      await activarRol(id_rol, nuevoEstado); // Envía el valor a la base de datos
+      setRoles((prevRoles) =>
+        prevRoles.map((rol) =>
+          rol.ID_ROL === id_rol ? { ...rol, ESTADO_ROL: nuevoEstado } : rol
+        )
+      );
+      console.log(`Rol ${id_rol} ${nuevoEstado === 1 ? 'activado' : 'desactivado'}`);
+    } catch (error) {
+      console.error('Error al activar/desactivar el rol:', error);
+    }
+  };
+  
+  
   
   return {
     roles,
     id_rol,
     nombre_rol,
-    setNombreRol, // Asegúrate de retornar esta función
+    setNombreRol, 
     title,
     openModal,
     validar,
     operation,
     deleteRolById,
+    handleToggleRol,
   };
 };

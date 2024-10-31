@@ -1,5 +1,6 @@
 // pages/RolPage.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../Styles/rol.css';
 import { useRol } from '../Hooks/useRol.js';
 
@@ -13,6 +14,7 @@ const RolPage = () => {
     openModal,
     validar,
     deleteRolById,
+    handleToggleRol
   } = useRol();
 
   return (
@@ -20,11 +22,23 @@ const RolPage = () => {
       <div className='container-fluid mt-5'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
-            <div className='d-grid mx-auto'>
+            <div className='d-flex justify-content-between'>
+              <Link
+                to="/admin"
+                className='btn'
+                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+              >
+                <i className='fa fa-arrow-left'></i> Volver
+              </Link>
               <button
                 onClick={() => openModal(1)}
-                className='btn w-100'
-                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+                className='btn btn-primary'
+                style={{
+                  backgroundColor: '#a47551',
+                  borderColor: '#a47551',
+                  color: 'white',
+                  padding: '0.5rem 4rem'
+                }}
                 data-bs-toggle='modal'
                 data-bs-target='#modalRoles'
               >
@@ -41,7 +55,8 @@ const RolPage = () => {
                   <tr>
                     <th>#</th>
                     <th>NOMBRE</th>
-                    <th></th>
+                    <th>ESTADO</th>
+                    <th>ACCIONES</th>
                   </tr>
                 </thead>
                 <tbody className='table-group-divider'>
@@ -49,6 +64,18 @@ const RolPage = () => {
                     <tr key={rol.ID_ROL}>
                       <td>{i + 1}</td>
                       <td>{rol.NOMBRE_ROL}</td>
+                      <td>
+                        <label className="switch">
+                          <input
+                            type="checkbox"
+                            checked={rol.ESTADO_ROL === 1}
+                            onChange={() =>
+                              handleToggleRol(rol.ID_ROL, rol.ESTADO_ROL === 1 ? 0 : 1)
+                            }
+                          />
+                          <span className="slider round"></span>
+                        </label>
+                      </td>
                       <td>
                         <button
                           onClick={() => openModal(2, rol.ID_ROL, rol.NOMBRE_ROL)}
@@ -70,42 +97,6 @@ const RolPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Modal para agregar/editar roles */}
-      <div id='modalRoles' className='modal fade' aria-hidden='true'>
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <label className='h5'>{title}</label>
-              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='close'></button>
-            </div>
-            <div className='modal-body'>
-              <div className='input-group mb-3'>
-                <span className='input-group-text'>
-                  <i className='fa-solid fa-gift'></i>
-                </span>
-                <input
-                  type='text'
-                  id='nombre'
-                  className='form-control'
-                  placeholder='Nombre del Rol'
-                  value={nombre_rol}
-                  onChange={(e) => setNombreRol(e.target.value)}
-                />
-              </div>
-              <div className='d-grid col-6 mx-auto'>
-                <button onClick={() => validar()} className='btn btn-success'>
-                  {operation === 1 ? 'Registrar' : 'Actualizar'}
-                  <i className='fas fa-save ms-2'></i> 
-                </button>
-                <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>
-                  Cerrar
-                </button>
-              </div>
             </div>
           </div>
         </div>

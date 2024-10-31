@@ -1,4 +1,6 @@
+// pages/InstiPage.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 import useInstituciones from '../Hooks/useInstituciones'; 
 import '../Styles/insti.css';
 
@@ -14,18 +16,33 @@ const InstiPage = () => {
     setName,
     setType,
     deleteExistingInstitucion,
+    handleToggleInstitucion,
   } = useInstituciones();
 
   return (
     <div className='App'>
-      <div className='container-fluid mt-5 '>
+      <div className='container-fluid mt-5'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
-            <div className='d-grid mx-auto'>
+            <div className='d-flex justify-content-between'> {/* Cambiar a d-flex para separación */}
+              {/* Botón Volver */}
+              <Link
+                to="/admin" // Cambia esto a la ruta a la que quieras volver
+                className='btn' // Clase base para el botón
+                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+              >
+                <i className='fa fa-arrow-left'></i> Volver
+              </Link>
+              {/* Botón Añadir Institución (más pequeño) */}
               <button 
                 onClick={() => openModal(1)} 
-                className='btn w-100'
-                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+                className='btn' 
+                style={{ 
+                  backgroundColor: '#a47551', 
+                  borderColor: '#a47551', 
+                  color: 'white', 
+                  padding: '0.5rem 4rem' 
+                }} 
                 data-bs-toggle='modal' 
                 data-bs-target='#modalInstituciones'
               >
@@ -53,13 +70,34 @@ const InstiPage = () => {
                       <td>{inst.NOMBRE_INSTITUCION}</td>
                       <td>{inst.TIPO_INSTITUCION}</td>
                       <td>
-                        <button onClick={() => openModal(2, inst.ID_INSTITUCION, inst.NOMBRE_INSTITUCION, inst.TIPO_INSTITUCION)}
-                          className='btn btn-warning btn-custom' data-bs-toggle='modal' data-bs-target='#modalInstituciones'>
+                        <button 
+                          onClick={() => openModal(2, inst.ID_INSTITUCION, inst.NOMBRE_INSTITUCION, inst.TIPO_INSTITUCION)}
+                          className='btn btn-warning btn-custom' 
+                          data-bs-toggle='modal' 
+                          data-bs-target='#modalInstituciones'
+                        >
                           <i className='fa-solid fa-edit'></i>
                         </button>
                         &nbsp;
-                        <button onClick={() => deleteExistingInstitucion(inst.ID_INSTITUCION, inst.NOMBRE_INSTITUCION)} className='btn btn-danger'>
+                        <button 
+                          onClick={() => deleteExistingInstitucion(inst.ID_INSTITUCION, inst.NOMBRE_INSTITUCION)} 
+                          className='btn btn-danger'
+                        >
                           <i className='fa-solid fa-trash'></i>
+                        </button>
+                        &nbsp;
+                        <button
+                          onClick={() => handleToggleInstitucion(inst.ID_INSTITUCION, 1)}
+                          className='btn btn-success'
+                        >
+                          Activar
+                        </button>
+                        &nbsp;
+                        <button
+                          onClick={() => handleToggleInstitucion(inst.ID_INSTITUCION, 2)}
+                          className='btn btn-danger'
+                        >
+                          Desactivar
                         </button>
                       </td>
                     </tr>
@@ -81,13 +119,25 @@ const InstiPage = () => {
               <input type='hidden' id='id'></input>
               <div className='input-group mb-3'>
                 <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
-                <input type='text' id='nombre' className='form-control' placeholder='Nombre de la Institución' value={nombre_institucion}
-                  onChange={(e) => setName(e.target.value)}></input>
+                <input 
+                  type='text' 
+                  id='nombre' 
+                  className='form-control' 
+                  placeholder='Nombre de la Institución' 
+                  value={nombre_institucion}
+                  onChange={(e) => setName(e.target.value)}
+                ></input>
               </div>
               <div className='input-group mb-3'>
                 <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
-                <input type='text' id='tipo' className='form-control' placeholder='Tipo de Institución' value={tipo_institucion}
-                  onChange={(e) => setType(e.target.value)}></input>
+                <input 
+                  type='text' 
+                  id='tipo' 
+                  className='form-control' 
+                  placeholder='Tipo de Institución' 
+                  value={tipo_institucion}
+                  onChange={(e) => setType(e.target.value)}
+                ></input>
               </div>
               <div className='d-grid col-6 mx-auto'>
                 <button onClick={() => validar()} className='btn btn-success'>

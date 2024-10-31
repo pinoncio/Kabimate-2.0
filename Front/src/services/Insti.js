@@ -42,3 +42,14 @@ export const deleteInstitucion = async (id_institucion) => {
     throw new Error('No se pudo eliminar la institución.'); // Lanzar error más descriptivo
   }
 };
+
+
+export const activarInstitucion = async (id_institucion, trigger) => {
+  try {
+    const response = await axios.put(`${url}/activar/${id_institucion}`, { trigger });
+    return response.data;
+  } catch (error) {
+    console.error('Error al activar/desactivar la institucion:', error);
+    throw error;
+  }
+};

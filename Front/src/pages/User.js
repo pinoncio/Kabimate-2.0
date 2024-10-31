@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importa Link
 import useUser from '../Hooks/useUserHooks';
 import '../Styles/user.css';
 
@@ -31,7 +32,7 @@ const UserPage = () => {
     validar,
     getRoleName,
     getInstitucionName,
-    toggleUserStatus, // Asegúrate de que esta función esté definida en tu hook
+    toggleUserStatus,
   } = useUser();
 
   return (
@@ -39,11 +40,23 @@ const UserPage = () => {
       <div className='container-fluid mt-5'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
-            <div className='d-grid mx-auto'>
+            <div className='d-flex justify-content-between'> {/* Cambia a d-flex y agrega justify-content-between */}
+              <Link
+                to="/admin" // Cambia esto a la ruta a la que quieras volver
+                className='btn' // Clase base para el botón
+                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+              >
+                <i className='fa fa-arrow-left'></i> Volver
+              </Link>
               <button
                 onClick={() => openModal(1)}
-                className='btn w-100'
-                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+                className='btn' // Clase base para el botón
+                style={{ 
+                  backgroundColor: '#a47551', 
+                  borderColor: '#a47551', 
+                  color: 'white', 
+                  padding: '0.5rem 4rem' 
+                }}
                 data-bs-toggle='modal'
                 data-bs-target='#modalUser'
               >
@@ -82,7 +95,7 @@ const UserPage = () => {
                           <input 
                             type='checkbox' 
                             checked={user.ESTADO_CUENTA} 
-                            onChange={() => toggleUserStatus(user.ID_USUARIO)} // Llama a la función para cambiar el estado
+                            onChange={() => toggleUserStatus(user.ID_USUARIO)}
                           />
                           <span className='slider round'></span>
                         </label>
@@ -178,23 +191,38 @@ const UserPage = () => {
                       className='form-control'
                       name='id_institucion'
                       value={id_institucion_usuario}
-                      onChange={(e) => setIdInstitucionUsuario(e.target.value)}
+                      onChange={(e) => {
+                        setIdInstitucionUsuario(e.target.value);
+                        console.log("Institución seleccionada:", e.target.value);
+                      }}
+                      style={{ color: 'black' }}
                     >
                       <option value=''>Seleccione una institución</option>
-                      {instituciones.map((inst) => (
-                        <option key={inst.ID_INSTITUCION} value={inst.ID_INSTITUCION}>
-                          {inst.NOMBRE_INSTITUCION}
+                      {instituciones.map((institucion) => (
+                        <option key={institucion.ID_INSTITUCION} value={institucion.ID_INSTITUCION}>
+                          {institucion.NOMBRE_INSTITUCION}
                         </option>
                       ))}
                     </select>
                   </div>
                 </>
               )}
-              <div className='d-grid col-6 mx-auto'>
-                <button onClick={validar} className='btn w-100' style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}>
-                  {operation === 1 ? 'Crear Usuario' : 'Actualizar Usuario'}
-                </button>
-              </div>
+            </div>
+            <div className='modal-footer'>
+              <button 
+                type='button' 
+                className='btn btn-secondary' 
+                data-bs-dismiss='modal'
+              >
+                Cerrar
+              </button>
+              <button 
+                type='button' 
+                className='btn btn-primary' 
+                onClick={validar}
+              >
+                {operation === 1 ? 'Crear Usuario' : 'Actualizar Usuario'}
+              </button>
             </div>
           </div>
         </div>

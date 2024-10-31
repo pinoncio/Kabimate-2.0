@@ -15,7 +15,7 @@ const Admin = () => {
         <div className="hexagon roles" onClick={() => navigate('/rol')}>
           <p>Gestión de Roles</p>
         </div>
-        <div className="hexagon delete-user" onClick={() => navigate('/insti')}>
+        <div className="hexagon delete-user" onClick={() => navigate('/institucion')}>
           <p>Gestión de Instituciones</p>
         </div>
       </div>

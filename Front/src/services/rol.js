@@ -1,4 +1,4 @@
-// services/Insti.js
+
 import axios from 'axios';
 
 const url = 'http://localhost:3001/api/roles';
@@ -39,6 +39,16 @@ export const deleteRol = async (id_rol) => {
     return response.data;
   } catch (error) {
     console.error('Error al eliminar el rol:', error);
+    throw error;
+  }
+};
+
+export const activarRol = async (id_rol, trigger) => {
+  try {
+    const response = await axios.put(`${url}/activar/${id_rol}`, { trigger });
+    return response.data;
+  } catch (error) {
+    console.error('Error al activar/desactivar el rol:', error);
     throw error;
   }
 };
