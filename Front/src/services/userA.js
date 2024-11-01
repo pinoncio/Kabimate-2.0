@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const url = 'http://localhost:3001/api/usuarios';
 
-export const getUsers = async () => {
+export const getUsersA = async () => {
   try {
     const respuesta = await axios.get(`${url}/list`);
     console.log(respuesta.data)
@@ -14,7 +14,7 @@ export const getUsers = async () => {
   }
 };
 
-export const createUser = async (user) => {
+export const createUserA = async (user) => {
   try {
     const response = await axios.post(url, user);
     return response.data;
@@ -24,7 +24,7 @@ export const createUser = async (user) => {
   }
 };
 
-export const updateUser = async (id_usuario, user) => {
+export const updateUserA = async (id_usuario, user) => {
   try {
     const response = await axios.put(`${url}/update/${id_usuario}`, user);
     return response.data;
@@ -34,7 +34,7 @@ export const updateUser = async (id_usuario, user) => {
   }
 };
 
-export const deleteUser = async (id_usuario) => {
+export const deleteUserA = async (id_usuario) => {
   try {
     const response = await axios.delete(`${url}/delete/${id_usuario}`);
     return response.data;
@@ -44,10 +44,10 @@ export const deleteUser = async (id_usuario) => {
   }
 };
 
-export const getUser = (id_usuario) => axios.get(`${url}/${id_usuario}`);
+export const getUserA = (id_usuario) => axios.get(`${url}/${id_usuario}`);
 
 
-export const activateUser = async (id_usuario, trigger) => {
+export const activateUserA = async (id_usuario, trigger) => {
   try {
     const response = await axios.put(`${url}/activar/${id_usuario}`, { trigger });
     return response.data;

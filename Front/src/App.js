@@ -6,7 +6,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home'; 
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-import UserPage from './pages/User';
+import UserPageA from './pages/UserA';
+import UserPageU from './pages/UserU';
 import RolPage from './pages/Rol';
 import Insti from './pages/Insti';
 import Cabana from './pages/Cabana';
@@ -28,7 +29,8 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/user" element={<UserPage />} />
+              <Route path="/userA" element={<UserPageA />} />
+              <Route path='/userU' element={<UserPageU />} />
               <Route path="/rol" element={<RolPage />} />
               <Route path="/institucion" element={<Insti />} />
               <Route path="/gcabana" element={<Cabana />} />
