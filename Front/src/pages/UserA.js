@@ -33,85 +33,116 @@ const UserPageA = () => {
   } = useUserA();
 
   return (
-    <div className='App'>
-      <div className='container-fluid mt-5'>
-        <div className='row mt-3'>
-          <div className='col-md-4 offset-md-4'>
-            <div className='d-flex justify-content-between'>
+    <div className="bg-light">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-4 offset-md-4">
+            <div
+              className="d-flex justify-content-between"
+              style={{ marginTop: "50px" }}
+            >
               <Link
                 to="/admin"
-                className='btn'
-                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+                className="btn"
+                style={{
+                  backgroundColor: "#a47551",
+                  borderColor: "#a47551",
+                  color: "white",
+                }}
               >
-                <i className='fa fa-arrow-left'></i> Volver
+                <i className="fa fa-arrow-left"></i> Volver
               </Link>
               <button
                 onClick={() => openModal(1)}
-                className='btn'
+                className="btn"
                 style={{
-                  backgroundColor: '#a47551',
-                  borderColor: '#a47551',
-                  color: 'white',
-                  padding: '0.5rem 4rem'
+                  backgroundColor: "#a47551",
+                  borderColor: "#a47551",
+                  color: "white",
                 }}
-                data-bs-toggle='modal'
-                data-bs-target='#modalUser'
+                data-bs-toggle="modal"
+                data-bs-target="#modalUser"
               >
-                <i className='fa fa-plus-circle mt-2'></i> Añadir Usuario
+                <i className="fa fa-plus-circle mt-2"></i> Añadir Usuario
               </button>
             </div>
           </div>
         </div>
-        <div className='row mt-5'>
-          <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
-            <div className='table-responsive'>
-              <table className='table table-bordered table-custom'>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nombre Completo</th>
-                    <th>RUT</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Institución</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className='table-group-divider'>
-                  {users.map((user, index) => (
-                    <tr key={user.ID_USUARIO}>
-                      <td>{index + 1}</td>
-                      <td>{`${user.NOMBRE1_USUARIO} ${user.NOMBRE2_USUARIO} ${user.APELLIDO1_USUARIO} ${user.APELLIDO2_USUARIO}`}</td>
-                      <td>{user.RUT_USUARIO}</td>
-                      <td>{user.EMAIL_USUARIO}</td>
-                      <td>{getRoleName(user.ID_ROL_USUARIO)}</td>
-                      <td>{getInstitucionName(user.ID_INSTITUCION_USUARIO)}</td>
-                      <td>
-                        <label className="switch">
-                          <input
-                            type="checkbox"
-                            checked={user.ESTADO_CUENTA === true}
-                            onChange={() => handleToggleCuenta(user.ID_USUARIO, !user.ESTADO_CUENTA)}
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => openModal(2, user.ID_USUARIO, user.NOMBRE1_USUARIO, user.NOMBRE2_USUARIO, user.APELLIDO1_USUARIO, user.APELLIDO2_USUARIO, user.RUT_USUARIO,
-                            user.EMAIL_USUARIO, user.CONTRASENIA_USUARIO, user.ID_ROL_USUARIO, user.ID_INSTITUCION_USUARIO)}
-                          className='btn btn-warning btn-custom'
-                          data-bs-toggle='modal'
-                          data-bs-target='#modalUser'
-                        >
-                          <i className='fa-solid fa-edit'></i>
-                        </button>
-                      </td>
+        <div className="row mt-5">
+          <div className="col-12 col-lg-8 offset-0 offset-lg-2">
+            <div className="card-container">
+              <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
+                Lista de Admins
+              </h2>
+              <div className="table-responsive">
+                <table className="table table-bordered table-custom">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Nombre Completo</th>
+                      <th>RUT</th>
+                      <th>Email</th>
+                      <th>Rol</th>
+                      <th>Institución</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="table-group-divider">
+                    {users.map((user, index) => (
+                      <tr key={user.ID_USUARIO}>
+                        <td>{index + 1}</td>
+                        <td>{`${user.NOMBRE1_USUARIO} ${user.NOMBRE2_USUARIO} ${user.APELLIDO1_USUARIO} ${user.APELLIDO2_USUARIO}`}</td>
+                        <td>{user.RUT_USUARIO}</td>
+                        <td>{user.EMAIL_USUARIO}</td>
+                        <td>{getRoleName(user.ID_ROL_USUARIO)}</td>
+                        <td>
+                          {getInstitucionName(user.ID_INSTITUCION_USUARIO)}
+                        </td>
+                        <td>
+                          <label className="switch">
+                            <input
+                              type="checkbox"
+                              checked={user.ESTADO_CUENTA === true}
+                              onChange={() =>
+                                handleToggleCuenta(
+                                  user.ID_USUARIO,
+                                  !user.ESTADO_CUENTA
+                                )
+                              }
+                            />
+                            <span className="slider round"></span>
+                          </label>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() =>
+                              openModal(
+                                2,
+                                user.ID_USUARIO,
+                                user.NOMBRE1_USUARIO,
+                                user.NOMBRE2_USUARIO,
+                                user.APELLIDO1_USUARIO,
+                                user.APELLIDO2_USUARIO,
+                                user.RUT_USUARIO,
+                                user.EMAIL_USUARIO,
+                                user.CONTRASENIA_USUARIO,
+                                user.ID_ROL_USUARIO,
+                                user.ID_INSTITUCION_USUARIO
+                              )
+                            }
+                            className="btn btn-warning btn-custom"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalUser"
+                          >
+                            <i className="fa-solid fa-edit"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

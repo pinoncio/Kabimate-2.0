@@ -12,6 +12,7 @@ import RolPage from './pages/Rol';
 import Insti from './pages/Insti';
 import Cabana from './pages/Cabana';
 import { AuthProvider } from './services/AuthContext'; 
+import Perfil from './pages/Perfil';
 
 export default function App() {
   return (
@@ -26,15 +27,15 @@ export default function App() {
           <div className="content-wrapper">
             <Routes>
               {/* Rutas de la aplicación */}
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/userA" element={<UserPageA />} />
               <Route path='/userU' element={<UserPageU />} />
               <Route path="/rol" element={<RolPage />} />
               <Route path="/institucion" element={<Insti />} />
               <Route path="/gcabana" element={<Cabana />} />
-              {/* Agrega aquí otras rutas que necesites */}
+              <Route path="/perfil" element={<Perfil />} />
             </Routes>
           </div>
 

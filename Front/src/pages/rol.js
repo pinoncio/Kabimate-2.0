@@ -18,11 +18,11 @@ const RolPage = () => {
   } = useRol();
 
   return (
-    <div className='App'>
-      <div className='container-fluid mt-5'>
-        <div className='row mt-3'>
+    <div className='bg-light'>
+      <div className='container-fluid'>
+        <div className='row'>
           <div className='col-md-4 offset-md-4'>
-            <div className='d-flex justify-content-between'>
+            <div className='d-flex justify-content-between' style={{ marginTop: '50px' }}>
               <Link
                 to="/admin"
                 className='btn'
@@ -36,8 +36,7 @@ const RolPage = () => {
                 style={{
                   backgroundColor: '#a47551',
                   borderColor: '#a47551',
-                  color: 'white',
-                  padding: '0.5rem 4rem'
+                  color: 'white'
                 }}
                 data-bs-toggle='modal'
                 data-bs-target='#modalRoles'
@@ -47,58 +46,62 @@ const RolPage = () => {
             </div>
           </div>
         </div>
+
         <div className='row mt-5'>
           <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
-            <div className='table-responsive'>
-              <table className='table table-bordered table-custom'>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>NOMBRE</th>
-                    <th>ESTADO</th>
-                    <th>ACCIONES</th>
-                  </tr>
-                </thead>
-                <tbody className='table-group-divider'>
-                {roles.map((rol, i) => (
-                  <tr key={rol.ID_ROL}>
-                    <td>{i + 1}</td>
-                    <td>{rol.NOMBRE_ROL}</td>
-                    <td>
-                      <label className="switch">
-                        <input
-                          type="checkbox"
-                          checked={rol.ESTADO_ROL === true}
-                          onChange={() => handleToggleRol(rol.ID_ROL, !rol.ESTADO_ROL)}
-                        />
-                        <span className="slider round"></span>
-                      </label>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => openModal(2, rol.ID_ROL, rol.NOMBRE_ROL)}
-                        className='btn btn-warning btn-custom'
-                        data-bs-toggle='modal'
-                        data-bs-target='#modalRoles'
-                      >
-                        <i className='fa-solid fa-edit'></i>
-                      </button>
-                      &nbsp;
-                      <button
-                        onClick={() => deleteRolById(rol.ID_ROL, rol.NOMBRE_ROL)}
-                        className='btn btn-danger'
-                      >
-                        <i className='fa-solid fa-trash'></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              </table>
+            <div className='card-container'>
+              <h2 className='text-center mb-4' style={{ color: '#a47551' }}>Lista de Roles</h2>
+              <div className='table-responsive'>
+                <table className='table table-bordered table-custom'>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>NOMBRE</th>
+                      <th>ESTADO</th>
+                      <th>ACCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody className='table-group-divider'>
+                    {roles.map((rol, i) => (
+                      <tr key={rol.ID_ROL}>
+                        <td>{i + 1}</td>
+                        <td>{rol.NOMBRE_ROL}</td>
+                        <td>
+                          <label className="switch">
+                            <input
+                              type="checkbox"
+                              checked={rol.ESTADO_ROL === true}
+                              onChange={() => handleToggleRol(rol.ID_ROL, !rol.ESTADO_ROL)}
+                            />
+                            <span className="slider round"></span>
+                          </label>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => openModal(2, rol.ID_ROL, rol.NOMBRE_ROL)}
+                            className='btn btn-warning btn-custom'
+                            data-bs-toggle='modal'
+                            data-bs-target='#modalRoles'
+                          >
+                            <i className='fa-solid fa-edit'></i>
+                          </button>
+                          &nbsp;
+                          <button
+                            onClick={() => deleteRolById(rol.ID_ROL, rol.NOMBRE_ROL)}
+                            className='btn btn-danger'
+                          >
+                            <i className='fa-solid fa-trash'></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        </div>
 
       {/* Modal para agregar/editar roles */}
       <div id='modalRoles' className='modal fade' aria-hidden='true'>
@@ -125,7 +128,7 @@ const RolPage = () => {
               <div className='d-grid col-6 mx-auto'>
                 <button onClick={() => validar()} className='btn btn-success'>
                   {operation === 1 ? 'Registrar' : 'Actualizar'}
-                  <i className='fas fa-save ms-2'></i> 
+                  <i className='fas fa-save ms-2'></i>
                 </button>
                 <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>
                   Cerrar
