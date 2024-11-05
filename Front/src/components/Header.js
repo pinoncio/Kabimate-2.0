@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../services/AuthContext";
 
 export default function Header() {
-  const { rol, logout } = useContext(AuthContext); // Obtén `rol` y `logout` del contexto
+  const { rol, logout, idUsuario } = useContext(AuthContext); // Obtén `rol`, `logout` y `userId` del contexto
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -33,9 +33,9 @@ export default function Header() {
       <ul className="navbar-nav ml-auto">
         {rol && (
           <>
-            {/* Mostrar Perfil si el rol existe */}
+            {/* Mostrar Perfil si el rol existe, con ID del usuario en la ruta */}
             <li className="nav-item">
-              <Link to="/perfil" className="nav-link" style={{ color: "#ffffff" }}>
+              <Link to={`/perfil/${idUsuario}`} className="nav-link" style={{ color: "#ffffff" }}>
                 <i className="fas fa-user" /> Perfil
               </Link>
             </li>

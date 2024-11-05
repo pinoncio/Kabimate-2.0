@@ -12,7 +12,7 @@ import RolPage from './pages/Rol';
 import Insti from './pages/Insti';
 import Cabana from './pages/Cabana';
 import { AuthProvider } from './services/AuthContext'; 
-import Perfil from './pages/Perfil';
+import PerfilA from './pages/PerfilA';
 
 export default function App() {
   return (
@@ -35,7 +35,7 @@ export default function App() {
               <Route path="/rol" element={<RolPage />} />
               <Route path="/institucion" element={<Insti />} />
               <Route path="/gcabana" element={<Cabana />} />
-              <Route path="/perfil" element={<Perfil />} />
+              <Route path="/perfil/:id" element={<PerfilA/>} />
             </Routes>
           </div>
 

@@ -26,19 +26,20 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, contraseña } = event.target.elements;
-
+  
     // Resetear errores
     setErrors({ email: false, contraseña: false });
-
+  
     try {
       const response = await loginUser({
         email: email.value,
         contrasenia: contraseña.value, // Asegúrate de que coincida con el nombre esperado en el backend
       });
-
+  
       if (response.data.token) {
-        login(response.data.token, response.data.rol);
-
+        // Aquí pasa token, rol y idUsuario al contexto
+        login(response.data.token, response.data.rol, response.data.idUsuario);
+  
         // Redirigir según el rol del usuario
         if (response.data.rol === 1) {
           navigate('/admin'); // Rol 1 va a /admin
@@ -61,6 +62,7 @@ const Login = () => {
       }
     }
   };
+  
 
   return (
     <div className="login-wrapper">

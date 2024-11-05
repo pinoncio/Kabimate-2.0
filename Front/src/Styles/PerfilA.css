@@ -1,0 +1,78 @@
+.perfil-wrapper {
+  text-align: center;
+  height: calc(97vh - 100px); 
+  min-height: auto;
+  background-image: url('../Images/email-pattern.png'); /* Ruta local del patrón */
+  background-size: 150px; /* Ajusta el tamaño del patrón según tu preferencia */
+  background-repeat: repeat; /* Repetir el patrón */
+  background-color: #f5f5f0; /* Blanco beige (opcional) */
+  padding-top: 80px;
+}
+
+.container-perfil {
+  max-width: 800px; /* Ancho máximo */
+  background-color: #f8f9fa; /* Fondo gris claro */
+  padding: 60px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Esto centra el contenedor */
+}
+
+  
+  .container .row {
+    margin: 0; /* Eliminar margen de las columnas */
+  }
+  
+  input.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  input.form-control:disabled {
+    background-color: #e9ecef; /* Color gris claro para campos deshabilitados */
+  }
+  
+  .d-flex.align-items-center {
+    position: relative;
+  }
+  
+  .d-flex .ms-2 {
+    position: absolute;
+    right: 10px;
+    color: #6c757d;
+    cursor: pointer;
+  }
+  
+  .d-flex .ms-2:hover {
+    color: #495057; /* Oscurece el color al pasar el mouse */
+  }
+  
+  button.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  button.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  button.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+  
+  .mb-3 {
+    margin-bottom: 1rem !important;
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem !important;
+  }
+  
