@@ -1,6 +1,7 @@
 .admin-wrapper {
   text-align: center;
-  min-height: calc(100vh - 1px);
+  height: calc(97vh - 100px); 
+  min-height: auto;
   background-image: url('../Images/email-pattern.png'); /* Ruta local del patrón */
   background-size: 150px; /* Ajusta el tamaño del patrón según tu preferencia */
   background-repeat: repeat; /* Repetir el patrón */
@@ -12,8 +13,7 @@
     color: #a47551;
     font-size: 4rem;
     margin-bottom: 40px;
-    padding: 100px;
-    margin-top: 50px;
+    padding: 90px;
   }
   
   .honeycomb-grid {

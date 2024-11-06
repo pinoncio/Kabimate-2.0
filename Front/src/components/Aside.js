@@ -115,7 +115,7 @@ export default function Aside() {
             </li>
             {/* Gestión de Cabañas */}
             <li className="nav-item">
-              <a href="/cabin-management" className="nav-link">
+              <a href="/gcabana" className="nav-link">
                 <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
                 <p style={{ color: "#ffffff" }}>Gestión de Cabañas</p>
               </a>

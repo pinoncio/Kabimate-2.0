@@ -7,19 +7,8 @@ const api = axios.create({
 });
 
 api.interceptors.response.use(
-  (response) => {
-    // Verificar que la respuesta contenga los datos necesarios
-    if (response.data && response.data.token && response.data.rol && response.data.idUser) {
-      const { token, rol, idUser } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('rol', rol); // Aquí almacenas el rol
-      localStorage.setItem('idUser', idUser); // Aquí almacenas el id de usuario
-    }
-    return response;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (response) => response, // Deja que el interceptor solo pase la respuesta sin almacenarla
+  (error) => Promise.reject(error)
 );
 
 // Función para iniciar sesión

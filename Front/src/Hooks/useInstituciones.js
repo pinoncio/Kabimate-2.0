@@ -1,6 +1,6 @@
 // hooks/useInstituciones.js
 import { useEffect, useState } from 'react';
-import { getInstituciones, createInstitucion, updateInstitucion, deleteInstitucion } from '../services/Insti';
+import { getInstituciones, createInstitucion, updateInstitucion, deleteInstitucion, activarInstitucion } from '../services/Insti';
 import { show_alerta } from '../functions';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -46,7 +46,10 @@ const useInstituciones = () => {
       return;
     }
 
-    const parametros = { nombre_institucion: nombre_institucion.trim(), tipo_institucion: tipo_institucion.trim() };
+    const parametros = { 
+      nombre_institucion: nombre_institucion.trim(), 
+      tipo_institucion: tipo_institucion.trim() 
+    };
     if (operation === 1) {
       createNewInstitucion(parametros);
     } else {
@@ -71,7 +74,15 @@ const useInstituciones = () => {
       const response = await updateInstitucion(id_institucion, institucion);
       show_alerta('La institución fue editada con éxito.', 'success');
       document.getElementById('btnCerrar').click();
-      getAllInstituciones();
+      
+      // Actualiza la institución en el estado local sin reordenar
+      setInstitucion((prevInstituciones) =>
+        prevInstituciones.map((item) =>
+          item.ID_INSTITUCION === id_institucion 
+            ? { ...item, NOMBRE_INSTITUCION: institucion.nombre_institucion, TIPO_INSTITUCION: institucion.tipo_institucion }
+            : item
+        )
+      );
     } catch (error) {
       console.error('Error al actualizar la institución:', error); 
       show_alerta('Error al actualizar la institución', 'error');
@@ -90,9 +101,11 @@ const useInstituciones = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await deleteInstitucion(id_institucion); 
+          await deleteInstitucion(id_institucion); 
           show_alerta('La institución fue eliminada con éxito.', 'success');
-          getAllInstituciones(); 
+          
+          // Actualiza la lista de instituciones eliminando la institución específica
+          setInstitucion((prevInstituciones) => prevInstituciones.filter((inst) => inst.ID_INSTITUCION !== id_institucion));
         } catch (error) {
           console.error('Error al eliminar la institución:', error); 
           show_alerta('Error al eliminar la institución', 'error');
@@ -101,6 +114,29 @@ const useInstituciones = () => {
         show_alerta('La institución NO fue eliminada', 'info');
       }
     });
+  };
+
+  const handleToggleInstitucion = async (id_institucion, nuevoEstado) => {
+    try {
+      // Convertimos el valor booleano a 1 o 0 para enviar al backend
+      const estadoNumerico = nuevoEstado ? 1 : 0;
+      await activarInstitucion(id_institucion, estadoNumerico);
+  
+      // Actualizamos el estado local para reflejar true o false en la interfaz
+      setInstitucion((prevInstituciones) =>
+        prevInstituciones.map((inst) =>
+          inst.ID_INSTITUCION === id_institucion ? { ...inst, ESTADO_INSTITUCION: nuevoEstado } : inst
+        )
+      );
+  
+      // Mensaje de confirmación
+      const mensaje = nuevoEstado ? 'Institucion Desbloqueado con éxito' : 'Institucion Bloqueado con éxito';
+      show_alerta(mensaje, 'success');
+  
+    } catch (error) {
+      console.error('Error al activar/desactivar la Institucion:', error);
+      show_alerta('Error al cambiar el estado del Institucion', 'error');
+    }
   };
 
   return {
@@ -114,6 +150,7 @@ const useInstituciones = () => {
     setName,
     setType,
     deleteExistingInstitucion,
+    handleToggleInstitucion,
   };
 };
 

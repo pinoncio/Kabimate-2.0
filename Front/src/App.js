@@ -6,10 +6,13 @@ import Footer from './components/Footer';
 import Home from './pages/Home'; 
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-import UserPage from './pages/User';
-import RolPage from './pages/rol';
+import UserPageA from './pages/UserA';
+import UserPageU from './pages/UserU';
+import RolPage from './pages/Rol';
 import Insti from './pages/Insti';
-import { AuthProvider } from './services/AuthContext'; // Importar el AuthProvider
+import Cabana from './pages/Cabana';
+import { AuthProvider } from './services/AuthContext'; 
+import PerfilA from './pages/PerfilA';
 
 export default function App() {
   return (
@@ -24,12 +27,15 @@ export default function App() {
           <div className="content-wrapper">
             <Routes>
               {/* Rutas de la aplicación */}
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Login />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/user" element={<UserPage />} />
+              <Route path="/userA" element={<UserPageA />} />
+              <Route path='/userU' element={<UserPageU />} />
               <Route path="/rol" element={<RolPage />} />
-              <Route path='/institucion' element={<Insti />} />
+              <Route path="/institucion" element={<Insti />} />
+              <Route path="/gcabana" element={<Cabana />} />
+              <Route path="/perfil/:id" element={<PerfilA/>} />
             </Routes>
           </div>
 
