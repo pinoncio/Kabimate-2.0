@@ -17,8 +17,10 @@ const getRoles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(roles);
     }
     catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al obtener la lista de roles.' });
+        res.status(500).json({
+            msg: 'Error al obtener la lista de roles.',
+            error
+        });
     }
 });
 exports.getRoles = getRoles;

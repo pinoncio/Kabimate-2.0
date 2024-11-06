@@ -6,14 +6,16 @@ export const getRoles = async(req: Request, res: Response) =>{
         const roles = await Rol.findAll();
         res.json(roles)
     }catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al obtener la lista de roles.' });
+        res.status(500).json({ 
+            msg: 'Error al obtener la lista de roles.',
+        error
+    });
     }
 };
 export const newRol = async(req: Request, res: Response) =>{
     const { nombre_rol} =  req.body;
     try{
-         await Rol.create({
+        await Rol.create({
             "NOMBRE_ROL": nombre_rol
         })
         return res.status(201).json({

@@ -7,6 +7,7 @@ exports.Cabania = void 0;
 const sequelize_1 = require("sequelize");
 const dbConnection_1 = __importDefault(require("../db/dbConnection"));
 const estadoModel_1 = require("./estadoModel");
+const usuarioModel_1 = require("./usuarioModel");
 exports.Cabania = dbConnection_1.default.define('cabania', {
     "ID_CABANIA": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "CAPACIDAD": { type: sequelize_1.DataTypes.INTEGER },
@@ -16,11 +17,14 @@ exports.Cabania = dbConnection_1.default.define('cabania', {
     "SERVICIOS_INCLUIDOS": { type: sequelize_1.DataTypes.STRING },
     "DESCRIPCION_CABANIA": { type: sequelize_1.DataTypes.STRING },
     "ESTADO_CABANIA": { type: sequelize_1.DataTypes.BOOLEAN },
-    "ID_ESTADO_CABANIA": { type: sequelize_1.DataTypes.INTEGER, references: { model: estadoModel_1.Estado, key: 'ID_ESTADO' } }
+    "ID_ESTADO_CABANIA": { type: sequelize_1.DataTypes.INTEGER, references: { model: estadoModel_1.Estado, key: 'ID_ESTADO' } },
+    "ID_USUARIO_CABANIA": { type: sequelize_1.DataTypes.INTEGER, references: { model: usuarioModel_1.Usuario, key: 'ID_USUARIO' } }
 }, {
     freezeTableName: true,
     timestamps: false
 });
 //asociaciones de la tabla cabania
 exports.Cabania.belongsTo(estadoModel_1.Estado, { foreignKey: 'ID_ESTADO_CABANIA', targetKey: 'ID_ESTADO', onDelete: 'SET NULL' });
-estadoModel_1.Estado.hasMany(exports.Cabania, { foreignKey: 'ID_ESTADO_CABANIA', sourceKey: 'ID_ESTADO', });
+estadoModel_1.Estado.hasMany(exports.Cabania, { foreignKey: 'ID_ESTADO_CABANIA', sourceKey: 'ID_ESTADO' });
+exports.Cabania.belongsTo(usuarioModel_1.Usuario, { foreignKey: 'ID_USUARIO_CABANIA', targetKey: 'ID_USUARIO', onDelete: 'CASCADE' });
+usuarioModel_1.Usuario.hasMany(exports.Cabania, { foreignKey: 'ID_USUARIO_CABANIA', sourceKey: 'ID_USUARIO' });

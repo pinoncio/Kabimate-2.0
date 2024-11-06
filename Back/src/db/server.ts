@@ -5,6 +5,7 @@ import cors from 'cors';
 import { Rol } from '../models/rolModel';
 import { Institucion } from '../models/institucionModel';
 import { Usuario } from '../models/usuarioModel';
+import { Cabania } from '../models/cabañaModel';
 //importar rutas
 import routesUsuario from '../routes/usuarioRoutes';
 import routesRol from '../routes/rolRoutes';
@@ -13,7 +14,7 @@ import routesInstitucion from '../routes/institucionRoutes';
 class Server {
     private app: Application;
     private port: string;
-
+    
     constructor() {
         this.app= express();
         this.port = process.env.PORT || '3001';
