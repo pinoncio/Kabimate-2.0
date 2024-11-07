@@ -29,6 +29,7 @@ const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
 const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
 const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes"));
 const caba_aRoutes_1 = __importDefault(require("../routes/caba\u00F1aRoutes"));
+const estadoRoutes_1 = __importDefault(require("../routes/estadoRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -48,6 +49,7 @@ class Server {
         this.app.use('/api/roles', rolRoutes_1.default);
         this.app.use('/api/usuarios', usuarioRoutes_1.default);
         this.app.use('/api/cabanas', caba_aRoutes_1.default);
+        this.app.use('/api/estados', estadoRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());

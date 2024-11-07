@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.activarCabaña = exports.getCabañas = exports.getCabaña = exports.newCabaña = void 0;
+exports.updateCabaña = exports.activarCabaña = exports.getCabañas = exports.getCabaña = exports.newCabaña = void 0;
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_usuario } = req.params;
-    const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania, id_estado_cabania } = req.body;
+    const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania } = req.body;
     try {
         yield caba_aModel_1.Cabania.create({
             "CAPACIDAD": capacidad,
@@ -24,7 +24,7 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             "SERVICIOS_INCLUIDOS": servicios_incluidos,
             "DESCRIPCION_CABANIA": descripcion_cabania,
             "ESTADO_CABANIA": true,
-            "ID_ESTADO_CABANIA": id_estado_cabania,
+            "ID_ESTADO_CABANIA": 1,
             "ID_USUARIO_CABANIA": id_usuario
         });
         return res.status(201).json({
@@ -41,7 +41,6 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.newCabaña = newCabaña;
 const getCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_cabania } = req.params;
-    console.log(id_cabania);
     try {
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
@@ -68,9 +67,9 @@ const getCabañas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 msg: 'El usuario ingresado no existe',
             });
         }
-        const cabañas = caba_aModel_1.Cabania.findAll({ where: { ID_USUARIO_CABANIA: id_usuario } });
+        const cabañas = yield caba_aModel_1.Cabania.findAll({ where: { ID_USUARIO_CABANIA: id_usuario } });
         res.json(cabañas);
-        console.log("cabañas dadas con exito");
+        console.log("cabañas retornadas con exito");
     }
     catch (error) {
         res.status(400).json({
@@ -81,7 +80,8 @@ const getCabañas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getCabañas = getCabañas;
 const activarCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_cabania, trigger } = req.body;
+    const { id_cabania } = req.params;
+    const { trigger } = req.body;
     try {
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
@@ -114,3 +114,35 @@ const activarCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.activarCabaña = activarCabaña;
+const updateCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_cabania } = req.params;
+    const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania, id_estado_cabania } = req.body;
+    try {
+        const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
+        if (!cabaña) {
+            return res.status(400).json({
+                msg: "La cabaña con id: " + id_cabania + ' no existe'
+            });
+        }
+        ;
+        yield caba_aModel_1.Cabania.update({
+            CAPACIDAD: capacidad,
+            CANTIDAD_PIEZAS: cantidad_piezas,
+            PRECIO_POR_NOCHE: precio_por_noche,
+            UBICACION: ubicacion,
+            SERVICIOS_INCLUIDOS: servicios_incluidos,
+            DESCRIPCION_CABANIA: descripcion_cabania,
+            ID_ESTADO_CABANIA: id_estado_cabania,
+        }, { where: { ID_CABANIA: id_cabania } });
+        return res.json({
+            msg: "Se ha actualizado la informacion de la cabaña con id: " + id_cabania + " correctamente"
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            msg: ' Ha ocurrido un error al actualizar la informacion de la cabaña con id: ' + id_cabania,
+            error
+        });
+    }
+});
+exports.updateCabaña = updateCabaña;

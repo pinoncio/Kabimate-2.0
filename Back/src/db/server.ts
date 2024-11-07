@@ -16,6 +16,7 @@ import routesUsuario from '../routes/usuarioRoutes';
 import routesRol from '../routes/rolRoutes';
 import routesInstitucion from '../routes/institucionRoutes';
 import routesCabaña from '../routes/cabañaRoutes';
+import routesEstado from '../routes/estadoRoutes';
 
 class Server {
     private app: Application;
@@ -42,6 +43,7 @@ class Server {
         this.app.use('/api/roles', routesRol);
         this.app.use('/api/usuarios', routesUsuario);
         this.app.use('/api/cabanas', routesCabaña);
+        this.app.use('/api/estados', routesEstado);
     }
     midlewares(){
         this.app.use(express.json());

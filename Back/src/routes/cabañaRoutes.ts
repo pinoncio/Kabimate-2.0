@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import {newCabaña, activarCabaña, getCabaña, getCabañas} from '../controllers/cabañaController';
+import {newCabaña, activarCabaña, getCabaña, getCabañas, updateCabaña} from '../controllers/cabañaController';
 
 const router = Router();
 
-router.post('/', newCabaña as any);
-// router.put('/update/:id_cabania', updateCabaña as any);
+router.post('/:id_usuario', newCabaña as any);
+router.put('/update/:id_cabania', updateCabaña as any);
 router.put('/activar/:id_cabania', activarCabaña as any)
 // router.delete('/delete/:id_cabania', deleteCabaña as any);
 router.get('/list/:id_usuario', getCabañas as any);
