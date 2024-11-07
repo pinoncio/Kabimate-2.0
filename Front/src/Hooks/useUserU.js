@@ -63,7 +63,8 @@ const useUserU = () => {
   };
 
   const openModal = (op, id_usuario = '', nombre1_usuario = '', nombre2_usuario = '', 
-    apellido1_usuario = '', apellido2_usuario = '', rut_usuario = '', email_usuario = '', contrasenia_usuario = '', 
+    apellido1_usuario = '', apellido2_usuario = '', rut_usuario = '', 
+    email_usuario = '', contrasenia_usuario = '', 
     id_institucion_usuario = '', id_rol_usuario = '2') => {
       
     setIdUsuario(id_usuario);

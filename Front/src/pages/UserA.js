@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import useUserA from '../Hooks/useUserA';
-import '../Styles/user.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import useUserA from "../Hooks/useUserA";
+import "../Styles/user.css";
 
 const UserPageA = () => {
   const {
@@ -147,30 +147,77 @@ const UserPageA = () => {
           </div>
         </div>
       </div>
-      <div id='modalUser' className='modal fade' aria-hidden='true'>
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <label className='h5'>{title}</label>
-              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='close'></button>
+      <div id="modalUser" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <label className="h5">{title}</label>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="close"
+              ></button>
             </div>
-            <div className='modal-body'>
-              <input type='hidden' id='id' value={operation === 2 ? institucion_usuario : ''}></input>
+            <div className="modal-body">
+              <input
+                type="hidden"
+                id="id"
+                value={operation === 2 ? institucion_usuario : ""}
+              ></input>
               {[
-                { id: 'nombre1_usuario', label: 'Primer nombre', value: nombre1_usuario, setValue: setNombre1Usuario },
-                { id: 'nombre2_usuario', label: 'Segundo nombre', value: nombre2_usuario, setValue: setNombre2Usuario },
-                { id: 'apellido1_usuario', label: 'Primer apellido', value: apellido1_usuario, setValue: setApellido1Usuario },
-                { id: 'apellido2_usuario', label: 'Segundo apellido', value: apellido2_usuario, setValue: setApellido2Usuario },
-                { id: 'rut_usuario', label: 'RUT del usuario', value: rut_usuario, setValue: setRutUsuario },
-                { id: 'email_usuario', label: 'Correo del Usuario', value: email_usuario, setValue: setEmailUsuario },
-                { id: 'contrasenia_usuario', label: 'Contraseña', type: 'password', value: contrasenia_usuario, setValue: setContraseniaUsuario },
+                {
+                  id: "nombre1_usuario",
+                  label: "Primer nombre",
+                  value: nombre1_usuario,
+                  setValue: setNombre1Usuario,
+                },
+                {
+                  id: "nombre2_usuario",
+                  label: "Segundo nombre",
+                  value: nombre2_usuario,
+                  setValue: setNombre2Usuario,
+                },
+                {
+                  id: "apellido1_usuario",
+                  label: "Primer apellido",
+                  value: apellido1_usuario,
+                  setValue: setApellido1Usuario,
+                },
+                {
+                  id: "apellido2_usuario",
+                  label: "Segundo apellido",
+                  value: apellido2_usuario,
+                  setValue: setApellido2Usuario,
+                },
+                {
+                  id: "rut_usuario",
+                  label: "RUT del usuario",
+                  value: rut_usuario,
+                  setValue: setRutUsuario,
+                },
+                {
+                  id: "email_usuario",
+                  label: "Correo del Usuario",
+                  value: email_usuario,
+                  setValue: setEmailUsuario,
+                },
+                {
+                  id: "contrasenia_usuario",
+                  label: "Contraseña",
+                  type: "password",
+                  value: contrasenia_usuario,
+                  setValue: setContraseniaUsuario,
+                },
               ].map((input) => (
-                <div className='input-group mb-3' key={input.id}>
-                  <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <div className="input-group mb-3" key={input.id}>
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-gift"></i>
+                  </span>
                   <input
-                    type={input.type || 'text'}
+                    type={input.type || "text"}
                     id={input.id}
-                    className='form-control'
+                    className="form-control"
                     placeholder={input.label}
                     value={input.value}
                     onChange={(e) => input.setValue(e.target.value)}
@@ -179,20 +226,25 @@ const UserPageA = () => {
               ))}
               {operation === 1 && (
                 <>
-                  <div className='input-group mb-3'>
-                    <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-gift"></i>
+                    </span>
                     <select
-                      className='form-control'
-                      name='id_institucion'
+                      className="form-control"
+                      name="id_institucion"
                       value={institucion_usuario}
                       onChange={(e) => {
                         setIdInstitucionUsuario(e.target.value);
                       }}
-                      style={{ color: 'black' }}
+                      style={{ color: "black" }}
                     >
-                      <option value=''>Seleccione una institución</option>
+                      <option value="">Seleccione una institución</option>
                       {instituciones.map((institucion) => (
-                        <option key={institucion.ID_INSTITUCION} value={institucion.ID_INSTITUCION}>
+                        <option
+                          key={institucion.ID_INSTITUCION}
+                          value={institucion.ID_INSTITUCION}
+                        >
                           {institucion.NOMBRE_INSTITUCION}
                         </option>
                       ))}
@@ -201,21 +253,21 @@ const UserPageA = () => {
                 </>
               )}
             </div>
-            <div className='modal-footer'>
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-                Cerrar
-            </button>
+            <div className="modal-footer">
               <button
-                type='button'
-                className='btn btn-primary'
+                id="btnCerrar"
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
                 onClick={validar}
               >
-                {operation === 1 ? 'Crear Usuario' : 'Actualizar Usuario'}
+                {operation === 1 ? "Crear Usuario" : "Actualizar Usuario"}
               </button>
             </div>
           </div>

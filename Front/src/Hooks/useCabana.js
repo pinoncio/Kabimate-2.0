@@ -1,194 +1,239 @@
-// hooks/useCabana.js
-import { useEffect, useState } from 'react';
-import { show_alerta } from '../functions';
-import { getCabanas, createCabana, activarCabana, updateCabanas } from '../services/Cabana';
+import { useEffect, useState } from "react";
+import { show_alerta } from "../functions";
+import {
+  getCabanas,
+  createCabana,
+  updateCabana,
+  activateCabana,
+} from "../services/Cabana";
+import "../Styles/cabana.css";
 
 const useCabana = () => {
   const [cabanas, setCabanas] = useState([]);
-  const [id_cabana, setIdCabana] = useState('');
-  const [capacidad, setCapacidad] = useState('');
-  const [cantidad_piezas, setCantidadPiezas] = useState('');
-  const [precio_por_noche, setPrecioPorNoche] = useState('');
-  const [ubicacion, setUbicacion] = useState('');
-  const [servicios_incluidos, setServiciosIncluidos] = useState('');
-  const [descripcion_cabania, setDescripcionCabania] = useState('');
+  const [id_cabania, setIdCabana] = useState("");
+  const [capacidad, setCapacidad] = useState("");
+  const [cantidad_piezas, setCantidadPiezas] = useState("");
+  const [precio_por_noche, setPrecioPorNoche] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [servicios_incluidos, setServiciosIncluidos] = useState("");
+  const [descripcion_cabania, setDescripcionCabania] = useState("");
   const [estado_cabania, setEstadoCabania] = useState(true);
-  const [id_estado_cabania, setIdEstadoCabania] = useState('');
-  const [id_usuario_cabania, setIdUsuarioCabania] = useState('');
   const [operation, setOperation] = useState(1);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
+
+  // Obtén el id del usuario desde sessionStorage
+  const id_usuario_cabania = sessionStorage.getItem("idUsuario");
 
   useEffect(() => {
-    getAllCabanas();
+   getAllCabanas(id_usuario_cabania);
   }, []);
 
-  const getAllCabanas = async () => {
-    const idUsuario = sessionStorage.getItem('idUsuario'); // Obtener el id del usuario desde sessionStorage
-    if (!idUsuario) {
-      show_alerta('No se encuentra el id del usuario', 'warning');
-      return;
-    }
-  
+  // Función para obtener todas las cabañas del usuario
+  const getAllCabanas = async (idUsuario) => {
     try {
-      const cabanasData = await getCabanas(idUsuario); // Pasar idUsuario al servicio
-      console.log('Datos recibidos:', cabanasData); // Mostrar datos de la respuesta
-  
-      if (Array.isArray(cabanasData)) { // Verificar que los datos recibidos sean un array
-        setCabanas(cabanasData); // Si es un array, se guarda en el estado
-      } else {
-        console.error('Los datos recibidos no son un array:', cabanasData);
-        show_alerta('Error al obtener las cabañas. Los datos no son válidos.', 'error');
-      }
+      const cabanasData = await getCabanas(idUsuario);
+      setCabanas(cabanasData);
     } catch (error) {
-      console.error('Error al obtener cabañas:', error);
-      show_alerta('Error al obtener las cabañas', 'error');
+      console.error("Error al obtener cabañas:", error);
     }
   };
-  
-  
-  const openModal = (op, id_cabana = '', capacidad = '', cantidad_piezas = '',
-    precio_por_noche = '', ubicacion = '', servicios_incluidos = '', descripcion_cabania = '',
-    estado_cabania = true, id_estado_cabania = '1', id_usuario_cabania = 'idUsuario') => {
 
-    setIdCabana(id_cabana);
+  // Función para abrir el modal y pre-cargar los valores según la operación
+  const openModal = (
+    op,
+    id_cabania = "",
+    capacidad = "",
+    cantidad_piezas = "",
+    precio_por_noche = "",
+    ubicacion = "",
+    servicios_incluidos = "",
+    descripcion_cabania = "",
+    id_usuario_cabania = sessionStorage.getItem("idUsuario")
+  ) => {
+    setIdCabana(id_cabania);
     setCapacidad(capacidad);
     setCantidadPiezas(cantidad_piezas);
     setPrecioPorNoche(precio_por_noche);
     setUbicacion(ubicacion);
     setServiciosIncluidos(servicios_incluidos);
     setDescripcionCabania(descripcion_cabania);
-    setEstadoCabania(estado_cabania);
-    setIdEstadoCabania(id_estado_cabania);
-    setIdUsuarioCabania(id_usuario_cabania);
+    setEstadoCabania(true);
     setOperation(op);
-    setTitle(op === 1 ? 'Registrar Cabaña' : 'Editar Cabaña');
+    setTitle(op === 1 ? "Crear cabaña" : "Actualizar cabaña");
+
+    if (!id_usuario_cabania) {
+      show_alerta(
+        "No se encontró el ID de usuario. Por favor, inicie sesión.",
+        "error"
+      );
+    }
   };
 
+  // Validación de datos de la cabaña
   const validar = async () => {
+    const id_usuario_cabania = sessionStorage.getItem("idUsuario"); // Obtener id_usuario_cabania de sessionStorage
 
     const validarCreacion = () => {
       return (
-        capacidad.trim() === '' ||
-        cantidad_piezas.trim() === '' ||
-        precio_por_noche.trim() === '' ||
-        ubicacion.trim() === '' ||
-        servicios_incluidos.trim() === '' ||
-        descripcion_cabania.trim() === ''
-
+        capacidad === "" ||
+        capacidad == null ||
+        isNaN(capacidad) ||
+        cantidad_piezas === "" ||
+        cantidad_piezas == null ||
+        isNaN(cantidad_piezas) ||
+        precio_por_noche === "" ||
+        precio_por_noche == null ||
+        isNaN(precio_por_noche) ||
+        ubicacion.trim() === "" ||
+        servicios_incluidos.trim() === "" ||
+        descripcion_cabania.trim() === "" ||
+        !id_usuario_cabania
       );
     };
+
     const validarActualizacion = () => {
       return (
-        capacidad.trim() === '' ||
-        cantidad_piezas.trim() === '' ||
-        precio_por_noche.trim() === '' ||
-        ubicacion.trim() === '' ||
-        servicios_incluidos.trim() === '' ||
-        descripcion_cabania.trim() === ''
+        capacidad === "" ||
+        capacidad == null ||
+        isNaN(capacidad) ||
+        cantidad_piezas === "" ||
+        cantidad_piezas == null ||
+        isNaN(cantidad_piezas) ||
+        precio_por_noche === "" ||
+        precio_por_noche == null ||
+        isNaN(precio_por_noche) ||
+        ubicacion.trim() === "" ||
+        servicios_incluidos.trim() === "" ||
+        descripcion_cabania.trim() === "" ||
+        !id_usuario_cabania
+      );
+    };
 
-      )
-    }
-    if (operation === 1) { // Crear
+    if (operation === 1) {
+      // Crear
       if (validarCreacion()) {
-        show_alerta('Completa los campos requeridos', 'warning');
+        show_alerta("Completa los campos requeridos", "warning");
         return;
       }
       const parametros = {
-        capacidad: capacidad.trim(),
-        cantidad_piezas: cantidad_piezas.trim(),
-        precio_por_noche: precio_por_noche.trim(),
+        capacidad: capacidad,
+        cantidad_piezas: cantidad_piezas,
+        precio_por_noche: precio_por_noche,
         ubicacion: ubicacion.trim(),
         servicios_incluidos: servicios_incluidos.trim(),
         descripcion_cabania: descripcion_cabania.trim(),
-        id_estado_cabania: id_estado_cabania.trim(),
-        id_usuario_cabania: id_usuario_cabania.trim(),
       };
-      createCabana(parametros);
-      console.log("Datos de la cabaña a crear/actualizar:", parametros);
-    } else { 
+      createNewCabana(id_usuario_cabania, parametros);
+    } else {
+      // Actualizar
       if (validarActualizacion()) {
-        show_alerta('Completa los campos requeridos', 'warning');
+        show_alerta("Completa los campos requeridos", "warning");
         return;
       }
       const parametross = {
-        capacidad: capacidad.trim(),
-        cantidad_piezas: cantidad_piezas.trim(),
-        precio_por_noche: precio_por_noche.trim(),
+        capacidad: capacidad,
+        cantidad_piezas: cantidad_piezas,
+        precio_por_noche: precio_por_noche,
         ubicacion: ubicacion.trim(),
         servicios_incluidos: servicios_incluidos.trim(),
         descripcion_cabania: descripcion_cabania.trim(),
-        id_estado_cabania: id_estado_cabania.trim(),
-    };
-    updateCabana(id_cabana, parametross);    
-    
+      };
+      updateExistingCabana(id_cabania, parametross);
     }
   };
 
-
-  const createNewCabana = async (cabana) => {
+  // Crear una nueva cabaña
+  const createNewCabana = async (id_usuario_cabania, cabanaData) => {
     try {
-      const response = await createCabana(cabana);
-      show_alerta(response.msg, 'suaccess');
-      document.getElementById('btnCerrar').click();
-      getCabanas();
-    } catch (error) {
-      console.error('Error al crear usuario:', error);
-      show_alerta('Error al crear el usuario', 'error');
-    }
-  };
+      const response = await createCabana(id_usuario_cabania, cabanaData);
 
-  const updateCabana = async (id_cabana, cabana) => {
-    console.log("Actualizando Cabaña con ID:", id_cabana, "Datos:", cabana);
-    
-    try {
-        await updateCabanas(id_cabana, cabana);
-        show_alerta('El usuario fue editado con éxito.', 'success');
-        
-        // Actualiza el estado de los usuarios manteniendo el orden
-        setCabanas((prevCabanas) =>
-            prevCabanas.map((cabana) =>
-                cabana.ID_CABANA === id_cabana
-                    ? { 
-                        ...cabana, 
-                        CAPACIDAD: cabana.capacidad,
-                        CANTIDAD_PIEZAS: cabana.cantidad_piezas,
-                        PRECIO_POR_NOCHE: cabana.precio_por_noche,
-                        UBICACION: cabana.ubicacion,
-                        SERVICIOS_INCLUIDOS: cabana.servicios_incluidos,
-                        DESCRIPCION_CABANIA: cabana.descripcion_cabania,
-                        ID_ESTADO_CABANIA: cabana.id_estado_cabania
-                      }
-                    : cabana
-            )
-        );
+      if (response && response.msg) {
+        show_alerta(response.msg, "success");
+        document.getElementById("btnCerrar").click();
+        getAllCabanas(id_usuario_cabania); 
 
-        // Cierra el modal
-        document.getElementById('btnCerrar').click();
+        // Agregar la nueva cabaña a la lista sin perder la anterior
+        setCabanas((prevCabanas) => [
+          ...prevCabanas,
+          { 
+            ...cabanaData, 
+            ID_CABANIA: response.id_cabania 
+          }
+        ]);
+      } else {
+        show_alerta("Error desconocido al crear la cabaña", "error");
+      }
     } catch (error) {
-        console.error('Error al actualizar cabaña:', error);
-        show_alerta('Error al actualizar el cabaña', 'error');
+      console.error("Error al crear cabaña:", error);
+      show_alerta("Error al crear la cabaña", "error");
     }
 };
 
-  const handleToggleEstadoCabana = async (id_cabana, nuevoEstado) => {
+
+  // Actualizar cabaña existente
+  const updateExistingCabana = async (id_cabania, cabanaData) => {
     try {
-      const estadoNumerico = nuevoEstado ? 1 : 0;
-      await activarCabana(id_cabana, estadoNumerico);
+      await updateCabana(id_cabania, cabanaData);
+      show_alerta('La cabaña fue editada con éxito.', 'success');
+
+      // Actualizar solo la cabaña modificada en la lista de manera ordenada
       setCabanas((prevCabanas) =>
         prevCabanas.map((cabana) =>
-          cabana.ID_CABANA === id_cabana ? { ...cabana, ESTADO_CABANIA: nuevoEstado } : cabana
+          cabana.ID_CABANIA === id_cabania 
+            ? {
+                ...cabana, 
+                capacidad: cabanaData.capacidad,
+                cantidad_piezas: cabanaData.cantidad_piezas,
+                precio_por_noche: cabanaData.precio_por_noche,
+                ubicacion: cabanaData.ubicacion,
+                servicios_incluidos: cabanaData.servicios_incluidos,
+                descripcion_cabania: cabanaData.descripcion_cabania,
+              }
+            : cabana
         )
       );
-      show_alerta(nuevoEstado ? 'Cabaña activada' : 'Cabaña desactivada', 'success');
+      document.getElementById('btnCerrar').click();
     } catch (error) {
-      console.error('Error al cambiar el estado de la cabaña:', error);
-      show_alerta('Error al cambiar el estado de la cabaña', 'error');
+      console.error('Error al actualizar cabaña:', error);
+      show_alerta('Error al actualizar la cabaña', 'error');
     }
-  };
+};
+
+
+  // Activar/desactivar cabaña
+  const handleToggleCabanaStatus = async (id_cabania, nuevoEstado) => {
+    try {
+      await activateCabana(id_cabania, nuevoEstado);
+
+      // Actualizar el estado de la cabaña en la lista
+      setCabanas((prevCabanas) =>
+        prevCabanas.map((cabana) =>
+          cabana.ID_CABANIA === id_cabania
+            ? { 
+                ...cabana, 
+                estado_cabania: nuevoEstado 
+              }
+            : cabana
+        )
+      );
+
+      const mensaje = nuevoEstado
+        ? "Cabaña habilitada con éxito"
+        : "Cabaña deshabilitada con éxito";
+      show_alerta(mensaje, "success");
+
+      // Recargar cabañas tras el cambio de estado
+      await getAllCabanas(sessionStorage.getItem("idUsuario"));
+    } catch (error) {
+      console.error("Error al activar/desactivar cabaña:", error);
+      show_alerta("Error al cambiar el estado de la cabaña", "error");
+    }
+};
+
 
   return {
     cabanas,
-    id_cabana,
+    id_cabania,
     capacidad,
     cantidad_piezas,
     precio_por_noche,
@@ -196,7 +241,6 @@ const useCabana = () => {
     servicios_incluidos,
     descripcion_cabania,
     estado_cabania,
-    id_usuario_cabania,
     operation,
     title,
     setCapacidad,
@@ -206,11 +250,10 @@ const useCabana = () => {
     setServiciosIncluidos,
     setDescripcionCabania,
     setEstadoCabania,
-    setIdUsuarioCabania,
     openModal,
-    createNewCabana,
-    handleToggleEstadoCabana,
+    validar,
     getAllCabanas,
+    handleToggleCabanaStatus,
   };
 };
 

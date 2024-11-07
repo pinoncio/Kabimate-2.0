@@ -1,31 +1,31 @@
 // pages/CabanaPage.js
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom"; // Importa Link
-import useCabana from "../Hooks/useCabana"; // Se importa el hook useCabana
+import React from "react";
+import { Link } from "react-router-dom";
+import useCabanas from "../Hooks/useCabana";
+import "../Styles/cabana.css";
 
 const CabanaPage = () => {
   const {
     cabanas,
-    descripcion_cabania,
     capacidad,
-    cantidad_piezas, 
+    cantidad_piezas,
     precio_por_noche,
     ubicacion,
     servicios_incluidos,
-    id_estado_cabania,
+    descripcion_cabania,
     operation,
     title,
-    setDescripcionCabania,
-    setCapacidad,    
-    setCantidadPiezas,   
-    setPrecioPorNoche,    
-    setUbicacion,    
+    setCapacidad,
+    setCantidadPiezas,
+    setPrecioPorNoche,
+    setUbicacion,
     setServiciosIncluidos,
-    setIdEstadoCabania,
+    setDescripcionCabania,
     openModal,
     validar,
-    handleToggleCabana,
-  } = useCabana();
+    handleToggleCabanaStatus,
+    deleteExistingCabana,
+  } = useCabanas();
 
   return (
     <div className="bg-light">
@@ -56,7 +56,7 @@ const CabanaPage = () => {
                   color: "white",
                 }}
                 data-bs-toggle="modal"
-                data-bs-target="#modalCabana"
+                data-bs-target="#modalCabanas"
               >
                 <i className="fa fa-plus-circle mt-2"></i> Añadir Cabaña
               </button>
@@ -76,34 +76,30 @@ const CabanaPage = () => {
                       <th>#</th>
                       <th>CAPACIDAD</th>
                       <th>CANTIDAD PIEZAS</th>
-                      <th>PRECIO POR NOCHE</th>
+                      <th>PRECIO/NOCHE</th>
                       <th>UBICACIÓN</th>
                       <th>SERVICIOS INCLUIDOS</th>
-                      <th>DESCRIPCIÓN</th>
-                      <th>ESTADO CABAÑA</th>
                       <th>ESTADO</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {cabanas.map((cabana, index) => (
-                      <tr key={cabana.ID_CABANA}>
-                        <td>{index + 1}</td>
+                    {cabanas.map((cabana, i) => (
+                      <tr key={cabana.ID_CABANIA}>
+                        <td>{i + 1}</td>
                         <td>{cabana.CAPACIDAD}</td>
                         <td>{cabana.CANTIDAD_PIEZAS}</td>
                         <td>{cabana.PRECIO_POR_NOCHE}</td>
                         <td>{cabana.UBICACION}</td>
                         <td>{cabana.SERVICIOS_INCLUIDOS}</td>
-                        <td>{cabana.DESCRIPCION_CABANIA}</td>
-                        <td>{cabana.ID_ESTADO_CABANIA}</td>
                         <td>
                           <label className="switch">
                             <input
                               type="checkbox"
                               checked={cabana.ESTADO_CABANIA === true}
                               onChange={() =>
-                                handleToggleCabana(
-                                  cabana.ID_CABANA,
+                                handleToggleCabanaStatus(
+                                  cabana.ID_CABANIA,
                                   !cabana.ESTADO_CABANIA
                                 )
                               }
@@ -116,19 +112,19 @@ const CabanaPage = () => {
                             onClick={() =>
                               openModal(
                                 2,
-                                cabana.ID_CABANA,
+                                cabana.ID_CABANIA,
                                 cabana.CAPACIDAD,
                                 cabana.CANTIDAD_PIEZAS,
                                 cabana.PRECIO_POR_NOCHE,
                                 cabana.UBICACION,
                                 cabana.SERVICIOS_INCLUIDOS,
                                 cabana.DESCRIPCION_CABANIA,
-                                cabana.ID_ESTADO_CABANIA
+                                cabana.ESTADO_CABANIA
                               )
                             }
                             className="btn btn-warning btn-custom"
                             data-bs-toggle="modal"
-                            data-bs-target="#modalCabana"
+                            data-bs-target="#modalCabanas"
                           >
                             <i className="fa-solid fa-edit"></i>
                           </button>
@@ -142,8 +138,9 @@ const CabanaPage = () => {
           </div>
         </div>
       </div>
-      {/* Modal para agregar/editar cabaña */}
-      <div id="modalCabana" className="modal fade" aria-hidden="true">
+
+      {/* Modal para agregar o editar Cabañas */}
+      <div id="modalCabanas" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -156,23 +153,23 @@ const CabanaPage = () => {
               ></button>
             </div>
             <div className="modal-body">
+              <input type="hidden" id="id"></input>
               <div className="input-group mb-3">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-cogs"></i>
+                  <i className="fa-solid fa-bed"></i>
                 </span>
                 <input
                   type="number"
                   id="capacidad"
                   className="form-control"
-                  placeholder="Capacidad"
+                  placeholder="Capacidad de la Cabaña"
                   value={capacidad}
                   onChange={(e) => setCapacidad(e.target.value)}
                 />
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-bed"></i>
+                  <i className="fa-solid fa-couch"></i>
                 </span>
                 <input
                   type="number"
@@ -183,7 +180,6 @@ const CabanaPage = () => {
                   onChange={(e) => setCantidadPiezas(e.target.value)}
                 />
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="fa-solid fa-dollar-sign"></i>
@@ -197,7 +193,6 @@ const CabanaPage = () => {
                   onChange={(e) => setPrecioPorNoche(e.target.value)}
                 />
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="fa-solid fa-map-marker-alt"></i>
@@ -211,7 +206,6 @@ const CabanaPage = () => {
                   onChange={(e) => setUbicacion(e.target.value)}
                 />
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="fa-solid fa-concierge-bell"></i>
@@ -225,12 +219,12 @@ const CabanaPage = () => {
                   onChange={(e) => setServiciosIncluidos(e.target.value)}
                 />
               </div>
-
               <div className="input-group mb-3">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-pencil-alt"></i>
+                  <i className="fa-solid fa-info-circle"></i>
                 </span>
-                <textarea
+                <input
+                  type="text"
                   id="descripcion_cabania"
                   className="form-control"
                   placeholder="Descripción de la Cabaña"
@@ -238,22 +232,19 @@ const CabanaPage = () => {
                   onChange={(e) => setDescripcionCabania(e.target.value)}
                 />
               </div>
-
-              <div className="modal-footer">
-                <button
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  aria-label="close"
-                >
-                  Cancelar
+              <div className="d-grid col-6 mx-auto">
+                <button onClick={() => validar()} className="btn btn-success">
+                  {operation === 1 ? "Registrar" : "Actualizar"}
+                  <i className="fas fa-save ms-2"></i>
                 </button>
                 <button
-                type="button"
-                className="btn btn-primary"
-                onClick={validar}
-              >
-                {operation === 1 ? "Crear Cabaña" : "Actualizar Cabaña"}
-              </button>
+                  id="btnCerrar"
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
               </div>
             </div>
           </div>

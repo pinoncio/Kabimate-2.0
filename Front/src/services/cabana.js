@@ -1,26 +1,31 @@
-import axios from 'axios';
+import axios from "axios";
 
-const url = 'http://localhost:3001/api/cabanas';
+const baseURL = "http://localhost:3001/api/cabanas";
 
 // Crear una nueva cabaña
 export const createCabana = async (id_usuario, cabanaData) => {
   try {
-    const response = await axios.post(`${url}/`, { ...cabanaData, id_usuario });
+    const response = await axios.post(`${baseURL}/${id_usuario}`, cabanaData);
     return response.data;
   } catch (error) {
-    console.error('Error al crear la cabaña:', error.response ? error.response.data : error.message);
+    console.error(
+      "Error al crear la cabaña:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
 
-
 // Obtener una cabaña por su ID
 export const getCabana = async (id_cabania) => {
   try {
-    const response = await axios.get(`${url}/${id_cabania}`);
+    const response = await axios.get(`${baseURL}/${id_cabania}`);
     return response.data;
   } catch (error) {
-    console.error('Error al obtener la cabaña:', error);
+    console.error(
+      "Error al obtener la cabaña:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
@@ -28,32 +33,46 @@ export const getCabana = async (id_cabania) => {
 // Obtener todas las cabañas de un usuario
 export const getCabanas = async (id_usuario) => {
   try {
-    const response = await axios.get(`${url}/list/${id_usuario}`);
+    const response = await axios.get(`${baseURL}/list/${id_usuario}`);
     return response.data;
   } catch (error) {
-    console.error('Error al obtener las cabañas del usuario:', error);
+    console.error(
+      "Error al obtener las cabañas del usuario:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
 
 // Activar o desactivar una cabaña
-export const activarCabana = async (id_cabania, activar) => {
+export const activateCabana = async (id_cabania, activar) => {
   try {
-    const response = await axios.put(`${url}/activar/${id_cabania}`, { trigger: activar });
+    const response = await axios.put(`${baseURL}/activar/${id_cabania}`, {
+      trigger: activar,
+    });
     return response.data;
   } catch (error) {
-    console.error('Error al activar/desactivar la cabaña:', error.response ? error.response.data : error.message);
+    console.error(
+      "Error al activar/desactivar la cabaña:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
 
-
-export const updateCabanas = async (id_cabana, cabana) => {
+// Actualizar información de una cabaña
+export const updateCabana = async (id_cabania, cabanaData) => {
   try {
-    const response = await axios.put(`${url}/update/${id_cabana}`, cabana);
+    const response = await axios.put(
+      `${baseURL}/update/${id_cabania}`,
+      cabanaData
+    );
     return response.data;
   } catch (error) {
-    console.error('Error al actualizar el usuario:', error);
+    console.error(
+      "Error al actualizar la cabaña:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
