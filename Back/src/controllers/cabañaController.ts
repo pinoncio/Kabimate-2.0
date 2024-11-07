@@ -72,7 +72,9 @@ export const getCabañas = async(req: Request, res: Response) =>{
 };
 
 export const activarCabaña = async(req: Request, res: Response) =>{
-    const {id_cabania, trigger} = req.body;
+    const {id_cabania} = req.params;
+    const {trigger} = req.body;
+    console.log(id_cabania,trigger)
     try{
         const cabaña = await Cabania.findOne({where: {ID_CABANIA:id_cabania}});
         if(!cabaña){
@@ -102,5 +104,41 @@ export const activarCabaña = async(req: Request, res: Response) =>{
         })
 
     }
+};
+
+export const updateCabaña = async(req: Request, res: Response) =>{
+    const {id_cabania} = req.params;
+    const {capacidad, cantidad_piezas, precio_por_noche,ubicacion, servicios_incluidos,descripcion_cabania, id_estado_cabania} = req.body;
+
+    try{
+        const cabaña = await Cabania.findOne({where:{ID_CABANIA:id_cabania}});
+
+        if(!cabaña){
+            return res.status(400).json({
+                msg: "La cabaña con id: "+id_cabania+' no existe'
+            })
+        };
+
+        await Cabania.update({
+            CAPACIDAD: capacidad,
+            CANTIDAD_PIEZAS: cantidad_piezas,
+            PRECIO_POR_NOCHE: precio_por_noche,
+            UBICACION: ubicacion,
+            SERVICIOS_INCLUIDOS: servicios_incluidos,
+            DESCRIPCION_CABANIA: descripcion_cabania,
+            ID_ESTADO_CABANIA: id_estado_cabania,
+
+        },
+    {where:{ID_CABANIA: id_cabania}})
+    return res.json({
+        msg: "Se ha actualizado la informacion de la cabaña con id: "+id_cabania+" correctamente"
+    })
+    }catch(error){
+        return res.status(400).json({
+            msg: ' Ha ocurrido un error al actualizar la informacion de la cabaña con id: '+id_cabania,
+            error
+        });
+    }
+
 }
 

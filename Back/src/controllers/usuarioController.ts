@@ -95,7 +95,6 @@ export const updateUsuario = async (req: Request, res: Response)=> {
 
     }
     
-    console.log(nombre1_usuario)
     try{
         if(contrasenia || contrasenia != null){
             const hashedpassword = await bcrypt.hash(contrasenia, 10);

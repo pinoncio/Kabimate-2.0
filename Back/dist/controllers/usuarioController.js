@@ -104,7 +104,6 @@ const updateUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             msg: "El usuario ingresado no existe"
         });
     }
-    console.log(nombre1_usuario);
     try {
         if (contrasenia || contrasenia != null) {
             const hashedpassword = yield bcrypt_1.default.hash(contrasenia, 10);
