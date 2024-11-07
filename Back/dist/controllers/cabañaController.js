@@ -40,16 +40,10 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.newCabaña = newCabaña;
 const getCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_usuario } = req.params;
-    const { id_cabania } = req.body;
+    const { id_cabania } = req.params;
+    console.log(id_cabania);
     try {
-        const usuario = yield usuarioModel_1.Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
-        if (!usuario) {
-            return res.status(400).json({
-                msg: 'El usuario no existe',
-            });
-        }
         if (!cabaña) {
             return res.status(400).json({
                 msg: 'La cabaña con id: ' + id_cabania + ' no existe',

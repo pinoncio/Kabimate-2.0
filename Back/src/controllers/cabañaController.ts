@@ -31,19 +31,11 @@ export const newCabaña = async(req:Request, res: Response) => {
 };
 
 export const getCabaña = async(req: Request, res: Response) =>{
-    const {id_usuario} = req.params;
-    const {id_cabania} = req.body;
+    const {id_cabania} = req.params;
+    console.log(id_cabania)
 
     try{
-        const usuario = await Usuario.findOne({where:{ID_USUARIO: id_usuario}});
         const cabaña = await Cabania.findOne({where:{ID_CABANIA: id_cabania}});
-    
-        if (!usuario){
-            return res.status(400).json({
-                msg: 'El usuario no existe',
-            })
-        }
-    
         if (!cabaña){
             return res.status(400).json({
                 msg: 'La cabaña con id: '+id_cabania+' no existe',
