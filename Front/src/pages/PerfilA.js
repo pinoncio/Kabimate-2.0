@@ -1,81 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { getUserA, updateUserA } from '../services/userA';
+// PerfilA.js
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PersonCircle, PencilSquare } from 'react-bootstrap-icons';
-import { show_alerta } from '../functions'; // Importa la función para mostrar alertas
+import usePerfil from '../Hooks/usePerfil';
 import '../Styles/PerfilA.css';
 
 export default function PerfilA() {
-  const [user, setUser] = useState({
-    nombre1_usuario: '',
-    nombre2_usuario: '',
-    apellido1_usuario: '',
-    apellido2_usuario: '',
-    rut_usuario: '',
-    email_usuario: '',
-  });
-
-  const [isEditable, setIsEditable] = useState({
-    nombre1_usuario: false,
-    nombre2_usuario: false,
-    apellido1_usuario: false,
-    apellido2_usuario: false,
-    rut_usuario: false,
-    email_usuario: false,
-  });
+  const {
+    user,
+    isEditable,
+    handleEditToggle,
+    handleInputChange,
+    handleSave,
+  } = usePerfil();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const idUsuario = sessionStorage.getItem('idUsuario');
-    getUserA(idUsuario).then((userData) => {
-      console.log('Datos del usuario:', userData.data);
-      setUser({
-        nombre1_usuario: userData.data.NOMBRE1_USUARIO || '',
-        nombre2_usuario: userData.data.NOMBRE2_USUARIO || '',
-        apellido1_usuario: userData.data.APELLIDO1_USUARIO || '',
-        apellido2_usuario: userData.data.APELLIDO2_USUARIO || '',
-        rut_usuario: userData.data.RUT_USUARIO || '',
-        email_usuario: userData.data.EMAIL_USUARIO || '',
-      });
-    }).catch((error) => {
-      console.error('Error al obtener usuario:', error);
-    });
-  }, []);
-
-  const handleEditToggle = (field) => {
-    setIsEditable((prev) => ({ ...prev, [field]: !prev[field] }));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const updateExistingUser = async (id_usuario, user) => {
-    console.log("Actualizando usuario con ID:", id_usuario, "Datos:", user);
-
-    try {
-      await updateUserA(id_usuario, user);
-      show_alerta('El usuario fue editado con éxito.'); // Usar la función para mostrar alertas
-      setUser(user); // Actualiza el estado con los nuevos datos
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
-      show_alerta('Error al actualizar el usuario');
-    }
-  };
-
-  const handleSave = () => {
-    const idUsuario = sessionStorage.getItem('idUsuario');
-    updateExistingUser(idUsuario, {
-      nombre1_usuario: user.nombre1_usuario,
-      nombre2_usuario: user.nombre2_usuario,
-      apellido1_usuario: user.apellido1_usuario,
-      apellido2_usuario: user.apellido2_usuario,
-      rut_usuario: user.rut_usuario,
-      email_usuario: user.email_usuario,
-    });
-  };
 
   return (
     <div className='perfil-wrapper mt'>

@@ -44,7 +44,7 @@ const Login = () => {
         if (response.data.rol === 1) {
           navigate('/admin'); // Rol 1 va a /admin
         } else if (response.data.rol === 2) {
-          navigate('/'); // Rol 2 va a /
+          navigate('/home'); // Rol 2 va a /
         }
       } else {
         // Si no hay token, muestra el error
