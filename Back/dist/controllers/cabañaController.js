@@ -14,7 +14,7 @@ const caba_aModel_1 = require("../models/caba\u00F1aModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_usuario } = req.params;
-    const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania, id_estado_cabania } = req.body;
+    const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania } = req.body;
     try {
         yield caba_aModel_1.Cabania.create({
             "CAPACIDAD": capacidad,
@@ -24,7 +24,7 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             "SERVICIOS_INCLUIDOS": servicios_incluidos,
             "DESCRIPCION_CABANIA": descripcion_cabania,
             "ESTADO_CABANIA": true,
-            "ID_ESTADO_CABANIA": id_estado_cabania,
+            "ID_ESTADO_CABANIA": 1,
             "ID_USUARIO_CABANIA": id_usuario
         });
         return res.status(201).json({
