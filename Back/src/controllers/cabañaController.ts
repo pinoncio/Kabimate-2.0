@@ -74,7 +74,6 @@ export const getCabañas = async(req: Request, res: Response) =>{
 export const activarCabaña = async(req: Request, res: Response) =>{
     const {id_cabania} = req.params;
     const {trigger} = req.body;
-    console.log(id_cabania,trigger)
     try{
         const cabaña = await Cabania.findOne({where: {ID_CABANIA:id_cabania}});
         if(!cabaña){

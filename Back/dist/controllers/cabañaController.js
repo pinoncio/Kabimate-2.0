@@ -82,7 +82,6 @@ exports.getCabañas = getCabañas;
 const activarCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_cabania } = req.params;
     const { trigger } = req.body;
-    console.log(id_cabania, trigger);
     try {
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
