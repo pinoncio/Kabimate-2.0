@@ -3,7 +3,7 @@ import {newCabaña, activarCabaña, getCabaña, getCabañas} from '../controller
 
 const router = Router();
 
-router.post('/', newCabaña as any);
+router.post('/:id_usuario', newCabaña as any);
 // router.put('/update/:id_cabania', updateCabaña as any);
 router.put('/activar/:id_cabania', activarCabaña as any)
 // router.delete('/delete/:id_cabania', deleteCabaña as any);

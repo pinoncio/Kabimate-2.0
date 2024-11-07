@@ -68,9 +68,9 @@ const getCabañas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 msg: 'El usuario ingresado no existe',
             });
         }
-        const cabañas = caba_aModel_1.Cabania.findAll({ where: { ID_USUARIO_CABANIA: id_usuario } });
+        const cabañas = yield caba_aModel_1.Cabania.findAll({ where: { ID_USUARIO_CABANIA: id_usuario } });
+        console.log(cabañas);
         res.json(cabañas);
-        console.log("cabañas dadas con exito");
     }
     catch (error) {
         res.status(400).json({

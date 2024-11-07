@@ -62,9 +62,9 @@ export const getCabañas = async(req: Request, res: Response) =>{
             })
         }
 
-        const cabañas = Cabania.findAll({where:{ID_USUARIO_CABANIA: id_usuario}});
+        const cabañas = await Cabania.findAll({where:{ID_USUARIO_CABANIA:id_usuario}});
+        console.log(cabañas)
         res.json(cabañas);
-        console.log("cabañas dadas con exito")
     }catch(error){
         res.status(400).json({
             msg: 'Ha ocurrido un error al obtener las cabañas del usuario: '+id_usuario,
