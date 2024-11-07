@@ -40,26 +40,20 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.newCabaña = newCabaña;
 const getCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_usuario } = req.params;
-    const { id_cabaña } = req.body;
+    const { id_cabania } = req.params;
+    console.log(id_cabania);
     try {
-        const usuario = usuarioModel_1.Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
-        const cabaña = caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabaña } });
-        if (!usuario) {
-            return res.status(400).json({
-                msg: 'El usuario no existe',
-            });
-        }
+        const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
             return res.status(400).json({
-                msg: 'La cabaña con id: ' + id_cabaña + ' no existe',
+                msg: 'La cabaña con id: ' + id_cabania + ' no existe',
             });
         }
         res.json(cabaña);
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ha ocurrido un error al obtener la cabaña con id: ' + id_cabaña,
+            msg: 'Ha ocurrido un error al obtener la cabaña con id: ' + id_cabania,
             error
         });
     }
@@ -68,14 +62,15 @@ exports.getCabaña = getCabaña;
 const getCabañas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_usuario } = req.params;
     try {
-        const usuario = usuarioModel_1.Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
+        const usuario = yield usuarioModel_1.Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
         if (!usuario) {
             return res.status(400).json({
-                msg: 'El usuario no existe',
+                msg: 'El usuario ingresado no existe',
             });
         }
         const cabañas = caba_aModel_1.Cabania.findAll({ where: { ID_USUARIO_CABANIA: id_usuario } });
         res.json(cabañas);
+        console.log("cabañas dadas con exito");
     }
     catch (error) {
         res.status(400).json({
@@ -86,34 +81,34 @@ const getCabañas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getCabañas = getCabañas;
 const activarCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_cabaña, trigger } = req.body;
+    const { id_cabania, trigger } = req.body;
     try {
-        const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabaña } });
+        const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
             return res.status(404).json({
-                msg: "La cabaña con id: " + id_cabaña + ' no existe'
+                msg: "La cabaña con id: " + id_cabania + ' no existe'
             });
         }
         if (trigger == 1) {
             yield caba_aModel_1.Cabania.update({
                 ESTADO_CABANIA: true
-            }, { where: { ID_CABANIA: id_cabaña } });
+            }, { where: { ID_CABANIA: id_cabania } });
             return res.json({
-                msg: "Se ha activado la cabaña con id: " + id_cabaña + " correctamente"
+                msg: "Se ha activado la cabaña con id: " + id_cabania + " correctamente"
             });
         }
         else {
             yield caba_aModel_1.Cabania.update({
                 ESTADO_CABANIA: false
-            }, { where: { ID_CABANIA: id_cabaña } });
+            }, { where: { ID_CABANIA: id_cabania } });
             return res.json({
-                msg: "Se ha desactivado la cabaña con id: " + id_cabaña + " correctamente"
+                msg: "Se ha desactivado la cabaña con id: " + id_cabania + " correctamente"
             });
         }
     }
     catch (error) {
         return res.status(400).json({
-            msg: "Ha ocurrido un error al activar/desactivar la cabaña con id: " + id_cabaña,
+            msg: "Ha ocurrido un error al activar/desactivar la cabaña con id: " + id_cabania,
             error
         });
     }

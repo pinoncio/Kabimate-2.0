@@ -18,10 +18,17 @@ const cors_1 = __importDefault(require("cors"));
 const rolModel_1 = require("../models/rolModel");
 const institucionModel_1 = require("../models/institucionModel");
 const usuarioModel_1 = require("../models/usuarioModel");
+const estadoModel_1 = require("../models/estadoModel");
+const caba_aModel_1 = require("../models/caba\u00F1aModel");
+//importar seeders
+const estadoSeeder_1 = require("./seeders/estadoSeeder");
+const rolSeeder_1 = require("./seeders/rolSeeder");
+const institucionSeeder_1 = require("./seeders/institucionSeeder");
 //importar rutas
 const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
 const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
 const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes"));
+const caba_aRoutes_1 = __importDefault(require("../routes/caba\u00F1aRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -33,13 +40,14 @@ class Server {
     }
     listen() {
         this.app.listen(this.port, () => {
-            console.log('Ejecutandoce en el puerto ' + this.port);
+            console.log('Ejecutandose en el puerto ' + this.port);
         });
     }
     routes() {
         this.app.use('/api/instituciones', institucionRoutes_1.default);
         this.app.use('/api/roles', rolRoutes_1.default);
         this.app.use('/api/usuarios', usuarioRoutes_1.default);
+        this.app.use('/api/cabanas', caba_aRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -51,10 +59,21 @@ class Server {
                 yield rolModel_1.Rol.sync();
                 yield institucionModel_1.Institucion.sync();
                 yield usuarioModel_1.Usuario.sync();
+                yield estadoModel_1.Estado.sync();
+                yield caba_aModel_1.Cabania.sync();
+                //correr seeders
+                yield this.runSeeders();
             }
             catch (error) {
                 console.log('No se ha podido establecer conexion a la base de datos');
             }
+        });
+    }
+    runSeeders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, rolSeeder_1.seedRoles)();
+            yield (0, estadoSeeder_1.seedEstados)();
+            yield (0, institucionSeeder_1.seedInstituciones)();
         });
     }
 }

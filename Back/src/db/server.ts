@@ -5,11 +5,17 @@ import cors from 'cors';
 import { Rol } from '../models/rolModel';
 import { Institucion } from '../models/institucionModel';
 import { Usuario } from '../models/usuarioModel';
+import { Estado } from '../models/estadoModel';
 import { Cabania } from '../models/cabañaModel';
+//importar seeders
+import { seedEstados } from './seeders/estadoSeeder';
+import { seedRoles } from './seeders/rolSeeder';
+import { seedInstituciones } from './seeders/institucionSeeder';
 //importar rutas
 import routesUsuario from '../routes/usuarioRoutes';
 import routesRol from '../routes/rolRoutes';
 import routesInstitucion from '../routes/institucionRoutes';
+import routesCabaña from '../routes/cabañaRoutes';
 
 class Server {
     private app: Application;
@@ -28,14 +34,14 @@ class Server {
 
     listen(){
         this.app.listen(this.port, () => {
-            console.log('Ejecutandoce en el puerto ' + this.port);
+            console.log('Ejecutandose en el puerto ' + this.port);
         })
     }
     routes() {
         this.app.use('/api/instituciones', routesInstitucion);
         this.app.use('/api/roles', routesRol);
         this.app.use('/api/usuarios', routesUsuario);
-        
+        this.app.use('/api/cabanas', routesCabaña);
     }
     midlewares(){
         this.app.use(express.json());
@@ -47,11 +53,22 @@ class Server {
             await Rol.sync();
             await Institucion.sync();
             await Usuario.sync();
+            await Estado.sync();
+            await Cabania.sync();
 
+            //correr seeders
+            await this.runSeeders();
 
         } catch (error){
             console.log('No se ha podido establecer conexion a la base de datos')
         }
+    }
+
+    async runSeeders(){
+        await seedRoles();
+        await seedEstados();
+        await seedInstituciones();
+
     }
 }
 export default Server;
