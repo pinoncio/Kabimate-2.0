@@ -41,7 +41,6 @@ const newCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.newCabaña = newCabaña;
 const getCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_cabania } = req.params;
-    console.log(id_cabania);
     try {
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {

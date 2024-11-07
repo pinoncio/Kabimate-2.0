@@ -32,8 +32,6 @@ export const newCabaña = async(req:Request, res: Response) => {
 
 export const getCabaña = async(req: Request, res: Response) =>{
     const {id_cabania} = req.params;
-    console.log(id_cabania)
-
     try{
         const cabaña = await Cabania.findOne({where:{ID_CABANIA: id_cabania}});
         if (!cabaña){
