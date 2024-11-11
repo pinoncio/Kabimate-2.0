@@ -1,5 +1,4 @@
-// pages/CabanaPage.js
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useCabanas from "../Hooks/useCabana";
 import "../Styles/cabana.css";
@@ -7,12 +6,14 @@ import "../Styles/cabana.css";
 const CabanaPage = () => {
   const {
     cabanas,
+    id_estado_cabania,
     capacidad,
     cantidad_piezas,
     precio_por_noche,
     ubicacion,
     servicios_incluidos,
     descripcion_cabania,
+    estados,
     operation,
     title,
     setCapacidad,
@@ -21,11 +22,27 @@ const CabanaPage = () => {
     setUbicacion,
     setServiciosIncluidos,
     setDescripcionCabania,
+    setIdEstadoCabania,
     openModal,
     validar,
     handleToggleCabanaStatus,
-    deleteExistingCabana,
+    obtenerNombreEstado,
   } = useCabanas();
+
+
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const itemsPerPage = 5; // Número de cabañas por página
+  const totalPages = Math.ceil(cabanas.length / itemsPerPage); // Total de páginas
+
+  // Cálculo de las cabañas a mostrar en la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCabanas = cabanas.slice(startIndex, startIndex + itemsPerPage);
+
+
+  // Cambiar la página actual
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="bg-light">
@@ -79,19 +96,23 @@ const CabanaPage = () => {
                       <th>PRECIO/NOCHE</th>
                       <th>UBICACIÓN</th>
                       <th>SERVICIOS INCLUIDOS</th>
+                      <th>DESCRIPCIO CABANIA</th>
+                      <th>ESTADO CABAÑA</th>
                       <th>ESTADO</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {cabanas.map((cabana, i) => (
+                    {currentCabanas.map((cabana, i) => (
                       <tr key={cabana.ID_CABANIA}>
-                        <td>{i + 1}</td>
+                        <td>{startIndex + i + 1}</td>
                         <td>{cabana.CAPACIDAD}</td>
                         <td>{cabana.CANTIDAD_PIEZAS}</td>
                         <td>{cabana.PRECIO_POR_NOCHE}</td>
                         <td>{cabana.UBICACION}</td>
                         <td>{cabana.SERVICIOS_INCLUIDOS}</td>
+                        <td>{cabana.DESCRIPCION_CABANIA}</td>
+                        <td>{obtenerNombreEstado(cabana.ID_ESTADO_CABANIA)}</td>
                         <td>
                           <label className="switch">
                             <input
@@ -135,9 +156,29 @@ const CabanaPage = () => {
                 </table>
               </div>
             </div>
+
+            {/* Paginación */}
+            <nav aria-label="Page navigation">
+              <ul className="pagination justify-content-center">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <li
+                    key={index + 1}
+                    className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
+
 
       {/* Modal para agregar o editar Cabañas */}
       <div id="modalCabanas" className="modal fade" aria-hidden="true">
@@ -231,6 +272,27 @@ const CabanaPage = () => {
                   value={descripcion_cabania}
                   onChange={(e) => setDescripcionCabania(e.target.value)}
                 />
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-gift"></i>
+                </span>
+                <select
+                  className="form-control"
+                  name="id_institucion"
+                  value={id_estado_cabania}
+                  onChange={(e) => {
+                    setIdEstadoCabania(e.target.value); 
+                  }}
+                  style={{ color: "black" }}
+                >
+                  <option value="">Seleccione un estado</option>
+                  {estados.map((estado) => (
+                    <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
+                      {estado.NOMBRE_ESTADO}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="d-grid col-6 mx-auto">
                 <button onClick={() => validar()} className="btn btn-success">

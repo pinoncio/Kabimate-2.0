@@ -55,7 +55,7 @@ export default function Aside() {
             </li>
             {/* Cabañas */}
             <li className="nav-item">
-              <a href="/cabins" className="nav-link">
+              <a href="/Hcabana" className="nav-link">
                 <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
                 <p style={{ color: "#ffffff" }}>Cabañas</p>
               </a>

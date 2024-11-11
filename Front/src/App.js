@@ -13,6 +13,7 @@ import Insti from './pages/Insti';
 import Cabana from './pages/Cabana';
 import { AuthProvider } from './services/AuthContext'; 
 import PerfilA from './pages/PerfilA';
+import HomeCabana from './pages/HomeCabaña';
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/institucion" element={<Insti />} />
               <Route path="/gcabana" element={<Cabana />} />
               <Route path="/perfil/:id" element={<PerfilA/>} />
+              <Route path='/Hcabana' element={<HomeCabana/>} />
             </Routes>
           </div>
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { show_alerta } from "../functions";
 import {
   getCabanas,
@@ -6,10 +6,12 @@ import {
   updateCabana,
   activateCabana,
 } from "../services/Cabana";
+import { getEstados } from "../services/Estados";
 import "../Styles/cabana.css";
 
 const useCabana = () => {
   const [cabanas, setCabanas] = useState([]);
+  const [estados, setEstados] = useState([]);
   const [id_cabania, setIdCabana] = useState("");
   const [capacidad, setCapacidad] = useState("");
   const [cantidad_piezas, setCantidadPiezas] = useState("");
@@ -18,17 +20,31 @@ const useCabana = () => {
   const [servicios_incluidos, setServiciosIncluidos] = useState("");
   const [descripcion_cabania, setDescripcionCabania] = useState("");
   const [estado_cabania, setEstadoCabania] = useState(true);
+  const [id_estado_cabania, setIdEstadoCabania] = useState("");
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState("");
-
-  // Obtén el id del usuario desde sessionStorage
   const id_usuario_cabania = sessionStorage.getItem("idUsuario");
 
   useEffect(() => {
-   getAllCabanas(id_usuario_cabania);
+    getAllCabanas(id_usuario_cabania);
+    getAllEstados();
   }, []);
 
-  // Función para obtener todas las cabañas del usuario
+  const getAllEstados = async () => {
+    try {
+      const estadosData = await getEstados();
+      console.log(estadosData);
+      setEstados(estadosData);
+    } catch (error) {
+      console.error("Error al obtener los estados:", error);
+    }
+  };
+
+  const obtenerNombreEstado = (id_estado) => {
+      const estado = estados.find((e) => e.ID_ESTADO === id_estado);
+      return estado ? estado.NOMBRE_ESTADO : "Sin Estado";
+  };
+
   const getAllCabanas = async (idUsuario) => {
     try {
       const cabanasData = await getCabanas(idUsuario);
@@ -38,7 +54,6 @@ const useCabana = () => {
     }
   };
 
-  // Función para abrir el modal y pre-cargar los valores según la operación
   const openModal = (
     op,
     id_cabania = "",
@@ -48,7 +63,8 @@ const useCabana = () => {
     ubicacion = "",
     servicios_incluidos = "",
     descripcion_cabania = "",
-    id_usuario_cabania = sessionStorage.getItem("idUsuario")
+    id_usuario_cabania = sessionStorage.getItem("idUsuario"),
+    id_estado_cabania = ""
   ) => {
     setIdCabana(id_cabania);
     setCapacidad(capacidad);
@@ -58,6 +74,7 @@ const useCabana = () => {
     setServiciosIncluidos(servicios_incluidos);
     setDescripcionCabania(descripcion_cabania);
     setEstadoCabania(true);
+    setIdEstadoCabania(id_estado_cabania);
     setOperation(op);
     setTitle(op === 1 ? "Crear cabaña" : "Actualizar cabaña");
 
@@ -69,9 +86,8 @@ const useCabana = () => {
     }
   };
 
-  // Validación de datos de la cabaña
   const validar = async () => {
-    const id_usuario_cabania = sessionStorage.getItem("idUsuario"); // Obtener id_usuario_cabania de sessionStorage
+    const id_usuario_cabania = sessionStorage.getItem("idUsuario");
 
     const validarCreacion = () => {
       return (
@@ -110,7 +126,6 @@ const useCabana = () => {
     };
 
     if (operation === 1) {
-      // Crear
       if (validarCreacion()) {
         show_alerta("Completa los campos requeridos", "warning");
         return;
@@ -125,7 +140,6 @@ const useCabana = () => {
       };
       createNewCabana(id_usuario_cabania, parametros);
     } else {
-      // Actualizar
       if (validarActualizacion()) {
         show_alerta("Completa los campos requeridos", "warning");
         return;
@@ -137,51 +151,35 @@ const useCabana = () => {
         ubicacion: ubicacion.trim(),
         servicios_incluidos: servicios_incluidos.trim(),
         descripcion_cabania: descripcion_cabania.trim(),
+        id_estado_cabania: id_estado_cabania,
       };
       updateExistingCabana(id_cabania, parametross);
     }
   };
 
-  // Crear una nueva cabaña
   const createNewCabana = async (id_usuario_cabania, cabanaData) => {
     try {
       const response = await createCabana(id_usuario_cabania, cabanaData);
 
-      if (response && response.msg) {
-        show_alerta(response.msg, "success");
-        document.getElementById("btnCerrar").click();
-        getAllCabanas(id_usuario_cabania); 
-
-        // Agregar la nueva cabaña a la lista sin perder la anterior
-        setCabanas((prevCabanas) => [
-          ...prevCabanas,
-          { 
-            ...cabanaData, 
-            ID_CABANIA: response.id_cabania 
-          }
-        ]);
-      } else {
-        show_alerta("Error desconocido al crear la cabaña", "error");
-      }
+      show_alerta(response.msg, "suaccess");
+      document.getElementById("btnCerrar").click();
     } catch (error) {
       console.error("Error al crear cabaña:", error);
       show_alerta("Error al crear la cabaña", "error");
     }
-};
+  };
 
-
-  // Actualizar cabaña existente
   const updateExistingCabana = async (id_cabania, cabanaData) => {
     try {
       await updateCabana(id_cabania, cabanaData);
-      show_alerta('La cabaña fue editada con éxito.', 'success');
+      show_alerta("La cabaña fue editada con éxito.", "success");
 
-      // Actualizar solo la cabaña modificada en la lista de manera ordenada
+      // Actualizar la cabaña manteniendo el orden
       setCabanas((prevCabanas) =>
         prevCabanas.map((cabana) =>
-          cabana.ID_CABANIA === id_cabania 
+          cabana.ID_CABANIA === id_cabania
             ? {
-                ...cabana, 
+                ...cabana,
                 capacidad: cabanaData.capacidad,
                 cantidad_piezas: cabanaData.cantidad_piezas,
                 precio_por_noche: cabanaData.precio_por_noche,
@@ -192,27 +190,22 @@ const useCabana = () => {
             : cabana
         )
       );
-      document.getElementById('btnCerrar').click();
+      document.getElementById("btnCerrar").click();
     } catch (error) {
-      console.error('Error al actualizar cabaña:', error);
-      show_alerta('Error al actualizar la cabaña', 'error');
+      console.error("Error al actualizar cabaña:", error);
+      show_alerta("Error al actualizar la cabaña", "error");
     }
-};
+  };
 
-
-  // Activar/desactivar cabaña
   const handleToggleCabanaStatus = async (id_cabania, nuevoEstado) => {
     try {
-      await activateCabana(id_cabania, nuevoEstado);
+      const estadoNumerico = nuevoEstado ? 1 : 0;
+      await activateCabana(id_cabania, estadoNumerico);
 
-      // Actualizar el estado de la cabaña en la lista
       setCabanas((prevCabanas) =>
         prevCabanas.map((cabana) =>
           cabana.ID_CABANIA === id_cabania
-            ? { 
-                ...cabana, 
-                estado_cabania: nuevoEstado 
-              }
+            ? { ...cabana, ESTADO_CABANIA: nuevoEstado,}
             : cabana
         )
       );
@@ -221,18 +214,21 @@ const useCabana = () => {
         ? "Cabaña habilitada con éxito"
         : "Cabaña deshabilitada con éxito";
       show_alerta(mensaje, "success");
-
-      // Recargar cabañas tras el cambio de estado
-      await getAllCabanas(sessionStorage.getItem("idUsuario"));
     } catch (error) {
-      console.error("Error al activar/desactivar cabaña:", error);
+      console.error("Error al cambiar estado de cabaña:", error);
       show_alerta("Error al cambiar el estado de la cabaña", "error");
     }
-};
-
+  };
 
   return {
     cabanas,
+    estados,
+    getAllCabanas,
+    openModal,
+    validar,
+    handleToggleCabanaStatus,
+    title,
+    operation,
     id_cabania,
     capacidad,
     cantidad_piezas,
@@ -241,8 +237,8 @@ const useCabana = () => {
     servicios_incluidos,
     descripcion_cabania,
     estado_cabania,
-    operation,
-    title,
+    id_estado_cabania,
+    setIdCabana,
     setCapacidad,
     setCantidadPiezas,
     setPrecioPorNoche,
@@ -250,10 +246,8 @@ const useCabana = () => {
     setServiciosIncluidos,
     setDescripcionCabania,
     setEstadoCabania,
-    openModal,
-    validar,
-    getAllCabanas,
-    handleToggleCabanaStatus,
+    setIdEstadoCabania,
+    obtenerNombreEstado,
   };
 };
 
