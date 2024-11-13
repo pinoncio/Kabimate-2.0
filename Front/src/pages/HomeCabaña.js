@@ -73,6 +73,10 @@ export default function HomeCabana() {
     setBusqueda(e.target.value);
   };
 
+  const clearFiltroEstado = () => {
+    setFiltroEstado('');
+  };
+
   const getCardContainerColor = (estado) => {
     switch (estado) {
       case 'Disponible':
@@ -115,6 +119,12 @@ export default function HomeCabana() {
             className="filter-button mantenimiento"
           >
             En Mantención
+          </button>
+          <button
+            onClick={clearFiltroEstado}
+            className="filter-button reset"
+          >
+            Quitar Filtro
           </button>
         </div>
       </div>

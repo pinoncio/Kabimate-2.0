@@ -54,7 +54,7 @@ const CabanaPage = () => {
               style={{ marginTop: "50px" }}
             >
               <Link
-                to="/admin"
+                to="/home"
                 className="btn"
                 style={{
                   backgroundColor: "#a47551",

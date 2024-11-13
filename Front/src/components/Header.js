@@ -1,14 +1,45 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../services/AuthContext";
 
 export default function Header() {
-  const { rol, logout, idUsuario } = useContext(AuthContext); // Obtén `rol`, `logout` y `idUsuario` del contexto
+  const [rol, setRol] = useState(null);  // Estado local para rol
+  const [idUsuario, setIdUsuario] = useState(null);  // Estado local para idUsuario
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Sincroniza el estado con sessionStorage al montar el componente
+  useEffect(() => {
+    // Lee los datos de sessionStorage al montar el componente
+    const storedRol = sessionStorage.getItem('rol');
+    const storedIdUsuario = sessionStorage.getItem('idUsuario');
+    
+    if (storedRol && storedIdUsuario) {
+      setRol(storedRol);
+      setIdUsuario(storedIdUsuario);
+    }
+
+    // Intervalo para verificar cambios en el rol y el idUsuario
+    const interval = setInterval(() => {
+      const newRol = sessionStorage.getItem('rol');
+      const newIdUsuario = sessionStorage.getItem('idUsuario');
+      if (newRol !== rol || newIdUsuario !== idUsuario) {
+        setRol(newRol);  // Actualiza el rol si cambió
+        setIdUsuario(newIdUsuario);  // Actualiza el idUsuario si cambió
+      }
+    }, 1000); // Verifica cada segundo (puedes ajustar este valor)
+
+    // Limpia el intervalo al desmontar el componente
+    return () => clearInterval(interval);
+  }, [rol, idUsuario]);  // Dependencias para detectar cambios en rol y idUsuario
+
   const handleLogout = () => {
-    logout(); // Llama a la función de cierre de sesión
-    navigate("/"); // Redirige al inicio o página de login
+    logout();  // Llama a la función de cierre de sesión
+    sessionStorage.removeItem('rol');  // Elimina los datos de sessionStorage
+    sessionStorage.removeItem('idUsuario');
+    setRol(null);  // Limpia el estado local
+    setIdUsuario(null);
+    navigate("/");  // Redirige al inicio o página de login
   };
 
   return (
@@ -22,8 +53,8 @@ export default function Header() {
         </li>
         {rol && (
           <li className="nav-item d-none d-sm-inline-block">
-            <Link to={rol === 1 ? "/admin" : "/home"} className="nav-link" style={{ color: "#ffffff" }}>
-              {rol === 1 ? "Administración" : "Home"}
+            <Link to={rol === "1" ? "/admin" : "/home"} className="nav-link" style={{ color: "#ffffff" }}>
+              {rol === "1" ? "Administración" : "Home"}
             </Link>
           </li>
         )}
@@ -39,7 +70,7 @@ export default function Header() {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="" onClick={handleLogout} style={{ color: "#ffffff" }}>
+              <a className="nav-link" href="#" onClick={handleLogout} style={{ color: "#ffffff" }}>
                 <i className="fas fa-sign-out-alt" /> Cerrar sesión
               </a>
             </li>
@@ -49,11 +80,6 @@ export default function Header() {
         <li className="nav-item">
           <a className="nav-link" data-widget="fullscreen" href="#" role="button" style={{ color: "#ffffff" }}>
             <i className="fas fa-expand-arrows-alt" />
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" style={{ color: "#ffffff" }}>
-            <i className="fas fa-th-large" />
           </a>
         </li>
       </ul>
