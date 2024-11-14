@@ -1,24 +1,41 @@
 import React, { useState, useEffect } from "react";
 import '../Styles/Aside.css';
 
-export default function Aside() {
-  // Estado para el rol y si el usuario está logueado
+export default function Aside({ selectedView }) {
   const [rol, setRol] = useState(sessionStorage.getItem('rol'));
-  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('rol') !== null); // Verifica si hay un rol
+  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('rol') !== null);
+  const [scrolling, setScrolling] = useState(false);
+
+  // Detecta el scroll y ajusta el estado
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) { // Puedes ajustar este valor según el efecto que quieras
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
-    // Intervalo para verificar cambios en el rol en sessionStorage
     const interval = setInterval(() => {
       const newRol = sessionStorage.getItem('rol');
       if (newRol !== rol) {
-        setRol(newRol);  // Actualiza el rol si cambió
-        setIsLoggedIn(newRol !== null); // Verifica si el usuario está logueado
+        setRol(newRol);
+        setIsLoggedIn(newRol !== null);
       }
-    }, 1000); // Verifica cada segundo (puedes ajustar este valor)
+    }, 1000);
 
-    // Limpia el intervalo al desmontar el componente
     return () => clearInterval(interval);
   }, [rol]);
+
+  const isHotelesView = selectedView === "hoteles";
+  const isCabanasView = selectedView === "cabanas";
 
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ backgroundColor: '#a47551' }}>
@@ -67,95 +84,113 @@ export default function Aside() {
             {/* Mostrar solo para usuarios con rol 2 */}
             {rol === '2' && (
               <>
-                <li className="nav-item">
-                  <a href="/hotels" className="nav-link">
-                    <i className="nav-icon fas fa-hotel" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Hoteles</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/Hcabana" className="nav-link">
-                    <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Cabañas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/crud-reservations" className="nav-link">
-                    <i className="nav-icon fas fa-edit" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/reservations" className="nav-link">
-                    <i className="nav-icon fas fa-calendar-check" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Reservas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/my-reservations" className="nav-link">
-                    <i className="nav-icon fas fa-user-check" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Mis Reservas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/reservation-history" className="nav-link">
-                    <i className="nav-icon fas fa-history" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Historial de Reservas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/hotel-management" className="nav-link">
-                    <i className="nav-icon fas fa-building" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Hoteles</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/gcabana" className="nav-link">
-                    <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Cabañas</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/category-management" className="nav-link">
-                    <i className="nav-icon fas fa-tags" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Categorías</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/product-service-management" className="nav-link">
-                    <i className="nav-icon fas fa-box" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Productos y Servicios</p>
-                  </a>
-                </li>
-              </>
-            )}
-            {/* Mostrar para usuarios con rol 1 */}
-            {rol === '1' && (
-              <>
-                <li className="nav-item">
-                  <a href="/userU" className="nav-link">
-                    <i className="nav-icon fas fa-user" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Usuarios</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/userA" className="nav-link">
-                    <i className="nav-icon fas fa-user-shield" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Admin</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/rol" className="nav-link">
-                    <i className="nav-icon fas fa-user-tag" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Roles</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="/institucion" className="nav-link">
-                    <i className="nav-icon fas fa-school" style={{ color: "#ffffff" }} />
-                    <p style={{ color: "#ffffff" }}>Gestión de Instituciones</p>
-                  </a>
-                </li>
+                {/* Agregar la nueva columna para Hoteles */}
+                {isHotelesView && (
+                  <>
+                    <li className="nav-item">
+                      <a href="/hoteles" className="nav-link">
+                        <i className="nav-icon fas fa-hotel" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Hoteles</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/crud-reservations" className="nav-link">
+                        <i className="nav-icon fas fa-edit" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/reservations" className="nav-link">
+                        <i className="nav-icon fas fa-calendar-check" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/my-reservations" className="nav-link">
+                        <i className="nav-icon fas fa-user-check" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Mis Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/reservation-history" className="nav-link">
+                        <i className="nav-icon fas fa-history" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Historial de Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/hotel-management" className="nav-link">
+                        <i className="nav-icon fas fa-building" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Hoteles</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/category-management" className="nav-link">
+                        <i className="nav-icon fas fa-tags" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Categorías</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/product-service-management" className="nav-link">
+                        <i className="nav-icon fas fa-box" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Productos y Servicios</p>
+                      </a>
+                    </li>
+                  </>
+                )}
+
+                {/* Agregar la nueva columna para Cabañas */}
+                {isCabanasView && (
+                  <>
+                    <li className="nav-item">
+                      <a href="/cabanas" className="nav-link">
+                        <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Cabañas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/crud-reservations" className="nav-link">
+                        <i className="nav-icon fas fa-edit" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/reservations" className="nav-link">
+                        <i className="nav-icon fas fa-calendar-check" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/my-reservations" className="nav-link">
+                        <i className="nav-icon fas fa-user-check" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Mis Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/reservation-history" className="nav-link">
+                        <i className="nav-icon fas fa-history" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Historial de Reservas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/cabin-management" className="nav-link">
+                        <i className="nav-icon fas fa-home" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Cabañas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/category-management" className="nav-link">
+                        <i className="nav-icon fas fa-tags" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Categorías de Cabañas</p>
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/product-service-management" className="nav-link">
+                        <i className="nav-icon fas fa-box" style={{ color: "#ffffff" }} />
+                        <p style={{ color: "#ffffff" }}>Gestión de Productos y Servicios</p>
+                      </a>
+                    </li>
+                  </>
+                )}
               </>
             )}
           </ul>

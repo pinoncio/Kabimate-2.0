@@ -2,49 +2,58 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../services/AuthContext";
 
-export default function Header() {
-  const [rol, setRol] = useState(null);  // Estado local para rol
-  const [idUsuario, setIdUsuario] = useState(null);  // Estado local para idUsuario
+export default function Header({ setSelectedView, setDataVisible }) {
+  const [rol, setRol] = useState(null);
+  const [idUsuario, setIdUsuario] = useState(null);
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Sincroniza el estado con sessionStorage al montar el componente
+  // Obtener rol e idUsuario desde sessionStorage cuando el componente se monta
   useEffect(() => {
-    // Lee los datos de sessionStorage al montar el componente
-    const storedRol = sessionStorage.getItem('rol');
-    const storedIdUsuario = sessionStorage.getItem('idUsuario');
-    
+    const storedRol = sessionStorage.getItem("rol");
+    const storedIdUsuario = sessionStorage.getItem("idUsuario");
+
     if (storedRol && storedIdUsuario) {
       setRol(storedRol);
       setIdUsuario(storedIdUsuario);
     }
 
-    // Intervalo para verificar cambios en el rol y el idUsuario
+    // Verificar cada segundo si los valores en sessionStorage cambian
     const interval = setInterval(() => {
-      const newRol = sessionStorage.getItem('rol');
-      const newIdUsuario = sessionStorage.getItem('idUsuario');
+      const newRol = sessionStorage.getItem("rol");
+      const newIdUsuario = sessionStorage.getItem("idUsuario");
       if (newRol !== rol || newIdUsuario !== idUsuario) {
-        setRol(newRol);  // Actualiza el rol si cambió
-        setIdUsuario(newIdUsuario);  // Actualiza el idUsuario si cambió
+        setRol(newRol);
+        setIdUsuario(newIdUsuario);
       }
-    }, 1000); // Verifica cada segundo (puedes ajustar este valor)
+    }, 1000);
 
-    // Limpia el intervalo al desmontar el componente
     return () => clearInterval(interval);
-  }, [rol, idUsuario]);  // Dependencias para detectar cambios en rol y idUsuario
+  }, [rol, idUsuario]);
 
+  // Función para manejar el cierre de sesión
   const handleLogout = () => {
-    logout();  // Llama a la función de cierre de sesión
-    sessionStorage.removeItem('rol');  // Elimina los datos de sessionStorage
-    sessionStorage.removeItem('idUsuario');
-    setRol(null);  // Limpia el estado local
+    logout();
+    sessionStorage.removeItem("rol");
+    sessionStorage.removeItem("idUsuario");
+    setRol(null);
     setIdUsuario(null);
-    navigate("/");  // Redirige al inicio o página de login
+    navigate("/");
+  };
+
+  // Cambiar vista entre Hoteles y Cabañas
+  const handleViewChange = (view) => {
+    setSelectedView(view);
+    navigate(`/home${view === "hoteles" ? "H" : "C"}`);
+  };
+
+  // Cambiar estado de visibilidad de los datos
+  const toggleDataVisibility = () => {
+    setDataVisible(prev => !prev);
   };
 
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light" style={{ backgroundColor: "#a47551" }}>
-      {/* Left navbar links */}
       <ul className="navbar-nav">
         <li className="nav-item">
           <a className="nav-link" data-widget="pushmenu" href="#" role="button">
@@ -52,15 +61,35 @@ export default function Header() {
           </a>
         </li>
         {rol && (
-          <li className="nav-item d-none d-sm-inline-block">
-            <Link to={rol === "1" ? "/admin" : "/home"} className="nav-link" style={{ color: "#ffffff" }}>
-              {rol === "1" ? "Administración" : "Home"}
-            </Link>
-          </li>
+          <>
+            <li className="nav-item d-none d-sm-inline-block">
+              <Link to={rol === "1" ? "/admin" : "/home"} className="nav-link" style={{ color: "#ffffff" }}>
+                {rol === "1" ? "Administración" : "Home"}
+              </Link>
+            </li>
+            <li className="nav-item d-none d-sm-inline-block">
+              <a
+                href="#"
+                className="nav-link"
+                style={{ color: "#ffffff" }}
+                onClick={() => handleViewChange("hoteles")}
+              >
+                Hoteles
+              </a>
+            </li>
+            <li className="nav-item d-none d-sm-inline-block">
+              <a
+                href="#"
+                className="nav-link"
+                style={{ color: "#ffffff" }}
+                onClick={() => handleViewChange("cabanas")}
+              >
+                Cabañas
+              </a>
+            </li>
+          </>
         )}
       </ul>
-
-      {/* Right navbar links */}
       <ul className="navbar-nav ml-auto">
         {rol && (
           <>
@@ -76,7 +105,6 @@ export default function Header() {
             </li>
           </>
         )}
-        {/* Iconos adicionales */}
         <li className="nav-item">
           <a className="nav-link" data-widget="fullscreen" href="#" role="button" style={{ color: "#ffffff" }}>
             <i className="fas fa-expand-arrows-alt" />

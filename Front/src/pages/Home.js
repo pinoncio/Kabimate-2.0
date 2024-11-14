@@ -1,48 +1,43 @@
 import React from 'react';
-import '../Styles/Home.css'; 
-import uno from '../Images/uno.jpg'; 
-import dos from '../Images/dos.jpg'; 
-import tres from '../Images/tres.jpg'; 
-import cuatro from '../Images/cuatro.jpg'; 
-
+import '../Styles/Home.css';
 
 const Home = () => {
     return (
-      <div>
         <div className="home-wrapper">
-          <h1 className="home-title">Bienvenido a Kabimate</h1>
-          <p className="home-subtitle">Descubre lo que tenemos para ofrecerte.</p>
-  
-          {/* Formulario de búsqueda */}
-          <form className="search-form">
-            <input type="text" placeholder="Región, Ciudad" className="search-input" />
-            <input type="date" className="search-input" />
-            <input type="date" className="search-input" />
-            <input type="number" placeholder="Número de personas" className="search-input" />
-            <button type="submit" className="search-button">Buscar</button>
-          </form>
-  
-          {/* Contenedores para mostrar hoteles o cabañas */}
-          <div className="container-grid">
-            {Array.from({ length: 9 }).map((_, index) => (
-              <div className="container" key={index}>
-                <div className="image-wrapper"> {/* Nuevo contenedor para la imagen */}
-                  <img 
-                    src={index === 0 ? uno : 
-                         index === 1 ? dos : 
-                         index === 2 ? tres : 
-                         index === 3 ? cuatro : 
-                         `path/to/your/image${index + 1}.jpg`} // Usa las imágenes en sus respectivos índices
-                    alt={`Imagen ${index + 1}`} 
-                    className="container-image" 
-                  />
-                </div>
-                <p className="container-description">Descripción de la habitación o cabaña</p>
-              </div>
-            ))}
-          </div>
+            <h1 className="home-title">Bienvenido a Kabimate</h1>
+            <p className="home-subtitle">La herramienta ideal para practicar la administración hotelera y de cabañas.</p>
+
+            {/* Descripción general */}
+            <section className="description">
+                <h2>¿Qué es Kabimate?</h2>
+                <p><strong>Kabimate</strong> es un software de administración hotelera simulada, diseñado especialmente para estudiantes que desean practicar y aprender sobre la gestión de hoteles y cabañas.</p>
+                <p>Con nuestra plataforma, podrás administrar tanto <strong>hoteles</strong> como <strong>cabañas</strong>, eligiendo la vista que mejor se adapte a tus necesidades mediante los botones en el encabezado.</p>
+                <p>Para una mejor experiencia de usuario, simplemente selecciona entre los botones de <strong>Hoteles</strong> o <strong>Cabañas</strong> en la parte superior de la página. Esto cambiará la vista y funcionalidades de la plataforma según tu elección.</p>
+            </section>
+
+            {/* Instrucciones de uso */}
+            <section className="instructions">
+                <h2>¿Cómo empezar?</h2>
+                <p>Al ingresar a la plataforma, podrás:</p>
+                <ul>
+                    <li>Seleccionar entre las opciones de <strong>Hoteles</strong> o <strong>Cabañas</strong> en la parte superior de la página para decidir qué tipo de alojamiento deseas administrar y practicar.</li>
+                    <li>Gestionar reservas tanto de Hoteles como de Cabañas.</li>
+                    <li>Acceder a tu historial de reservas y administrarlas fácilmente.</li>
+                    <li>Administrar los detalles de los hoteles y cabañas que gestionas, como precios, disponibilidad y servicios.</li>
+                </ul>
+            </section>
+
+            {/* Beneficios de Usar Kabimate */}
+            <section className="benefits">
+                <h2>Beneficios de Usar Kabimate</h2>
+                <ul>
+                    <li><strong>Fácil de Usar:</strong> Una interfaz intuitiva que te permite gestionar tus hoteles y cabañas con facilidad.</li>
+                    <li><strong>Accesibilidad:</strong> Accede a la plataforma desde cualquier dispositivo con conexión a Internet.</li>
+                    <li><strong>Optimización:</strong> Gestiona múltiples reservas simultáneamente sin errores, mejorando la eficiencia.</li>
+                    <li><strong>Flexibilidad:</strong> Personaliza los servicios y precios de tus alojamientos según tus necesidades específicas.</li>
+                </ul>
+            </section>
         </div>
-      </div>
     );
 };
 

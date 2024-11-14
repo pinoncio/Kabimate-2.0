@@ -1,21 +1,31 @@
-/* Aside.css */
+/* Apartado principal */
 .main-sidebar {
-    background-color: #a47551; /* Color del sidenav */
-  }
-  
-  .nav-link {
-    color: #ffffff; /* Color del texto de los enlaces */
-  }
-  
-  .nav-link:hover {
-    background-color: #8b5b48; /* Color de fondo al pasar el ratón */
-  }
-  
-  .form-control-sidebar {
-    color: #ffffff; /* Color del texto del buscador */
-  }
-  
-  .form-control-sidebar::placeholder {
-    color: #ffffff; /* Color del placeholder */
-  }
-  
+  background-color: #a47551; 
+  transition: transform 0.3s ease;
+}
+
+/* Cuando el aside tiene la clase 'scrolled' */
+.main-sidebar.scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Ajusta según el ancho de tu sidebar */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agrega una sombra para el efecto de flotar */
+}
+
+.nav-link {
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  background-color: #8b5b48;
+}
+
+.form-control-sidebar {
+  color: #ffffff;
+}
+
+.form-control-sidebar::placeholder {
+  color: #ffffff;
+}

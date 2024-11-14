@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Aside from './components/Aside';
@@ -14,15 +14,19 @@ import Cabana from './pages/Cabana';
 import { AuthProvider } from './services/AuthContext'; 
 import PerfilA from './pages/PerfilA';
 import HomeCabana from './pages/HomeCabaña';
+import HomeC from './pages/HomeC';
 
 export default function App() {
+  // Estado para manejar la vista seleccionada entre "hoteles" y "cabañas"
+  const [selectedView, setSelectedView] = useState("home");
+
   return (
     <AuthProvider> {/* Envuelve la aplicación con AuthProvider */}
       <Router>
         <div className="wrapper">
           {/* Mantén el layout de AdminLTE */}
-          <Header />
-          <Aside />
+          <Header setSelectedView={setSelectedView} /> {/* Pasamos setSelectedView a Header */}
+          <Aside selectedView={selectedView} /> {/* Pasamos selectedView a Aside */}
           
           {/* Content Wrapper */}
           <div className="content-wrapper">
@@ -38,6 +42,7 @@ export default function App() {
               <Route path="/gcabana" element={<Cabana />} />
               <Route path="/perfil/:id" element={<PerfilA/>} />
               <Route path='/Hcabana' element={<HomeCabana/>} />
+              <Route path='/homeC' element={<HomeC />} />
             </Routes>
           </div>
 
