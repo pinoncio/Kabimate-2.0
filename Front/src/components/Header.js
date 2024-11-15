@@ -47,13 +47,11 @@ export default function Header({ setSelectedView, setDataVisible }) {
     navigate(`/home${view === "hoteles" ? "H" : "C"}`);
   };
 
-  // Cambiar estado de visibilidad de los datos
-  const toggleDataVisibility = () => {
-    setDataVisible(prev => !prev);
-  };
-
   return (
-    <nav className="main-header navbar navbar-expand navbar-white navbar-light" style={{ backgroundColor: "#a47551" }}>
+    <nav
+      className="main-header navbar navbar-expand navbar-white navbar-light"
+      style={{ backgroundColor: "#a47551" }}
+    >
       <ul className="navbar-nav">
         <li className="nav-item">
           <a className="nav-link" data-widget="pushmenu" href="#" role="button">
@@ -63,30 +61,41 @@ export default function Header({ setSelectedView, setDataVisible }) {
         {rol && (
           <>
             <li className="nav-item d-none d-sm-inline-block">
-              <Link to={rol === "1" ? "/admin" : "/home"} className="nav-link" style={{ color: "#ffffff" }}>
+              <Link
+                to={rol === "1" ? "/admin" : "/home"}
+                className="nav-link"
+                style={{ color: "#ffffff" }}
+                onClick={handleViewChange}
+              >
                 {rol === "1" ? "Administración" : "Home"}
               </Link>
             </li>
-            <li className="nav-item d-none d-sm-inline-block">
-              <a
-                href="#"
-                className="nav-link"
-                style={{ color: "#ffffff" }}
-                onClick={() => handleViewChange("hoteles")}
-              >
-                Hoteles
-              </a>
-            </li>
-            <li className="nav-item d-none d-sm-inline-block">
-              <a
-                href="#"
-                className="nav-link"
-                style={{ color: "#ffffff" }}
-                onClick={() => handleViewChange("cabanas")}
-              >
-                Cabañas
-              </a>
-            </li>
+
+            {/* Mostrar solo si el rol no es 1 */}
+            {rol !== "1" && (
+              <>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <a
+                    href="#"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                    onClick={() => handleViewChange("hoteles")}
+                  >
+                    Hoteles
+                  </a>
+                </li>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <a
+                    href="#"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                    onClick={() => handleViewChange("cabanas")}
+                  >
+                    Cabañas
+                  </a>
+                </li>
+              </>
+            )}
           </>
         )}
       </ul>
@@ -94,19 +103,39 @@ export default function Header({ setSelectedView, setDataVisible }) {
         {rol && (
           <>
             <li className="nav-item">
-              <Link to={`/perfil/${idUsuario}`} className="nav-link" style={{ color: "#ffffff" }}>
+              <Link
+                to={
+                  rol === "1"
+                    ? `/perfilA/${idUsuario}`
+                    : `/perfilU/${idUsuario}`
+                }
+                className="nav-link"
+                style={{ color: "#ffffff" }}
+              >
                 <i className="fas fa-user" /> Perfil
               </Link>
             </li>
+
             <li className="nav-item">
-              <a className="nav-link" href="#" onClick={handleLogout} style={{ color: "#ffffff" }}>
+              <a
+                className="nav-link"
+                href="#"
+                onClick={handleLogout}
+                style={{ color: "#ffffff" }}
+              >
                 <i className="fas fa-sign-out-alt" /> Cerrar sesión
               </a>
             </li>
           </>
         )}
         <li className="nav-item">
-          <a className="nav-link" data-widget="fullscreen" href="#" role="button" style={{ color: "#ffffff" }}>
+          <a
+            className="nav-link"
+            data-widget="fullscreen"
+            href="#"
+            role="button"
+            style={{ color: "#ffffff" }}
+          >
             <i className="fas fa-expand-arrows-alt" />
           </a>
         </li>

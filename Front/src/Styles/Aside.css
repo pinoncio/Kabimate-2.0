@@ -1,3 +1,14 @@
+.kabimate-header {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ffffff;  /* Mantener el color blanco */
+  margin: -6px;
+  font-family: 'Montserrat', sans-serif;  /* Fuente gruesa */
+  font-weight: 700;  /* Hacerla más gruesa */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra suave */
+}
+
+
 /* Apartado principal */
 .main-sidebar {
   background-color: #a47551; 

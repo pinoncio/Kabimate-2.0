@@ -1,25 +1,25 @@
-import React, { useState, useContext } from 'react';
-import { loginUser } from '../services/Login';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../services/AuthContext';
-import '../Styles/Login.css';
+import React, { useState, useContext } from "react";
+import { loginUser } from "../services/Login";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../services/AuthContext";
+import { show_alerta } from "../functions";
+import "../Styles/Login.css";
 
 const Login = () => {
   const [errors, setErrors] = useState({ email: false, contraseña: false });
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Asegúrate de que login no sea undefined
   if (!login) {
-    console.error('AuthContext is undefined. Make sure AuthProvider is used.');
-    return null; // O un mensaje de error apropiado
+    console.error("AuthContext is undefined. Make sure AuthProvider is used.");
+    return null;
   }
 
   const handleBlur = (event) => {
     const { name, value } = event.target;
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: value.trim() === '', // Trim para evitar espacios en blanco
+      [name]: value.trim() === "",
     }));
   };
 
@@ -27,37 +27,46 @@ const Login = () => {
     event.preventDefault();
     const { email, contraseña } = event.target.elements;
   
-    // Resetear errores
     setErrors({ email: false, contraseña: false });
   
     try {
       const response = await loginUser({
         email: email.value,
-        contrasenia: contraseña.value, // Asegúrate de que coincida con el nombre esperado en el backend
+        contrasenia: contraseña.value,
       });
   
       if (response.data.token) {
-        // Aquí pasa token, rol y idUsuario al contexto
         login(response.data.token, response.data.rol, response.data.idUsuario);
   
-        // Redirigir según el rol del usuario
         if (response.data.rol === 1) {
-          navigate('/admin'); // Rol 1 va a /admin
+          navigate("/admin");
         } else if (response.data.rol === 2) {
-          navigate('/home'); // Rol 2 va a /
+          navigate("/home");
         }
       } else {
-        // Si no hay token, muestra el error
+        // Si no hay token en la respuesta, se asume que hubo un error
         setErrors({ email: true, contraseña: true });
+        show_alerta("Error al iniciar sesión, por favor verifique los datos.", "error");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      // Manejo de errores específico del backend
+      console.error("Login error:", error);
+      
+      // Si el error es de tipo response (backend devuelve un error)
       if (error.response) {
-        // Error del servidor
-        setErrors({ email: true, contraseña: true });
+        // Mostrar mensaje de error basado en el mensaje de respuesta del backend
+        show_alerta(error.response.data.msg || "Ocurrió un error al intentar iniciar sesión.", "error");
+        
+        // Opcional: establecer errores en el formulario según el tipo de error recibido
+        if (error.response.data.msg === "El email ingresado no es valido") {
+          setErrors({ email: true, contraseña: false });
+        } else if (error.response.data.msg === "Contraseña Incorrecta") {
+          setErrors({ email: false, contraseña: true });
+        } else {
+          setErrors({ email: true, contraseña: true });
+        }
       } else {
-        // Error de red o configuración
+        // Si el error es de otro tipo (red, problemas en la conexión, etc.)
+        show_alerta("Hubo un problema con la conexión. Intenta más tarde.", "error");
         setErrors({ email: true, contraseña: true });
       }
     }
@@ -65,31 +74,56 @@ const Login = () => {
   
 
   return (
-    <div className="login-wrapper">
-      <h1 className="login-title">Bienvenido a Kabimate</h1>
+    <div className="login-container">
+      <h1 className="login-header">Bienvenido a Kabimate</h1>
       <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
+        <h2 className="login-form-subtitle">Iniciar sesión</h2>
+        <div className="form-group input-group">
+          <div className="input-group-prepend">
+            <span className="input-group-text">
+              <i className="fas fa-envelope"></i>
+            </span>
+          </div>
           <input
             type="email"
             name="email"
             placeholder="Correo electrónico"
-            className="input form-control"
+            className={`login-input form-control ${
+              errors.email ? "error-text" : ""
+            }`}
             onBlur={handleBlur}
           />
-          {errors.email && <span className="text-danger">El campo es obligatorio o incorrecto</span>}
         </div>
-        <div className="form-group">
+        {errors.email && (
+          <span className="error-text">
+            El campo es obligatorio o incorrecto
+          </span>
+        )}
+
+        <div className="form-group input-group">
+          <div className="input-group-prepend">
+            <span className="input-group-text">
+              <i className="fas fa-lock"></i>
+            </span>
+          </div>
           <input
             type="password"
-            name="contraseña" // Verifica que esto coincida con el backend
+            name="contraseña"
             placeholder="Contraseña"
-            className="input form-control"
+            className={`login-input form-control ${
+              errors.contraseña ? "error" : ""
+            }`}
             onBlur={handleBlur}
           />
-          {errors.contraseña && <span className="text-danger">El campo es obligatorio o incorrecto</span>}
         </div>
-        <div className="button-container">
-          <button className="button" type="submit">
+        {errors.contraseña && (
+          <span className="error-text">
+            El campo es obligatorio o incorrecto
+          </span>
+        )}
+
+        <div className="button-wrapper">
+          <button type="submit" className="button">
             Iniciar sesión
           </button>
         </div>

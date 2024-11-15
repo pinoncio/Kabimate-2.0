@@ -15,6 +15,8 @@ import { AuthProvider } from './services/AuthContext';
 import PerfilA from './pages/PerfilA';
 import HomeCabana from './pages/HomeCabaña';
 import HomeC from './pages/HomeC';
+import HomeH from './pages/HomeH';
+import PerfilU from './pages/PerfilU';
 
 export default function App() {
   // Estado para manejar la vista seleccionada entre "hoteles" y "cabañas"
@@ -40,9 +42,11 @@ export default function App() {
               <Route path="/rol" element={<RolPage />} />
               <Route path="/institucion" element={<Insti />} />
               <Route path="/gcabana" element={<Cabana />} />
-              <Route path="/perfil/:id" element={<PerfilA/>} />
+              <Route path="/perfilA/:id" element={<PerfilA/>} />
+              <Route path="/perfilU/:id" element={<PerfilU/>} />
               <Route path='/Hcabana' element={<HomeCabana/>} />
               <Route path='/homeC' element={<HomeC />} />
+              <Route path='/homeH' element={<HomeH />} />
             </Routes>
           </div>
 

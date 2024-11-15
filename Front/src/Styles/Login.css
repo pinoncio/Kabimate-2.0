@@ -1,82 +1,176 @@
-.login-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Fondo de la página */
+.login-container {
   background-image: url('../Images/email-pattern.png');
   background-size: 150px;
-  background-repeat: repeat; 
-  background-color: #f5f5f0; 
+  background-repeat: repeat;
+  background-color: #6e6e48;
   box-sizing: border-box;
   min-height: calc(88vh - 1px);
-
-}
-
-.login-title {
-  color: #a47551; 
-  font-size: 3rem; 
-  margin: 50px 0 50px; 
-  text-align: center;
-  margin-top: 250px; 
-}
-
-.login-form {
+  animation: backgroundMove 5s linear infinite;
   display: flex;
+  justify-content:center ;
+  align-items: center;
+  position: relative;
   flex-direction: column;
-  width: 100%; 
-  max-width: 400px;
+  text-align: center;
+}
+
+/* Animación de fondo */
+@keyframes backgroundMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 150px 150px; }
+}
+
+.login-header {
+  font-size: 4rem;
+  color: #a47551;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; /* Fuente gruesa */
+  font-weight: 700; /* Asegura que la fuente esté en negrita */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra de texto */
 }
 
 
-.input {
-  padding: 16px; 
-  margin-bottom: 1.5rem;
-  border: 1px solid #ccc;
+/* Estilo general del formulario */
+.login-form {
+  background: white;
+  padding: 40px;
+  margin-top: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 450px;
+  width: 100%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+/* Título del formulario */
+.login-form-subtitle {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #a47551;
+  font-family: 'Montserrat', sans-serif; /* Fuente gruesa */
+  font-weight: 700; /* Asegura que la fuente esté en negrita */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Icono dentro del campo de entrada */
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #a47551;
+  pointer-events: none;
+}
+
+/* Estilo del input */
+.login-input {
+  padding-left: 40px;  /* Espacio para el icono */
+  width: 100%;
+  padding: 10px;
   border-radius: 5px;
-  font-size: 1.2rem; 
-  width: 100%; 
-  box-sizing: border-box; 
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 250px;
 }
 
-
-.button-container {
-  display: flex; 
-  width: 100%; 
-  margin-top: 1rem;
+.login-input:focus {
+  border-color: #a47551;
+  box-shadow: 0 0 8px rgba(139, 97, 64, 0.6);
 }
 
+.login-input:hover {
+  border-color: #8b6140;
+  box-shadow: 0 0 8px rgba(139, 97, 64, 0.6);
+}
+
+/* Estilos para el mensaje de error */
+.error-text {
+  color: red;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+}
+
+/* Responsividad */
+@media screen and (max-width: 768px) {
+  .login-form {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login-input {
+    width: 100%;
+  }
+
+  .icon {
+    margin-bottom: 10px;
+  }
+}
+
+/* Estilos para el botón de login */
 .button {
   padding: 12px;
-  background-color: #a47551; 
+  background-color: #a47551;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 1.2rem;
   cursor: pointer;
-  width: 100%; 
-  max-width: 400px; 
+  width: 100%;
+  max-width: 450px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
   background-color: #8b6140;
+  transform: scale(1.05);
 }
 
-/* Estilo del enlace de recuperar contraseña */
-.recover-password {
-  color: #a47551; 
-  font-size: 1rem; 
-  margin-top: 1rem; 
-  text-decoration: none; 
-  cursor: pointer;
+/* Spinner de carga */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #a47551;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
 }
 
-.recover-password:hover {
-  color: #8b6140;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Estilo del copyright */
-.copyright {
-  margin-top: 2rem; 
-  font-size: 0.9rem; 
-  color: #a47551;
-  text-align: center;
+/* Modal de bienvenida */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
