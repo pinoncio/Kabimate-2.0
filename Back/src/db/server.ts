@@ -7,6 +7,7 @@ import { Institucion } from '../models/institucionModel';
 import { Usuario } from '../models/usuarioModel';
 import { Estado } from '../models/estadoModel';
 import { Cabania } from '../models/cabañaModel';
+import { Piso } from '../models/pisoModel';
 //importar seeders
 import { seedEstados } from './seeders/estadoSeeder';
 import { seedRoles } from './seeders/rolSeeder';
@@ -17,6 +18,7 @@ import routesRol from '../routes/rolRoutes';
 import routesInstitucion from '../routes/institucionRoutes';
 import routesCabaña from '../routes/cabañaRoutes';
 import routesEstado from '../routes/estadoRoutes';
+import routesPiso from '../routes/pisoRoutes';
 
 class Server {
     private app: Application;
@@ -44,6 +46,7 @@ class Server {
         this.app.use('/api/usuarios', routesUsuario);
         this.app.use('/api/cabanas', routesCabaña);
         this.app.use('/api/estados', routesEstado);
+        this.app.use('/api/pisos', routesPiso);
     }
     midlewares(){
         this.app.use(express.json());
@@ -57,6 +60,7 @@ class Server {
             await Usuario.sync();
             await Estado.sync();
             await Cabania.sync();
+            await Piso.sync();
 
             //correr seeders
             await this.runSeeders();
