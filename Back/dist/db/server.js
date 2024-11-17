@@ -20,6 +20,7 @@ const institucionModel_1 = require("../models/institucionModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const estadoModel_1 = require("../models/estadoModel");
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
+const pisoModel_1 = require("../models/pisoModel");
 //importar seeders
 const estadoSeeder_1 = require("./seeders/estadoSeeder");
 const rolSeeder_1 = require("./seeders/rolSeeder");
@@ -30,6 +31,7 @@ const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
 const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes"));
 const caba_aRoutes_1 = __importDefault(require("../routes/caba\u00F1aRoutes"));
 const estadoRoutes_1 = __importDefault(require("../routes/estadoRoutes"));
+const pisoRoutes_1 = __importDefault(require("../routes/pisoRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -50,6 +52,7 @@ class Server {
         this.app.use('/api/usuarios', usuarioRoutes_1.default);
         this.app.use('/api/cabanas', caba_aRoutes_1.default);
         this.app.use('/api/estados', estadoRoutes_1.default);
+        this.app.use('/api/pisos', pisoRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -63,6 +66,7 @@ class Server {
                 yield usuarioModel_1.Usuario.sync();
                 yield estadoModel_1.Estado.sync();
                 yield caba_aModel_1.Cabania.sync();
+                yield pisoModel_1.Piso.sync();
                 //correr seeders
                 yield this.runSeeders();
             }
