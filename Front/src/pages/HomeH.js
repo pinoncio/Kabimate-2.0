@@ -9,26 +9,26 @@ const HomeH = () => {
   
           {/* Instrucciones para el usuario */}
           <div className="instructions-cabana">
-            <p>Para comenzar, selecciona entre las opciones de <strong>Hoteles</strong> en la parte superior de la página. Esto te llevará a una vista dedicada para gestionar tus hoteles.</p>
-            <p>Luego, podrás gestionar reservas, ver tu historial, y administrar los hoteles desde allí. Explora las diferentes funcionalidades y encuentra lo que necesitas.</p>
+
+            <p>Hola en este apartado podrás gestionar reservas, ver tu historial, y administrar el hotel desde allí. Explora las diferentes funcionalidades y encuentra lo que necesitas.</p>
           </div>
   
           {/* Contenedor para las cartas */}
           <div className="cards-container-cabana">
             <div className="category-description-cabana">
               <i className="fa fa-house"></i> {/* Icono de Casa para Hoteles */}
-              <h2>Hoteles</h2>
-              <ul>
-                <li>Aquí puedes ver la lista completa de todos los hoteles disponibles en el sistema.</li>
-                <li>Consulta el estado de cada hotel: disponible, ocupado o en mantenimiento.</li>
-              </ul>
+              <h2>Hotel</h2>
+              <ula>
+                <li>Aquí puedes ver la lista completa de todos las habitaciones disponibles en el sistema.</li>
+                <li>Consulta el estado de cada habitación: disponible, ocupado o en mantenimiento.</li>
+              </ula>
             </div>
   
             <div className="category-description-cabana">
               <i className="fa fa-calendar-check"></i>
               <h2>Gestionar Reservas</h2>
               <ul>
-                <li>Reserva y administra tu estancia en Hoteles.</li>
+                <li>Reserva y administra la estancia en el Hotel.</li>
                 <li>Consulta tu historial de reservas pasadas.</li>
               </ul>
             </div>
@@ -37,7 +37,7 @@ const HomeH = () => {
               <i className="fa fa-book"></i>
               <h2>Reservas</h2>
               <ul>
-                <li>Realiza nuevas reservas para Hoteles.</li>
+                <li>Realiza nuevas reservas para el Hotel.</li>
                 <li>Consulta la disponibilidad y precios.</li>
               </ul>
             </div>
@@ -62,9 +62,9 @@ const HomeH = () => {
   
             <div className="category-description-cabana">
               <i className="fa fa-house-user"></i> {/* Icono de Casa para Hoteles */}
-              <h2>Gestión de Hoteles</h2>
+              <h2>Gestión del Hotel</h2>
               <ul>
-                <li>Agrega y administra hoteles.</li>
+                <li>Agrega y administra habitaciones.</li>
                 <li>Gestiona precios y disponibilidad.</li>
               </ul>
             </div>

@@ -4,16 +4,11 @@ import "../Styles/Aside.css";
 export default function Aside({ selectedView }) {
   const [rol, setRol] = useState(sessionStorage.getItem("rol"));
   const [scrolling, setScrolling] = useState(false);
+  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false); // Estado para manejar el desplegable
 
-  // Detecta el scroll y ajusta el estado
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
-        // Puedes ajustar este valor según el efecto que quieras
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
+      setScrolling(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -35,6 +30,10 @@ export default function Aside({ selectedView }) {
 
   const isHotelesView = selectedView === "hoteles";
   const isCabanasView = selectedView === "cabanas";
+
+  const toggleHotelSubmenu = () => {
+    setShowHotelSubmenu(!showHotelSubmenu);
+  };
 
   return (
     <aside
@@ -89,7 +88,7 @@ export default function Aside({ selectedView }) {
                           className="nav-icon fas fa-hotel"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>Hoteles</p>
+                        <p style={{ color: "#ffffff" }}>Hotel</p>
                       </a>
                     </li>
                     <li className="nav-item">
@@ -131,13 +130,46 @@ export default function Aside({ selectedView }) {
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a href="/hotel-management" className="nav-link">
+                      <a
+                        href="#!"
+                        className="nav-link"
+                        onClick={toggleHotelSubmenu}
+                      >
                         <i
                           className="nav-icon fas fa-building"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>Gestión de Hoteles</p>
+                        <p style={{ color: "#ffffff" }}>
+                          Gestión del Hotel
+                          <i
+                            className={`right fas ${
+                              showHotelSubmenu ? "fa-angle-up" : "fa-angle-down"
+                            }`}
+                          />
+                        </p>
                       </a>
+                      {showHotelSubmenu && (
+                        <ul className="nav nav-treeview">
+                          <li className="nav-item">
+                            <a href="/hotel" className="nav-link">
+                              <i
+                                className="nav-icon fas fa-hotel"
+                                style={{ color: "#ffffff" }}
+                              />
+                              <p style={{ color: "#ffffff" }}>Hotel</p>
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a href="/pisos" className="nav-link">
+                              <i
+                                className="nav-icon fas fa-layer-group"
+                                style={{ color: "#ffffff" }}
+                              />
+                              <p style={{ color: "#ffffff" }}>Pisos</p>
+                            </a>
+                          </li>
+                        </ul>
+                      )}
                     </li>
                     <li className="nav-item">
                       <a href="/category-management" className="nav-link">

@@ -81,7 +81,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
                     style={{ color: "#ffffff" }}
                     onClick={() => handleViewChange("hoteles")}
                   >
-                    Hoteles
+                    Hotel
                   </a>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
