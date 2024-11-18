@@ -94,6 +94,12 @@ export const updateUsuario = async (req: Request, res: Response)=> {
         })
 
     }
+    if(usuario.dataValues.ESTADO_CUENTA == false){
+        return res.status(404).json({
+            msg: "La cuenta de usuario actualmente se encuentra suspendida, porfavor contacte a soporte"
+        })
+
+    };
     
     try{
         if(contrasenia || contrasenia != null){

@@ -22,6 +22,9 @@ exports.Habitacion = dbConnection_1.default.define('habitacion', {
     'ID_PISO_HABITACION': { type: sequelize_1.DataTypes.INTEGER, references: { model: pisoModel_1.Piso, key: 'ID_PISO' } },
     'ID_ESTADO_HABITACION': { type: sequelize_1.DataTypes.INTEGER, references: { model: estadoModel_1.Estado, key: 'ID_ESTADO' } },
     'ID_USUARIO_HABITACION': { type: sequelize_1.DataTypes.INTEGER, references: { model: usuarioModel_1.Usuario, key: 'ID_USUARIO' } }
+}, {
+    timestamps: false,
+    freezeTableName: true
 });
 exports.Habitacion.belongsTo(tipoHabitacionModel_1.TipoHabitacion, { foreignKey: 'ID_TIPO_HABITACION_HABITACION', targetKey: 'ID_TIPO_HABITACION', onDelete: 'SET NULL' });
 tipoHabitacionModel_1.TipoHabitacion.hasMany(exports.Habitacion, { foreignKey: 'ID_TIPO_HABITACION_HABITACION', sourceKey: 'ID_TIPO_HABITACION', });

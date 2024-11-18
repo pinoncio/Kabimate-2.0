@@ -21,10 +21,13 @@ const usuarioModel_1 = require("../models/usuarioModel");
 const estadoModel_1 = require("../models/estadoModel");
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
 const pisoModel_1 = require("../models/pisoModel");
+const tipoHabitacionModel_1 = require("../models/tipoHabitacionModel");
+const habitacionModel_1 = require("../models/habitacionModel");
 //importar seeders
 const estadoSeeder_1 = require("./seeders/estadoSeeder");
 const rolSeeder_1 = require("./seeders/rolSeeder");
 const institucionSeeder_1 = require("./seeders/institucionSeeder");
+const tipoHabitacionSeeder_1 = require("./seeders/tipoHabitacionSeeder");
 //importar rutas
 const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
 const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
@@ -32,6 +35,7 @@ const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes
 const caba_aRoutes_1 = __importDefault(require("../routes/caba\u00F1aRoutes"));
 const estadoRoutes_1 = __importDefault(require("../routes/estadoRoutes"));
 const pisoRoutes_1 = __importDefault(require("../routes/pisoRoutes"));
+const habitacionRoutes_1 = __importDefault(require("../routes/habitacionRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -53,6 +57,7 @@ class Server {
         this.app.use('/api/cabanas', caba_aRoutes_1.default);
         this.app.use('/api/estados', estadoRoutes_1.default);
         this.app.use('/api/pisos', pisoRoutes_1.default);
+        this.app.use('/api/habitaciones', habitacionRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -67,6 +72,8 @@ class Server {
                 yield estadoModel_1.Estado.sync();
                 yield caba_aModel_1.Cabania.sync();
                 yield pisoModel_1.Piso.sync();
+                yield tipoHabitacionModel_1.TipoHabitacion.sync();
+                yield habitacionModel_1.Habitacion.sync();
                 //correr seeders
                 yield this.runSeeders();
             }
@@ -80,6 +87,7 @@ class Server {
             yield (0, rolSeeder_1.seedRoles)();
             yield (0, estadoSeeder_1.seedEstados)();
             yield (0, institucionSeeder_1.seedInstituciones)();
+            yield (0, tipoHabitacionSeeder_1.seedTipoHabitacion)();
         });
     }
 }

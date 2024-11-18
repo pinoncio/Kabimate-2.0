@@ -18,6 +18,10 @@ export const Habitacion = sequelize.define('habitacion',{
     'ID_PISO_HABITACION': {type: DataTypes.INTEGER, references: {model: Piso, key: 'ID_PISO'}},
     'ID_ESTADO_HABITACION': {type: DataTypes.INTEGER, references: {model: Estado, key: 'ID_ESTADO'}},
     'ID_USUARIO_HABITACION': {type: DataTypes.INTEGER, references: {model: Usuario, key: 'ID_USUARIO'}}
+},
+{
+    timestamps: false,
+    freezeTableName: true
 });
 
 Habitacion.belongsTo(TipoHabitacion, { foreignKey: 'ID_TIPO_HABITACION_HABITACION', targetKey: 'ID_TIPO_HABITACION', onDelete: 'SET NULL' });

@@ -10,4 +10,7 @@ exports.TipoHabitacion = dbConnection_1.default.define('tipoHabitacion', {
     'ID_TIPO_HABITACION': { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     'NOMBRE_TIPO_HABITACION': { type: sequelize_1.DataTypes.STRING },
     'DESCRIPCION_TIPO_HABITACION': { type: sequelize_1.DataTypes.STRING }
+}, {
+    timestamps: false,
+    freezeTableName: true
 });

@@ -104,6 +104,12 @@ const updateUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             msg: "El usuario ingresado no existe"
         });
     }
+    if (usuario.dataValues.ESTADO_CUENTA == false) {
+        return res.status(404).json({
+            msg: "La cuenta de usuario actualmente se encuentra suspendida, porfavor contacte a soporte"
+        });
+    }
+    ;
     try {
         if (contrasenia || contrasenia != null) {
             const hashedpassword = yield bcrypt_1.default.hash(contrasenia, 10);

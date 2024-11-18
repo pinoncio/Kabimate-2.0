@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const habitacionController_1 = require("../controllers/habitacionController");
+const router = (0, express_1.Router)();
+router.post('/:id_usuario', habitacionController_1.newHabitacion);
+router.put('/update/:id_habitacion', habitacionController_1.updateHabitacion);
+router.put('/activar/:id_habitacion', habitacionController_1.activarHabitacion);
+// router.delete('/delete/:id_habitacion', deleteHabitacion as any);
+router.get('/list/:id_usuario', habitacionController_1.getHabitaciones);
+router.get('/:id_habitacion', habitacionController_1.getHabitacion);
+exports.default = router;
