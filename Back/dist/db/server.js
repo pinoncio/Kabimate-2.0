@@ -35,6 +35,7 @@ const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes
 const caba_aRoutes_1 = __importDefault(require("../routes/caba\u00F1aRoutes"));
 const estadoRoutes_1 = __importDefault(require("../routes/estadoRoutes"));
 const pisoRoutes_1 = __importDefault(require("../routes/pisoRoutes"));
+const tipoHabitacionRoutes_1 = __importDefault(require("../routes/tipoHabitacionRoutes"));
 const habitacionRoutes_1 = __importDefault(require("../routes/habitacionRoutes"));
 class Server {
     constructor() {
@@ -57,6 +58,7 @@ class Server {
         this.app.use('/api/cabanas', caba_aRoutes_1.default);
         this.app.use('/api/estados', estadoRoutes_1.default);
         this.app.use('/api/pisos', pisoRoutes_1.default);
+        this.app.use('/api/tipohabitacion', tipoHabitacionRoutes_1.default);
         this.app.use('/api/habitaciones', habitacionRoutes_1.default);
     }
     midlewares() {

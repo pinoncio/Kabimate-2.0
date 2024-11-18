@@ -22,6 +22,7 @@ import routesInstitucion from '../routes/institucionRoutes';
 import routesCabaña from '../routes/cabañaRoutes';
 import routesEstado from '../routes/estadoRoutes';
 import routesPiso from '../routes/pisoRoutes';
+import routesTipoHabitacion from '../routes/tipoHabitacionRoutes';
 import routesHabitacion from '../routes/habitacionRoutes';
 
 class Server {
@@ -51,6 +52,7 @@ class Server {
         this.app.use('/api/cabanas', routesCabaña);
         this.app.use('/api/estados', routesEstado);
         this.app.use('/api/pisos', routesPiso);
+        this.app.use('/api/tipohabitacion', routesTipoHabitacion);
         this.app.use('/api/habitaciones', routesHabitacion);
     }
     midlewares(){
