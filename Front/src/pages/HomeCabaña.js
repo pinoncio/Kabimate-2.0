@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCabanas } from '../services/Cabana';  
+import { getCabanas } from '../services/Cabania';  
 import { getEstado } from '../services/Estados'; 
 import '../Styles/HomeCabana.css';
 

@@ -278,7 +278,7 @@ const CabanaPage = () => {
                 </span>
                 <select
                   className="form-control"
-                  name="id_institucion"
+                  name="id_estado_cabania"
                   value={id_estado_cabania}
                   onChange={(e) => {
                     setIdEstadoCabania(e.target.value);

@@ -152,12 +152,12 @@ export default function Aside({ selectedView }) {
                       {showHotelSubmenu && (
                         <ul className="nav nav-treeview">
                           <li className="nav-item">
-                            <Link to="/hotel" className="nav-link">
+                            <Link to="/ghotel" className="nav-link">
                               <i
                                 className="nav-icon fas fa-hotel"
                                 style={{ color: "#ffffff" }}
                               />
-                              <p style={{ color: "#ffffff" }}>Hotel</p>
+                              <p style={{ color: "#ffffff" }}>Habitaciones</p>
                             </Link>
                           </li>
                           <li className="nav-item">

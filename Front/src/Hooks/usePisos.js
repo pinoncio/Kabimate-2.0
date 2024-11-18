@@ -9,8 +9,8 @@ import {
 
 const usePisos = () => {
   const [pisos, setPisos] = useState([]);
-  const [id_piso, setIdPiso] = useState('');
-  const [nombre_piso, setNombrePiso] = useState('');
+  const [id_piso, setIdPiso] = useState("");
+  const [nombre_piso, setNombrePiso] = useState("");
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState("");
   const id_usuario_piso = sessionStorage.getItem("idUsuario");
@@ -31,9 +31,9 @@ const usePisos = () => {
   };
 
   const openModal = (
-    op, 
-    id_piso = '', 
-    nombre_piso = '', 
+    op,
+    id_piso = "",
+    nombre_piso = "",
     id_usuario_piso = sessionStorage.getItem("idUsuario")
   ) => {
     setIdPiso(id_piso);
@@ -53,33 +53,29 @@ const usePisos = () => {
     const id_usuario_piso = sessionStorage.getItem("idUsuario");
 
     const validarCreacion = () => {
-      return (
-        nombre_piso.trim() === "" 
-      );
+      return nombre_piso.trim() === "";
     };
 
     const validarActualizacion = () => {
-      return (
-        nombre_piso.trim() === ""
-      );
+      return nombre_piso.trim() === "";
     };
-    
+
     if (operation === 1) {
       if (validarCreacion()) {
         show_alerta("Completa los campos requeridos", "warning");
         return;
       }
       const parametros = {
-        nombre_piso: nombre_piso.trim()
+        nombre_piso: nombre_piso.trim(),
       };
       createNewPiso(id_usuario_piso, parametros);
     } else {
-      if (validarActualizacion()) {  
+      if (validarActualizacion()) {
         show_alerta("Completa los campos requeridos", "warning");
         return;
       }
       const parametross = {
-        nombre_piso: nombre_piso.trim()
+        nombre_piso: nombre_piso.trim(),
       };
       updateExistingPiso(id_piso, parametross);
     }
@@ -97,7 +93,7 @@ const usePisos = () => {
       show_alerta("Error al crear el piso", "error");
     }
   };
-  
+
   const updateExistingPiso = async (id_piso, pisoData) => {
     try {
       await updatePiso(id_piso, pisoData);
@@ -111,8 +107,6 @@ const usePisos = () => {
       show_alerta("Error al actualizar el piso", "error");
     }
   };
-  
-  
 
   const handleTogglePisoStatus = async (id_piso, nuevoEstado) => {
     try {
