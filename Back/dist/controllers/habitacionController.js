@@ -91,7 +91,7 @@ exports.getHabitaciones = getHabitaciones;
 const activarHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_habitacion } = req.params;
     const { trigger } = req.body;
-    const habitacion = yield habitacionModel_1.Habitacion.findOne({ where: { ID_HABIITACION: id_habitacion } });
+    const habitacion = yield habitacionModel_1.Habitacion.findOne({ where: { ID_HABITACION: id_habitacion } });
     if (!habitacion) {
         return res.status(404).json({
             msg: 'La habitacion con id: ' + id_habitacion + ' no existe'

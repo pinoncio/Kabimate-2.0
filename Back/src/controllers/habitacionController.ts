@@ -85,7 +85,7 @@ export const getHabitaciones = async(req: Request, res: Response)=> {
 export const activarHabitacion = async(req: Request, res: Response)=> {
     const {id_habitacion} = req.params;
     const {trigger} = req.body;
-    const habitacion = await Habitacion.findOne({where: {ID_HABIITACION:id_habitacion}});
+    const habitacion = await Habitacion.findOne({where: {ID_HABITACION:id_habitacion}});
     if (!habitacion){
         return res.status(404).json({
             msg: 'La habitacion con id: '+id_habitacion+' no existe'
