@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Importamos Link de react-router-dom
 import "../Styles/Aside.css";
 
 export default function Aside({ selectedView }) {
@@ -40,7 +41,7 @@ export default function Aside({ selectedView }) {
       className="main-sidebar sidebar-dark-primary elevation-4"
       style={{ backgroundColor: "#a47551" }}
     >
-      <h1 class="brand-text kabimate-header">KABIMATE</h1>
+      <h1 className="brand-text kabimate-header">KABIMATE</h1>
 
       <div className="sidebar">
         {/* Muestra el campo de búsqueda solo en las vistas de Hoteles y Cabañas */}
@@ -83,43 +84,43 @@ export default function Aside({ selectedView }) {
                 {isHotelesView && (
                   <>
                     <li className="nav-item">
-                      <a href="/hoteles" className="nav-link">
+                      <Link to="/hoteles" className="nav-link">
                         <i
                           className="nav-icon fas fa-hotel"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Hotel</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/crud-reservations" className="nav-link">
+                      <Link to="/crud-reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-edit"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/reservations" className="nav-link">
+                      <Link to="/reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-calendar-check"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/my-reservations" className="nav-link">
+                      <Link to="/my-reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-user-check"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Mis Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/reservation-history" className="nav-link">
+                      <Link to="/reservation-history" className="nav-link">
                         <i
                           className="nav-icon fas fa-history"
                           style={{ color: "#ffffff" }}
@@ -127,11 +128,11 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>
                           Historial de Reservas
                         </p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a
-                        href="#!"
+                      <Link
+                        to="#!"
                         className="nav-link"
                         onClick={toggleHotelSubmenu}
                       >
@@ -147,32 +148,32 @@ export default function Aside({ selectedView }) {
                             }`}
                           />
                         </p>
-                      </a>
+                      </Link>
                       {showHotelSubmenu && (
                         <ul className="nav nav-treeview">
                           <li className="nav-item">
-                            <a href="/hotel" className="nav-link">
+                            <Link to="/hotel" className="nav-link">
                               <i
                                 className="nav-icon fas fa-hotel"
                                 style={{ color: "#ffffff" }}
                               />
                               <p style={{ color: "#ffffff" }}>Hotel</p>
-                            </a>
+                            </Link>
                           </li>
                           <li className="nav-item">
-                            <a href="/pisos" className="nav-link">
+                            <Link to="/pisos" className="nav-link">
                               <i
                                 className="nav-icon fas fa-layer-group"
                                 style={{ color: "#ffffff" }}
                               />
                               <p style={{ color: "#ffffff" }}>Pisos</p>
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       )}
                     </li>
                     <li className="nav-item">
-                      <a href="/category-management" className="nav-link">
+                      <Link to="/category-management" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
@@ -180,11 +181,11 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>
                           Gestión de Categorías
                         </p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a
-                        href="/product-service-management"
+                      <Link
+                        to="/product-service-management"
                         className="nav-link"
                       >
                         <i
@@ -194,7 +195,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>
                           Gestión de Productos y Servicios
                         </p>
-                      </a>
+                      </Link>
                     </li>
                   </>
                 )}
@@ -203,43 +204,43 @@ export default function Aside({ selectedView }) {
                 {isCabanasView && (
                   <>
                     <li className="nav-item">
-                      <a href="/hcabana" className="nav-link">
+                      <Link to="/hcabana" className="nav-link">
                         <i
                           className="nav-icon fas fa-home"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Cabañas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/crud-reservations" className="nav-link">
+                      <Link to="/crud-reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-edit"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/reservations" className="nav-link">
+                      <Link to="/reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-calendar-check"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/my-reservations" className="nav-link">
+                      <Link to="/my-reservations" className="nav-link">
                         <i
                           className="nav-icon fas fa-user-check"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Mis Reservas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/reservation-history" className="nav-link">
+                      <Link to="/reservation-history" className="nav-link">
                         <i
                           className="nav-icon fas fa-history"
                           style={{ color: "#ffffff" }}
@@ -247,31 +248,31 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>
                           Historial de Reservas
                         </p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/cabin-management" className="nav-link">
+                      <Link to="/gcabana" className="nav-link">
                         <i
                           className="nav-icon fas fa-home"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>Gestión de Cabañas</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="/category-management" className="nav-link">
+                      <Link to="/category-management" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
                         />
                         <p style={{ color: "#ffffff" }}>
-                          Gestión de Categorías de Cabañas
+                          Gestión de Categorías
                         </p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a
-                        href="/product-service-management"
+                      <Link
+                        to="/product-service-management"
                         className="nav-link"
                       >
                         <i
@@ -281,7 +282,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>
                           Gestión de Productos y Servicios
                         </p>
-                      </a>
+                      </Link>
                     </li>
                   </>
                 )}

@@ -162,7 +162,7 @@
 }
 
 /* Modal de bienvenida */
-.modal {
+.modal-Login {
   position: fixed;
   top: 50%;
   left: 50%;

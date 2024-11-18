@@ -29,7 +29,6 @@ const CabanaPage = () => {
     obtenerNombreEstado,
   } = useCabanas();
 
-
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const itemsPerPage = 5; // Número de cabañas por página
   const totalPages = Math.ceil(cabanas.length / itemsPerPage); // Total de páginas
@@ -37,7 +36,6 @@ const CabanaPage = () => {
   // Cálculo de las cabañas a mostrar en la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCabanas = cabanas.slice(startIndex, startIndex + itemsPerPage);
-
 
   // Cambiar la página actual
   const handlePageChange = (pageNumber) => {
@@ -163,7 +161,9 @@ const CabanaPage = () => {
                 {Array.from({ length: totalPages }, (_, index) => (
                   <li
                     key={index + 1}
-                    className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                    className={`page-item ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
                   >
                     <button
                       className="page-link"
@@ -178,7 +178,6 @@ const CabanaPage = () => {
           </div>
         </div>
       </div>
-
 
       {/* Modal para agregar o editar Cabañas */}
       <div id="modalCabanas" className="modal fade" aria-hidden="true">
@@ -282,7 +281,7 @@ const CabanaPage = () => {
                   name="id_institucion"
                   value={id_estado_cabania}
                   onChange={(e) => {
-                    setIdEstadoCabania(e.target.value); 
+                    setIdEstadoCabania(e.target.value);
                   }}
                   style={{ color: "black" }}
                 >
