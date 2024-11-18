@@ -5,13 +5,14 @@ import {
   createCabana,
   updateCabana,
   activateCabana,
-} from "../services/Cabana";
+} from "../services/Cabania";
 import { getEstados } from "../services/Estados";
 import "../Styles/cabana.css";
 
 const useCabana = () => {
   const [cabanas, setCabanas] = useState([]);
   const [estados, setEstados] = useState([]);
+
   const [id_cabania, setIdCabana] = useState("");
   const [capacidad, setCapacidad] = useState("");
   const [cantidad_piezas, setCantidadPiezas] = useState("");
