@@ -17,7 +17,7 @@ const usePisos = () => {
 
   useEffect(() => {
     getAllPisos(id_usuario_piso);
-  }, []);
+  }, [id_usuario_piso]);
 
   const getAllPisos = async (idUsuario) => {
     try {

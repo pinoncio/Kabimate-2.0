@@ -17,8 +17,8 @@ const HabitacionPage = () => {
     servicios_incluidos,
     descripcion_habitacion,
     id_tipo_habitacion,
-    id_piso_habitacion,
-    id_estado_habitacion,
+    id_piso,
+    id_estado,
     setNumeroHabitacion,
     setCapacidad,
     setPrecioPorNoche,
@@ -59,7 +59,7 @@ const HabitacionPage = () => {
               style={{ marginTop: "50px" }}
             >
               <Link
-                to="/home"
+                to="/homeH"
                 className="btn"
                 style={{
                   backgroundColor: "#a47551",
@@ -118,7 +118,7 @@ const HabitacionPage = () => {
                         <td>{habitacion.SERVICIOS_INCLUIDOS}</td>
                         <td>{habitacion.DESCRIPCION_HABITACION}</td>
                         <td>
-                          {obtenerNombreTipo(habitacion.ID_TIPO_HABITACION)}
+                          {obtenerNombreTipo(habitacion.ID_TIPO_HABITACION_HABITACION)}
                         </td>
                         <td>
                           {obtenerNombrePiso(habitacion.ID_PISO_HABITACION)}
@@ -130,13 +130,11 @@ const HabitacionPage = () => {
                           <label className="switch">
                             <input
                               type="checkbox"
-                              checked={habitacion.ESTADO_HABITACION === true} // Verifica si el estado es verdadero
+                              checked={habitacion.ESTADO_HABITACION === true}
                               onChange={() =>
                                 handleToggleHotelStatus(
                                   habitacion.ID_HABITACION,
-                                  habitacion.ESTADO_HABITACION === true
-                                    ? false
-                                    : true // Cambia el estado de la habitación
+                                  !habitacion.ESTADO_HABITACION
                                 )
                               }
                             />
@@ -154,9 +152,9 @@ const HabitacionPage = () => {
                                 habitacion.PRECIO_POR_NOCHE,
                                 habitacion.SERVICIOS_INCLUIDOS,
                                 habitacion.DESCRIPCION_HABITACION,
-                                habitacion.ID_TIPO_HABITACION,
+                                habitacion.ID_TIPO_HABITACION_HABITACION,
                                 habitacion.ID_PISO_HABITACION,
-                                habitacion.ESTADO_HABITACION
+                                habitacion.ID_ESTADO_HABITACION
                               )
                             }
                             className="btn btn-warning btn-custom"
@@ -265,13 +263,13 @@ const HabitacionPage = () => {
                   <label className="form-label">Tipo de Habitación</label>
                   <select
                     className="form-control"
-                    name="id_tipo_habitacion"
+                    name="id_tipo"
                     value={id_tipo_habitacion}
                     onChange={(e) => setIdTipoHabitacion(e.target.value)}
                   >
-                    <option value="">Seleccione...</option>
+                    <option value="">Seleccione un Tipo de habitacion</option>
                     {tipos.map((tipo) => (
-                      <option key={tipo.ID_TIPO} value={tipo.ID_TIPO}>
+                      <option key={tipo.ID_TIPO_HABITACION} value={tipo.ID_TIPO_HABITACION}>
                         {tipo.NOMBRE_TIPO_HABITACION}
                       </option>
                     ))}
@@ -281,8 +279,8 @@ const HabitacionPage = () => {
                   <label className="form-label">Piso</label>
                   <select
                     className="form-control"
-                    name="id_habitacion"
-                    value={id_piso_habitacion}
+                    name="id_piso"
+                    value={id_piso}
                     onChange={(e) => setIdPisoHabitacion(e.target.value)}
                     style={{ color: "black" }}
                   >
@@ -298,12 +296,12 @@ const HabitacionPage = () => {
                   {operation === 2 && (
                     <select
                       className="form-control"
-                      name="id_estado_habitacion"
-                      value={id_estado_habitacion}
+                      name="id_estado"
+                      value={id_estado}
                       onChange={(e) => setIdEstadoHabitacion(e.target.value)}
                       style={{ color: "black" }}
                     >
-                      <option value="">Seleccione...</option>
+                      <option value="">Seleccione un Estado</option>
                       {estados.map((estado) => (
                         <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
                           {estado.NOMBRE_ESTADO}
@@ -313,11 +311,7 @@ const HabitacionPage = () => {
                   )}
                 </div>
 
-                <div className="d-grid col-6 mx-auto mt-5">
-                  <button onClick={() => validar()} className="btn btn-success">
-                    {operation === 1 ? "Registrar" : "Actualizar"}
-                    <i className="fas fa-save ms-2"></i>
-                  </button>
+                <div className="modal-footer">
                   <button
                     id="btnCerrar"
                     type="button"
@@ -325,6 +319,13 @@ const HabitacionPage = () => {
                     data-bs-dismiss="modal"
                   >
                     Cerrar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={validar}
+                  >
+                    {operation === 1 ? "Crear Usuario" : "Actualizar Usuario"}
                   </button>
                 </div>
               </div>
