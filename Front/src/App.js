@@ -19,6 +19,7 @@ import HomeH from './pages/HomeH';
 import PerfilU from './pages/PerfilU';
 import Pisos from './pages/Pisos';
 import HabitacionPage from './pages/Habitacion';
+import HomeHabitacion from './pages/HomeHotel';
 
 export default function App() {
   // Estado para manejar la vista seleccionada entre "hoteles" y "cabañas"
@@ -47,6 +48,7 @@ export default function App() {
               <Route path="/perfilA/:id" element={<PerfilA/>} />
               <Route path="/perfilU/:id" element={<PerfilU/>} />
               <Route path='/Hcabana' element={<HomeCabana/>} />
+              <Route path="/HHotel" element={<HomeHabitacion/>} />
               <Route path='/homeC' element={<HomeC />} />
               <Route path='/homeH' element={<HomeH />} />
               <Route path='/pisos' element={<Pisos />} />

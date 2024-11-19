@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"; // Importamos Link de react-router-dom
 import "../Styles/Aside.css";
 
 export default function Aside({ selectedView }) {
-  const [rol, setRol] = useState(sessionStorage.getItem("rol"));
+  const [rol, setRol] = useState(localStorage.getItem("rol"));
   const [scrolling, setScrolling] = useState(false);
-  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false); // Estado para manejar el desplegable
+  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +20,7 @@ export default function Aside({ selectedView }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newRol = sessionStorage.getItem("rol");
+      const newRol = localStorage.getItem("rol");
       if (newRol !== rol) {
         setRol(newRol);
       }
@@ -84,7 +84,7 @@ export default function Aside({ selectedView }) {
                 {isHotelesView && (
                   <>
                     <li className="nav-item">
-                      <Link to="/hoteles" className="nav-link">
+                      <Link to="/Hhotel" className="nav-link">
                         <i
                           className="nav-icon fas fa-hotel"
                           style={{ color: "#ffffff" }}

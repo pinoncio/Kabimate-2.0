@@ -36,7 +36,7 @@ const HabitacionPage = () => {
   } = useHabitacion();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
   const totalPages = Math.ceil(habitaciones.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -80,12 +80,12 @@ const HabitacionPage = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#modalHabitaciones"
               >
-                <i className="fa fa-plus-circle mt-2"></i> Añadir Habitación
+                <i className="fa fa-plus-circle "></i> Añadir Habitación
               </button>
             </div>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row mt-3">
           <div className="col-12 col-lg-8 offset-0 offset-lg-2">
             <div className="card-container">
               <h2 className="text-center mb-4" style={{ color: "#a47551" }}>

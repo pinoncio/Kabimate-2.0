@@ -9,7 +9,7 @@ export default function HomeCabana() {
   const [busqueda, setBusqueda] = useState('');
   const [filteredCabanas, setFilteredCabanas] = useState([]);
   const [estados, setEstados] = useState({});
-  const idUsuario = sessionStorage.getItem('idUsuario');
+  const idUsuario = localStorage.getItem('idUsuario');
 
   useEffect(() => {
     const fetchCabanas = async () => {
