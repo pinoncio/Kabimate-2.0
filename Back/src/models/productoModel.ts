@@ -4,13 +4,13 @@ import { Usuario } from "./usuarioModel";
 import { Categoria } from "./categoriaModel";
 
 export const Producto = sequelize.define('producto',{
-    "ID_CATEGORIA":{type: DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
+    "ID_PRODUCTO":{type: DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
     "NOMBRE_PRODUCTO":{type: DataTypes.STRING},
     "DESCRIPCION_PRODUCTO":{type: DataTypes.STRING},
     "PRECIO_PRODUCTO":{type: DataTypes.INTEGER},
     "ESTADO_PRODUCTO":{type: DataTypes.BOOLEAN},
-    "ID_PRODUCTO_CATEGORIA":{type: DataTypes.INTEGER, references: {model: Categoria, key: 'ID_CATEGORIA'}},
-    "ID_USUARIO_CATEGORIA":{type: DataTypes.INTEGER, references: {model: Usuario, key: 'ID_USUARIO'}}
+    "ID_CATEGORIA_PRODUCTO":{type: DataTypes.INTEGER, references: {model: Categoria, key: 'ID_CATEGORIA'}},
+    "ID_USUARIO_PRODUCTO":{type: DataTypes.INTEGER, references: {model: Usuario, key: 'ID_USUARIO'}}
 },
 {
     freezeTableName: true,

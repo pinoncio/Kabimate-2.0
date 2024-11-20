@@ -9,13 +9,13 @@ const dbConnection_1 = __importDefault(require("../db/dbConnection"));
 const usuarioModel_1 = require("./usuarioModel");
 const categoriaModel_1 = require("./categoriaModel");
 exports.Producto = dbConnection_1.default.define('producto', {
-    "ID_CATEGORIA": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    "ID_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "NOMBRE_PRODUCTO": { type: sequelize_1.DataTypes.STRING },
     "DESCRIPCION_PRODUCTO": { type: sequelize_1.DataTypes.STRING },
     "PRECIO_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER },
     "ESTADO_PRODUCTO": { type: sequelize_1.DataTypes.BOOLEAN },
-    "ID_PRODUCTO_CATEGORIA": { type: sequelize_1.DataTypes.INTEGER, references: { model: categoriaModel_1.Categoria, key: 'ID_CATEGORIA' } },
-    "ID_USUARIO_CATEGORIA": { type: sequelize_1.DataTypes.INTEGER, references: { model: usuarioModel_1.Usuario, key: 'ID_USUARIO' } }
+    "ID_CATEGORIA_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER, references: { model: categoriaModel_1.Categoria, key: 'ID_CATEGORIA' } },
+    "ID_USUARIO_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER, references: { model: usuarioModel_1.Usuario, key: 'ID_USUARIO' } }
 }, {
     freezeTableName: true,
     timestamps: false
