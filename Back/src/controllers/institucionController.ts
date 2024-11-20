@@ -13,7 +13,7 @@ export const getInstituciones = async(req: Request, res: Response) =>{
 export const newInstitucion = async(req: Request, res: Response) =>{
     const { nombre_institucion, tipo_institucion} =  req.body;
     try{
-         await Institucion.create({
+        await Institucion.create({
             "NOMBRE_INSTITUCION": nombre_institucion,
             "TIPO_INSTITUCION": tipo_institucion
         })
@@ -98,7 +98,7 @@ export const activarInstitucion = async(req:Request, res: Response) => {
     const institucion = await Institucion.findOne({where: {ID_INSTITUCION:id_institucion}});
     if(!institucion){
         return res.status(404).json({
-            msg: "El rol ingresado no existe"
+            msg: "La institucion ingresada no existe"
         })
     }
     try{

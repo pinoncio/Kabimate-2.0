@@ -10,6 +10,8 @@ import { Cabania } from '../models/cabañaModel';
 import { Piso } from '../models/pisoModel';
 import { TipoHabitacion } from '../models/tipoHabitacionModel';
 import { Habitacion } from '../models/habitacionModel';
+import { Categoria } from '../models/categoriaModel';
+import { Producto } from '../models/productoModel';
 //importar seeders
 import { seedEstados } from './seeders/estadoSeeder';
 import { seedRoles } from './seeders/rolSeeder';
@@ -24,6 +26,8 @@ import routesEstado from '../routes/estadoRoutes';
 import routesPiso from '../routes/pisoRoutes';
 import routesTipoHabitacion from '../routes/tipoHabitacionRoutes';
 import routesHabitacion from '../routes/habitacionRoutes';
+import routesCategoria from '../routes/categoriaRoutes';
+import routesProducto from '../routes/productoRoutes';
 
 class Server {
     private app: Application;
@@ -54,6 +58,8 @@ class Server {
         this.app.use('/api/pisos', routesPiso);
         this.app.use('/api/tipohabitacion', routesTipoHabitacion);
         this.app.use('/api/habitaciones', routesHabitacion);
+        this.app.use('/api/categorias', routesCategoria);
+        this.app.use('/api/productos', routesProducto);
     }
     midlewares(){
         this.app.use(express.json());
@@ -70,6 +76,8 @@ class Server {
             await Piso.sync();
             await TipoHabitacion.sync()
             await Habitacion.sync();
+            await Categoria.sync();
+            await Producto.sync();
 
             //correr seeders
             await this.runSeeders();
