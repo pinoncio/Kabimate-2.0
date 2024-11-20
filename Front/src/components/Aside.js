@@ -147,7 +147,7 @@ export default function Aside({ selectedView }) {
                       )}
                     </li>
                     <li className="nav-item">
-                      <Link to="/category-management" className="nav-link">
+                      <Link to="/gCategory" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
@@ -159,7 +159,7 @@ export default function Aside({ selectedView }) {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/product-service-management"
+                        to="/gProducto"
                         className="nav-link"
                       >
                         <i
@@ -234,7 +234,7 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/category-management" className="nav-link">
+                      <Link to="/gCategory" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
@@ -246,7 +246,7 @@ export default function Aside({ selectedView }) {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/product-service-management"
+                        to="/gProduct"
                         className="nav-link"
                       >
                         <i

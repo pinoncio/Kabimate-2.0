@@ -49,121 +49,121 @@ export default function Header({ setSelectedView, setDataVisible }) {
 
   return (
     <nav
-  className="main-header navbar navbar-expand navbar-white navbar-light"
-  style={{ backgroundColor: "#a47551" }}
->
-  <ul className="navbar-nav">
-    <li className="nav-item">
-      <a className="nav-link" data-widget="pushmenu" href="#" role="button">
-        <i className="fas fa-bars" style={{ color: "#ffffff" }} />
-      </a>
-    </li>
-    {rol && (
-      <>
-        <li className="nav-item d-none d-sm-inline-block">
-          <Link
-            to={rol === "1" ? "/admin" : "/home"}
-            className="nav-link"
-            style={{ color: "#ffffff" }}
-            onClick={handleViewChange}
-          >
-            {rol === "1" ? "Administración" : "Home"}
-          </Link>
+      className="main-header navbar navbar-expand navbar-white navbar-light"
+      style={{ backgroundColor: "#a47551" }}
+    >
+      <ul className="navbar-nav">
+        <li className="nav-item">
+          <a className="nav-link" data-widget="pushmenu" href="#" role="button">
+            <i className="fas fa-bars" style={{ color: "#ffffff" }} />
+          </a>
         </li>
-
-        {/* Mostrar solo si el rol no es 1 */}
-        {rol !== "1" && (
+        {rol && (
           <>
             <li className="nav-item d-none d-sm-inline-block">
-              <a
-                href="#"
-                className="nav-link"
-                style={{ color: "#ffffff" }}
-                onClick={() => handleViewChange("hoteles")}
-              >
-                Hotel
-              </a>
-            </li>
             <li className="nav-item d-none d-sm-inline-block">
-              <a
-                href="#"
+              <Link
+                to={rol === "1" ? "/admin" : "/home"}
                 className="nav-link"
                 style={{ color: "#ffffff" }}
-                onClick={() => handleViewChange("cabanas")}
+                onClick={handleViewChange}
               >
-                Cabañas
+                {rol === "1" ? "Administración" : "Home"}
+              </Link>
+            </li>
+            </li>
+
+            {/* Mostrar solo si el rol no es 1 */}
+            {rol !== "1" && (
+              <>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <a
+                    href="#"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                    onClick={() => handleViewChange("hoteles")}
+                  >
+                    Hotel
+                  </a>
+                </li>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <a
+                    href="#"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                    onClick={() => handleViewChange("cabanas")}
+                  >
+                    Cabañas
+                  </a>
+                </li>
+              </>
+            )}
+          </>
+        )}
+      </ul>
+      <ul className="navbar-nav ml-auto">
+        {rol && (
+          <>
+            <li className="nav-item">
+              <Link
+                to={rol === "1" ? `/perfilA/${idUsuario}` : `/perfilU/${idUsuario}`}
+                className="nav-link"
+                style={{ color: "#ffffff" }}
+              >
+                <i className="fas fa-user" /> Perfil
+              </Link>
+            </li>
+
+            {/* Mostrar solo si el rol no es 1 */}
+            {rol !== "1" && (
+              <>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <Link
+                    to="/contactanos"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                  >
+                    <i className="fas fa-envelope" /> Contáctanos
+                  </Link>
+                </li>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <Link
+                    to="/ayuda"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                  >
+                    <i className="fas fa-question-circle" /> Ayuda
+                  </Link>
+                </li>
+              </>
+            )}
+
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                href="#"
+                onClick={handleLogout}
+                style={{ color: "#ffffff" }}
+              >
+                <i className="fas fa-sign-out-alt" /> Cerrar sesión
               </a>
             </li>
           </>
         )}
-      </>
-    )}
-  </ul>
-  <ul className="navbar-nav ml-auto">
-    {/* Elementos movidos a la derecha con íconos */}
-    {rol !== "1" && (
-      <>
-        <li className="nav-item d-none d-sm-inline-block">
-          <Link
-            to="/contactanos"
-            className="nav-link"
-            style={{ color: "#ffffff" }}
-          >
-            <i className="fas fa-envelope" /> Contáctanos
-          </Link>
-        </li>
-        <li className="nav-item d-none d-sm-inline-block">
-          <Link
-            to="/ayuda"
-            className="nav-link"
-            style={{ color: "#ffffff" }}
-          >
-            <i className="fas fa-question-circle" /> Ayuda
-          </Link>
-        </li>
-      </>
-    )}
-    {rol && (
-      <>
-        <li className="nav-item">
-          <Link
-            to={
-              rol === "1"
-                ? `/perfilA/${idUsuario}`
-                : `/perfilU/${idUsuario}`
-            }
-            className="nav-link"
-            style={{ color: "#ffffff" }}
-          >
-            <i className="fas fa-user" /> Perfil
-          </Link>
-        </li>
 
+        {/* El cuadrado (ícono de pantalla completa) al final */}
         <li className="nav-item">
           <a
             className="nav-link"
+            data-widget="fullscreen"
             href="#"
-            onClick={handleLogout}
+            role="button"
             style={{ color: "#ffffff" }}
           >
-            <i className="fas fa-sign-out-alt" /> Cerrar sesión
+            <i className="fas fa-expand-arrows-alt" />
           </a>
         </li>
-      </>
-    )}
-    <li className="nav-item">
-      <a
-        className="nav-link"
-        data-widget="fullscreen"
-        href="#"
-        role="button"
-        style={{ color: "#ffffff" }}
-      >
-        <i className="fas fa-expand-arrows-alt" />
-      </a>
-    </li>
-  </ul>
-</nav>
-
+      </ul>
+    </nav>
   );
 }
