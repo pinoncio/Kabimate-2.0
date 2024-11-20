@@ -1,0 +1,121 @@
+.ayuda-background {
+    background-image: url('../Images/email-pattern.png');
+    background-size: 150px;
+    background-repeat: repeat;
+    background-color: #6e6e48;
+    box-sizing: border-box;
+    min-height: calc(88vh - 1px);
+    animation: backgroundMove 5s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .ayuda-container {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .ayuda-container h1 {
+    color: #a47551;
+    margin-bottom: 20px;
+  }
+  
+  .ayuda-container p {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .faq {
+    margin-bottom: 40px;
+  }
+  
+  .faq h2 {
+    color: #a47551;
+    margin-bottom: 20px;
+  }
+  
+  .faq ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .faq-item {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .faq-question {
+    background-color: #f9f9f9; /* Fondo gris claro para que se vea */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    color: #333; /* Color de texto oscuro para visibilidad */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para darle un toque tridimensional */
+  }
+  
+  .faq-question:hover {
+    background-color: #a47551; /* Color marrón cuando el mouse pasa por encima */
+    color: #fff; /* Texto blanco al pasar el mouse */
+  }
+  
+
+  
+  
+  .faq-answer {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .soporte form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .soporte input, .soporte textarea {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .soporte button {
+    padding: 10px 20px;
+    background-color: #a47551;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .soporte button:hover {
+    background-color: #8c6238;
+  }
+  

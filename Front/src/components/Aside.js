@@ -42,35 +42,9 @@ export default function Aside({ selectedView }) {
       style={{ backgroundColor: "#a47551" }}
     >
       <h1 className="brand-text kabimate-header">KABIMATE</h1>
-
+      <hr className="kabimate-divider" />
       <div className="sidebar">
-        {/* Muestra el campo de búsqueda solo en las vistas de Hoteles y Cabañas */}
-        {(isHotelesView || isCabanasView) && (
-          <div className="form-inline" style={{ marginTop: "20px" }}>
-            <div className="input-group" data-widget="sidebar-search">
-              <input
-                className="form-control form-control-sidebar"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                style={{
-                  color: "#000000",
-                  backgroundColor: "#ffffff",
-                }}
-              />
-              <div className="input-group-append">
-                <button className="btn btn-sidebar">
-                  <i
-                    className="fas fa-search fa-fw"
-                    style={{ color: "#ffffff" }}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <nav className="mt-2">
+        <nav className="mt-4">
           <ul
             className="nav nav-pills nav-sidebar flex-column"
             data-widget="treeview"

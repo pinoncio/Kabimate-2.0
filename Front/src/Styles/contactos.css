@@ -1,0 +1,99 @@
+.contacto-background {
+    background-image: url('../Images/email-pattern.png');
+    background-size: 150px;
+    background-repeat: repeat;
+    background-color: #6e6e48;
+    box-sizing: border-box;
+    min-height: calc(88vh - 1px);
+    animation: backgroundMove 5s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
+
+.contacto-container {
+    margin-top: 50px;
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    max-width: 900px; /* Aumentar el valor de max-width */
+    width: 100%; /* Asegura que el contenedor principal ocupe el 100% del ancho disponible */
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.contacto-container h1 {
+    text-align: center;
+    color: #a47551;
+    margin-bottom: 30px;
+}
+
+.contacto-container p {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+}
+
+.contacto-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.contacto-section h2 {
+    color: #a47551;
+    margin-bottom: 20px;
+}
+
+.contacto-section p {
+    text-align: left;
+}
+
+.contacto-section li {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.contacto-section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contacto-section a:hover {
+    text-decoration: underline;
+}
+
+.contacto-contact-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contacto-contact-list li {
+    margin: 10px 0;
+}
+
+.contacto-social {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contacto-social h2 {
+    color: #a47551;
+    margin-bottom: 10px;
+}
+
+.contacto-social p {
+    font-size: 16px;
+    color: #333;
+}
