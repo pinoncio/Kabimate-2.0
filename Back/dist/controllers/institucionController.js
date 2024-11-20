@@ -114,7 +114,7 @@ const activarInstitucion = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const institucion = yield institucionModel_1.Institucion.findOne({ where: { ID_INSTITUCION: id_institucion } });
     if (!institucion) {
         return res.status(404).json({
-            msg: "El rol ingresado no existe"
+            msg: "La institucion ingresada no existe"
         });
     }
     try {

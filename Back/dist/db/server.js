@@ -23,6 +23,7 @@ const caba_aModel_1 = require("../models/caba\u00F1aModel");
 const pisoModel_1 = require("../models/pisoModel");
 const tipoHabitacionModel_1 = require("../models/tipoHabitacionModel");
 const habitacionModel_1 = require("../models/habitacionModel");
+const categoriaModel_1 = require("../models/categoriaModel");
 //importar seeders
 const estadoSeeder_1 = require("./seeders/estadoSeeder");
 const rolSeeder_1 = require("./seeders/rolSeeder");
@@ -37,6 +38,7 @@ const estadoRoutes_1 = __importDefault(require("../routes/estadoRoutes"));
 const pisoRoutes_1 = __importDefault(require("../routes/pisoRoutes"));
 const tipoHabitacionRoutes_1 = __importDefault(require("../routes/tipoHabitacionRoutes"));
 const habitacionRoutes_1 = __importDefault(require("../routes/habitacionRoutes"));
+const categoriaRoutes_1 = __importDefault(require("../routes/categoriaRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -60,6 +62,7 @@ class Server {
         this.app.use('/api/pisos', pisoRoutes_1.default);
         this.app.use('/api/tipohabitacion', tipoHabitacionRoutes_1.default);
         this.app.use('/api/habitaciones', habitacionRoutes_1.default);
+        this.app.use('/api/categorias', categoriaRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -76,6 +79,7 @@ class Server {
                 yield pisoModel_1.Piso.sync();
                 yield tipoHabitacionModel_1.TipoHabitacion.sync();
                 yield habitacionModel_1.Habitacion.sync();
+                yield categoriaModel_1.Categoria.sync();
                 //correr seeders
                 yield this.runSeeders();
             }
