@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Importa Link
 import "../Styles/Crud.css";
+import { show_alerta } from "../functions";
 import { useCategoria } from "../Hooks/useCategoria.js";
 
 const CategoriaPage = () => {
@@ -18,15 +19,40 @@ const CategoriaPage = () => {
   } = useCategoria();
 
   const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 5; // Número de pisos por página
-  const totalPages = categorias ? Math.ceil(categorias.length / itemsPerPage) : 0; // Total de páginas (con verificación de pisos)
+  const itemsPerPage = 5; // Número de categorías por página
+  const totalPages = categorias
+    ? Math.ceil(categorias.length / itemsPerPage)
+    : 0; // Total de páginas
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentCategoria = categorias.slice(startIndex, startIndex + itemsPerPage); // Corregido el cálculo de slice
+  const currentCategoria = categorias.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  ); // Lista de categorías filtradas por página
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const showHelp = () => {
+    show_alerta(
+      " Guía de Gestión de Categorías\n\n" +
+      "En este apartado puedes gestionar las categorías del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+      "<b>1. <i class='fas fa-plus-circle'></i> Añadir Categoría:</b>\n" +
+      "   - Este botón te permite agregar una nueva categoría al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar el nombre de la categoría.\n\n" +
+      "<b>2. <i class='fas fa-edit'></i> Editar Categoría:</b>\n" +
+      "   - Cuando quieras modificar los detalles de una categoría existente, selecciona la opción de editar. Podrás cambiar el nombre de la categoría.\n\n" +
+      "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+      "   - Este botón te permite activar o desactivar la categoría según su disponibilidad. Si una categoría está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
+      "<b>¿Qué debes hacer?</b>\n" +
+      "   - Para gestionar las categorías correctamente, comienza añadiendo nuevas categorías si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
+      "info",
+      "",
+      "1200px",  // Ajuste del ancho a 1200px
+      "14px"     // Ajuste del tamaño de la fuente
+    );
+  };
+  
 
   return (
     <div className="bg-light">
@@ -60,6 +86,26 @@ const CategoriaPage = () => {
                 data-bs-target="#modalCategorias"
               >
                 <i className="fa fa-plus-circle mt-2"></i> Añadir Categoría
+              </button>
+              <button
+                onClick={showHelp}
+                className="btn btn-circle btn-danger"
+                style={{
+                  position: "fixed",
+                  bottom: "600px",
+                  right: "180px",
+                  borderRadius: "50%",
+                  width: "60px", 
+                  height: "60px", 
+                  padding: "0", 
+                  fontSize: "30px",
+                  zIndex: "999",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i className="fa fa-question-circle"></i>
               </button>
             </div>
           </div>
@@ -196,6 +242,9 @@ const CategoriaPage = () => {
               ></button>
             </div>
             <div className="modal-body">
+              <div className="mb-2">
+                <strong>Nombre de la Categoria</strong>
+              </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="fa-solid fa-gift"></i>
@@ -204,9 +253,10 @@ const CategoriaPage = () => {
                   type="text"
                   id="nombre_categoria"
                   className="form-control"
-                  placeholder="Nombre de la Categoría"
+                  placeholder="Ejemplo: Alimentación, Servicios, Restaurante"
                   value={nombre_categoria}
-                  onChange={(e) => {setNombreCategoria(e.target.value);
+                  onChange={(e) => {
+                    setNombreCategoria(e.target.value);
                   }}
                 />
               </div>

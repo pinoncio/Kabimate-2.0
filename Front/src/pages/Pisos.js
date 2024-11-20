@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import usePisos from "../Hooks/usePisos"; // Importando el hook personalizado
+import { show_alerta } from "../functions";
 import "../Styles/Pisos.css"; // Estilos específicos para pisos
 
 const PisoPage = () => {
@@ -25,6 +26,26 @@ const PisoPage = () => {
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const showHelp = () => {
+    show_alerta(
+      " Guía de Gestión de Pisos\n\n" +
+        "En este apartado puedes gestionar los pisos del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+        "<b>1. <i class='fas fa-plus-circle'></i> Añadir Piso:</b>\n" +
+        "   - Este botón te permite agregar un nuevo piso al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles del piso.\n\n" +
+        "<b>2. <i class='fas fa-edit'></i> Editar Piso:</b>\n" +
+        "   - Cuando quieras modificar los detalles de un piso existente, selecciona la opción de editar. Podrás cambiar el nombre del piso y otros atributos relevantes.\n\n" +
+        "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+        "   - Este botón te permite activar o desactivar el piso según su disponibilidad. Si un piso está inactivo, no estará disponible para los usuarios del sistema.\n\n" +
+        "<b>¿Qué debes hacer?</b>\n" +
+        "   - Para gestionar los pisos correctamente, comienza añadiendo nuevos pisos si aún no están registrados. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activos para que los usuarios puedan verlos y utilizarlos.",
+      "info",
+      "",
+      "1200px", // Ajuste del ancho a 1200px
+      "14px" // Ajuste del tamaño de la fuente
+    );
+  };
+  
 
   return (
     <div className="bg-light">
@@ -58,6 +79,26 @@ const PisoPage = () => {
                 data-bs-target="#modalPisos"
               >
                 <i className="fa fa-plus-circle mt-2"></i> Añadir Piso
+              </button>
+              <button
+                onClick={showHelp}
+                className="btn btn-circle btn-danger"
+                style={{
+                  position: "fixed",
+                  bottom: "600px",
+                  right: "180px",
+                  borderRadius: "50%",
+                  width: "60px", 
+                  height: "60px", 
+                  padding: "0", 
+                  fontSize: "30px",
+                  zIndex: "999",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i className="fa fa-question-circle"></i>
               </button>
             </div>
           </div>
@@ -149,7 +190,9 @@ const PisoPage = () => {
                   </li>
                 ))}
                 <li
-                  className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
                 >
                   <button
                     className="page-link"
@@ -178,16 +221,19 @@ const PisoPage = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className='modal-body'>
-              <div className='input-group mb-3'>
-                <span className='input-group-text'>
-                  <i className='fa-solid fa-gift'></i>
+            <div className="modal-body">
+              <div className="mb-2">
+                <strong>Numero del Piso</strong>
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-gift"></i>
                 </span>
                 <input
                   type="text"
                   id="nombre_piso"
                   className="form-control"
-                  placeholder="Numero del piso"
+                  placeholder="Ejemplo: piso (1, 2, 3), Piso Superior"
                   value={nombre_piso}
                   onChange={(e) => setNombrePiso(e.target.value)}
                 />

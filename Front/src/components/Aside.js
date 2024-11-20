@@ -246,7 +246,7 @@ export default function Aside({ selectedView }) {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/gProduct"
+                        to="/gProducto"
                         className="nav-link"
                       >
                         <i
