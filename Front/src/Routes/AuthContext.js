@@ -16,8 +16,6 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken);
       setRol(storedRol);
       setIdUsuario(storedIdUsuario);
-    } else {
-      console.log("No se encontraron valores en localStorage");
     }
   }, []);
   
