@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { loginUser } from "../services/Login";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../services/AuthContext";
+import { AuthContext } from "../Routes/AuthContext";
 import { show_alerta } from "../functions";
 import "../Styles/Login.css";
 
@@ -26,18 +26,18 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, contraseña } = event.target.elements;
-  
+
     setErrors({ email: false, contraseña: false });
-  
+
     try {
       const response = await loginUser({
         email: email.value,
         contrasenia: contraseña.value,
       });
-  
+
       if (response.data.token) {
         login(response.data.token, response.data.rol, response.data.idUsuario);
-  
+
         if (response.data.rol === 1) {
           navigate("/admin");
         } else if (response.data.rol === 2) {
@@ -46,16 +46,23 @@ const Login = () => {
       } else {
         // Si no hay token en la respuesta, se asume que hubo un error
         setErrors({ email: true, contraseña: true });
-        show_alerta("Error al iniciar sesión, por favor verifique los datos.", "error");
+        show_alerta(
+          "Error al iniciar sesión, por favor verifique los datos.",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Login error:", error);
-      
+
       // Si el error es de tipo response (backend devuelve un error)
       if (error.response) {
         // Mostrar mensaje de error basado en el mensaje de respuesta del backend
-        show_alerta(error.response.data.msg || "Ocurrió un error al intentar iniciar sesión.", "error");
-        
+        show_alerta(
+          error.response.data.msg ||
+            "Ocurrió un error al intentar iniciar sesión.",
+          "error"
+        );
+
         // Opcional: establecer errores en el formulario según el tipo de error recibido
         if (error.response.data.msg === "El email ingresado no es valido") {
           setErrors({ email: true, contraseña: false });
@@ -66,12 +73,14 @@ const Login = () => {
         }
       } else {
         // Si el error es de otro tipo (red, problemas en la conexión, etc.)
-        show_alerta("Hubo un problema con la conexión. Intenta más tarde.", "error");
+        show_alerta(
+          "Hubo un problema con la conexión. Intenta más tarde.",
+          "error"
+        );
         setErrors({ email: true, contraseña: true });
       }
     }
   };
-  
 
   return (
     <div className="login-container">
@@ -114,6 +123,7 @@ const Login = () => {
               errors.contraseña ? "error" : ""
             }`}
             onBlur={handleBlur}
+            autocomplete="on"
           />
         </div>
         {errors.contraseña && (

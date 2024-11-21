@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AuthContext } from "../services/AuthContext";
+import { AuthContext } from "../Routes/AuthContext";
 
 export default function Header({ setSelectedView, setDataVisible }) {
   const [rol, setRol] = useState(null);
