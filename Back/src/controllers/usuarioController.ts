@@ -166,7 +166,7 @@ export const loginUser = async(req: Request, res: Response) =>{
     const token = jwt.sign({
         email: email,
         rol: usuarioRol
-    }, process.env.SECRET_KEY || 'PRUEBA1'); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
+    }, process.env.SECRET_KEY || 'PRUEBA1',{expiresIn: '10000'}); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
     res.json({token, rol: usuarioRol, idUsuario: usuarioId});
 };
 
