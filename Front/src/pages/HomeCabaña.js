@@ -13,7 +13,7 @@ export default function HomeCabana() {
   const [capacidadMax, setCapacidadMax] = useState("");
   const [cantidadPiezasMin, setCantidadPiezasMin] = useState("");
   const [cantidadPiezasMax, setCantidadPiezasMax] = useState("");
-  const [ubicacion, setUbicacion] = useState("");
+  const [ubicacion] = useState("");
   const [filteredCabanas, setFilteredCabanas] = useState([]);
   const [estados, setEstados] = useState({});
   const idUsuario = localStorage.getItem("idUsuario");
@@ -138,6 +138,7 @@ export default function HomeCabana() {
     setBusqueda(e.target.value);
   };
 
+  /*
   const handlePrecioMin = (e) => {
     setPrecioMin(e.target.value);
   };
@@ -164,7 +165,7 @@ export default function HomeCabana() {
 
   const handleUbicacion = (e) => {
     setUbicacion(e.target.value);
-  };
+  };*/
 
   const clearFiltroEstado = () => {
     setFiltroEstado("");

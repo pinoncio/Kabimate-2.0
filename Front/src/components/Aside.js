@@ -38,7 +38,9 @@ export default function Aside({ selectedView }) {
 
   return (
     <aside
-      className="main-sidebar sidebar-dark-primary elevation-4"
+      className={`main-sidebar sidebar-dark-primary elevation-4 ${
+        scrolling ? "scrolled" : ""
+      }`}
       style={{ backgroundColor: "#a47551" }}
     >
       <h1 className="brand-text kabimate-header">KABIMATE</h1>
@@ -63,16 +65,7 @@ export default function Aside({ selectedView }) {
                           className="nav-icon fas fa-hotel"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>Hotel</p>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/crud-reservations" className="nav-link">
-                        <i
-                          className="nav-icon fas fa-edit"
-                          style={{ color: "#ffffff" }}
-                        />
-                        <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
+                        <p style={{ color: "#ffffff" }}>Habitaciones</p>
                       </Link>
                     </li>
                     <li className="nav-item">
@@ -85,12 +78,12 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/my-reservations" className="nav-link">
+                      <Link to="/crud-reservations" className="nav-link">
                         <i
-                          className="nav-icon fas fa-user-check"
+                          className="nav-icon fas fa-edit"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>Mis Reservas</p>
+                        <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
                       </Link>
                     </li>
                     <li className="nav-item">
@@ -158,10 +151,7 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link
-                        to="/gProducto"
-                        className="nav-link"
-                      >
+                      <Link to="/gProducto" className="nav-link">
                         <i
                           className="nav-icon fas fa-box"
                           style={{ color: "#ffffff" }}
@@ -205,15 +195,6 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/my-reservations" className="nav-link">
-                        <i
-                          className="nav-icon fas fa-user-check"
-                          style={{ color: "#ffffff" }}
-                        />
-                        <p style={{ color: "#ffffff" }}>Mis Reservas</p>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
                       <Link to="/reservation-history" className="nav-link">
                         <i
                           className="nav-icon fas fa-history"
@@ -245,10 +226,7 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link
-                        to="/gProducto"
-                        className="nav-link"
-                      >
+                      <Link to="/gProducto" className="nav-link">
                         <i
                           className="nav-icon fas fa-box"
                           style={{ color: "#ffffff" }}
