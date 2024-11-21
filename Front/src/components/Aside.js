@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"; // Importamos Link de react-router-dom
 import "../Styles/Aside.css";
 
 export default function Aside({ selectedView }) {
-  const [rol, setRol] = useState(sessionStorage.getItem("rol"));
+  const [rol, setRol] = useState(localStorage.getItem("rol"));
   const [scrolling, setScrolling] = useState(false);
-  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false); // Estado para manejar el desplegable
+  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +20,7 @@ export default function Aside({ selectedView }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newRol = sessionStorage.getItem("rol");
+      const newRol = localStorage.getItem("rol");
       if (newRol !== rol) {
         setRol(newRol);
       }
@@ -42,35 +42,9 @@ export default function Aside({ selectedView }) {
       style={{ backgroundColor: "#a47551" }}
     >
       <h1 className="brand-text kabimate-header">KABIMATE</h1>
-
+      <hr className="kabimate-divider" />
       <div className="sidebar">
-        {/* Muestra el campo de búsqueda solo en las vistas de Hoteles y Cabañas */}
-        {(isHotelesView || isCabanasView) && (
-          <div className="form-inline" style={{ marginTop: "20px" }}>
-            <div className="input-group" data-widget="sidebar-search">
-              <input
-                className="form-control form-control-sidebar"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                style={{
-                  color: "#000000",
-                  backgroundColor: "#ffffff",
-                }}
-              />
-              <div className="input-group-append">
-                <button className="btn btn-sidebar">
-                  <i
-                    className="fas fa-search fa-fw"
-                    style={{ color: "#ffffff" }}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <nav className="mt-2">
+        <nav className="mt-4">
           <ul
             className="nav nav-pills nav-sidebar flex-column"
             data-widget="treeview"
@@ -84,7 +58,7 @@ export default function Aside({ selectedView }) {
                 {isHotelesView && (
                   <>
                     <li className="nav-item">
-                      <Link to="/hoteles" className="nav-link">
+                      <Link to="/Hhotel" className="nav-link">
                         <i
                           className="nav-icon fas fa-hotel"
                           style={{ color: "#ffffff" }}
@@ -173,7 +147,7 @@ export default function Aside({ selectedView }) {
                       )}
                     </li>
                     <li className="nav-item">
-                      <Link to="/category-management" className="nav-link">
+                      <Link to="/gCategory" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
@@ -185,7 +159,7 @@ export default function Aside({ selectedView }) {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/product-service-management"
+                        to="/gProducto"
                         className="nav-link"
                       >
                         <i
@@ -260,7 +234,7 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/category-management" className="nav-link">
+                      <Link to="/gCategory" className="nav-link">
                         <i
                           className="nav-icon fas fa-tags"
                           style={{ color: "#ffffff" }}
@@ -272,7 +246,7 @@ export default function Aside({ selectedView }) {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/product-service-management"
+                        to="/gProducto"
                         className="nav-link"
                       >
                         <i

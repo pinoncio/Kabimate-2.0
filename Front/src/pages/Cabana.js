@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useCabanas from "../Hooks/useCabana";
+import { show_alerta } from "../functions";
 import "../Styles/cabana.css";
 
 const CabanaPage = () => {
@@ -30,16 +31,36 @@ const CabanaPage = () => {
   } = useCabanas();
 
   const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 5; // Número de cabañas por página
-  const totalPages = Math.ceil(cabanas.length / itemsPerPage); // Total de páginas
+  const itemsPerPage = 4; // Número de cabañas por página
+  const totalPages = cabanas ? Math.ceil(cabanas.length / itemsPerPage) : 0; // Total de páginas
 
   // Cálculo de las cabañas a mostrar en la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCabanas = cabanas.slice(startIndex, startIndex + itemsPerPage);
 
   // Cambiar la página actual
-  const handlePageChange = (pageNumber) => {
+  const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  // Función para mostrar la ayuda
+  const showHelp = () => {
+    show_alerta(
+      " Guía de Gestión de Categorías\n\n" +
+        "En este apartado puedes gestionar las categorías del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+        "<b>1. <i class='fas fa-plus-circle'></i> Añadir Categoría:</b>\n" +
+        "   - Este botón te permite agregar una nueva categoría al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar el nombre de la categoría.\n\n" +
+        "<b>2. <i class='fas fa-edit'></i> Editar Categoría:</b>\n" +
+        "   - Cuando quieras modificar los detalles de una categoría existente, selecciona la opción de editar. Podrás cambiar el nombre de la categoría.\n\n" +
+        "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+        "   - Este botón te permite activar o desactivar la categoría según su disponibilidad. Si una categoría está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
+        "<b>¿Qué debes hacer?</b>\n" +
+        "   - Para gestionar las categorías correctamente, comienza añadiendo nuevas categorías si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
+      "info",
+      "",
+      "1200px", // Ajuste del ancho a 1200px
+      "14px" // Ajuste del tamaño de la fuente
+    );
   };
 
   return (
@@ -75,6 +96,27 @@ const CabanaPage = () => {
               >
                 <i className="fa fa-plus-circle mt-2"></i> Añadir Cabaña
               </button>
+
+              <button
+                onClick={showHelp}
+                className="btn btn-circle btn-danger"
+                style={{
+                  position: "fixed",
+                  bottom: "600px",
+                  right: "180px",
+                  borderRadius: "50%",
+                  width: "60px", 
+                  height: "60px", 
+                  padding: "0", 
+                  fontSize: "30px",
+                  zIndex: "999",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i className="fa fa-question-circle"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -84,6 +126,7 @@ const CabanaPage = () => {
               <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
                 Lista de Cabañas
               </h2>
+
               <div className="table-responsive">
                 <table className="table table-bordered table-custom">
                   <thead>
@@ -158,6 +201,17 @@ const CabanaPage = () => {
             {/* Paginación */}
             <nav aria-label="Page navigation">
               <ul className="pagination justify-content-center">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => changePage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Anterior
+                  </button>
+                </li>
                 {Array.from({ length: totalPages }, (_, index) => (
                   <li
                     key={index + 1}
@@ -167,18 +221,30 @@ const CabanaPage = () => {
                   >
                     <button
                       className="page-link"
-                      onClick={() => handlePageChange(index + 1)}
+                      onClick={() => changePage(index + 1)}
                     >
                       {index + 1}
                     </button>
                   </li>
                 ))}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => changePage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Siguiente
+                  </button>
+                </li>
               </ul>
             </nav>
           </div>
         </div>
       </div>
-
       {/* Modal para agregar o editar Cabañas */}
       <div id="modalCabanas" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
@@ -194,6 +260,11 @@ const CabanaPage = () => {
             </div>
             <div className="modal-body">
               <input type="hidden" id="id"></input>
+
+              {/* Mini Título para Capacidad de la Cabaña */}
+              <div className="mb-2">
+                <strong>Capacidad de la Cabaña</strong>
+              </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="fa-solid fa-bed"></i>
@@ -202,10 +273,15 @@ const CabanaPage = () => {
                   type="number"
                   id="capacidad"
                   className="form-control"
-                  placeholder="Capacidad de la Cabaña"
+                  placeholder="Número máximo de personas que puede alojar la cabaña"
                   value={capacidad}
                   onChange={(e) => setCapacidad(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Cantidad de Piezas */}
+              <div className="mb-2">
+                <strong>Cantidad de Piezas</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -215,10 +291,15 @@ const CabanaPage = () => {
                   type="number"
                   id="cantidad_piezas"
                   className="form-control"
-                  placeholder="Cantidad de Piezas"
+                  placeholder="Número de piezas disponibles en la cabaña"
                   value={cantidad_piezas}
                   onChange={(e) => setCantidadPiezas(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Precio por Noche */}
+              <div className="mb-2">
+                <strong>Precio por Noche</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -228,10 +309,15 @@ const CabanaPage = () => {
                   type="number"
                   id="precio_por_noche"
                   className="form-control"
-                  placeholder="Precio por Noche"
+                  placeholder="Precio por noche"
                   value={precio_por_noche}
                   onChange={(e) => setPrecioPorNoche(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Ubicación */}
+              <div className="mb-2">
+                <strong>Ubicación</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -241,10 +327,15 @@ const CabanaPage = () => {
                   type="text"
                   id="ubicacion"
                   className="form-control"
-                  placeholder="Ubicación"
+                  placeholder="Ubicación exacta de la cabaña"
                   value={ubicacion}
                   onChange={(e) => setUbicacion(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Servicios Incluidos */}
+              <div className="mb-2">
+                <strong>Servicios Incluidos</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -254,10 +345,15 @@ const CabanaPage = () => {
                   type="text"
                   id="servicios_incluidos"
                   className="form-control"
-                  placeholder="Servicios Incluidos"
+                  placeholder="Servicios que se incluyen (ejemplo: WiFi, TV, Cocina)"
                   value={servicios_incluidos}
                   onChange={(e) => setServiciosIncluidos(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Descripción de la Cabaña */}
+              <div className="mb-2">
+                <strong>Descripción de la Cabaña</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -267,10 +363,15 @@ const CabanaPage = () => {
                   type="text"
                   id="descripcion_cabania"
                   className="form-control"
-                  placeholder="Descripción de la Cabaña"
+                  placeholder="Descripción general de la cabaña (ejemplo: rustica, moderna, cerca del mar)"
                   value={descripcion_cabania}
                   onChange={(e) => setDescripcionCabania(e.target.value)}
                 />
+              </div>
+
+              {/* Mini Título para Estado de la Cabaña */}
+              <div className="mb-2">
+                <strong>Estado de la Cabaña</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -293,6 +394,7 @@ const CabanaPage = () => {
                   ))}
                 </select>
               </div>
+
               <div className="d-grid col-6 mx-auto">
                 <button onClick={() => validar()} className="btn btn-success">
                   {operation === 1 ? "Registrar" : "Actualizar"}

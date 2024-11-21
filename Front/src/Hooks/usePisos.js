@@ -13,7 +13,7 @@ const usePisos = () => {
   const [nombre_piso, setNombrePiso] = useState("");
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState("");
-  const id_usuario_piso = sessionStorage.getItem("idUsuario");
+  const id_usuario_piso = localStorage.getItem("idUsuario");
 
   useEffect(() => {
     getAllPisos(id_usuario_piso);
@@ -34,7 +34,7 @@ const usePisos = () => {
     op,
     id_piso = "",
     nombre_piso = "",
-    id_usuario_piso = sessionStorage.getItem("idUsuario")
+    id_usuario_piso = localStorage.getItem("idUsuario")
   ) => {
     setIdPiso(id_piso);
     setNombrePiso(nombre_piso);
@@ -50,7 +50,7 @@ const usePisos = () => {
   };
 
   const validar = async () => {
-    const id_usuario_piso = sessionStorage.getItem("idUsuario");
+    const id_usuario_piso = localStorage.getItem("idUsuario");
 
     const validarCreacion = () => {
       return nombre_piso.trim() === "";
@@ -99,7 +99,7 @@ const usePisos = () => {
       await updatePiso(id_piso, pisoData);
       show_alerta("El piso fue editado con éxito.", "success");
       // Recargar la lista de pisos después de la actualización y ordenarla
-      const id_usuario_piso = sessionStorage.getItem("idUsuario");
+      const id_usuario_piso = localStorage.getItem("idUsuario");
       getAllPisos(id_usuario_piso);
       document.getElementById("btnCerrar").click();
     } catch (error) {

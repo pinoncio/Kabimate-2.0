@@ -23,7 +23,7 @@ export default function usePerfil() {
   });
 
   useEffect(() => {
-    const idUsuario = sessionStorage.getItem('idUsuario');
+    const idUsuario = localStorage.getItem('idUsuario');
     getUserA(idUsuario)
       .then((userData) => {
         setUser({
@@ -50,7 +50,7 @@ export default function usePerfil() {
   };
 
   const handleSave = async () => {
-    const idUsuario = sessionStorage.getItem('idUsuario');
+    const idUsuario = localStorage.getItem('idUsuario');
     try {
       await updateUserA(idUsuario, user);
       show_alerta('El usuario fue editado con éxito.');

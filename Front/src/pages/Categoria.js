@@ -1,27 +1,34 @@
+// pages/Categoria.js
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import usePisos from "../Hooks/usePisos"; // Importando el hook personalizado
+import { Link } from "react-router-dom"; // Importa Link
+import "../Styles/Crud.css";
 import { show_alerta } from "../functions";
-import "../Styles/Pisos.css"; // Estilos específicos para pisos
+import { useCategoria } from "../Hooks/useCategoria.js";
 
-const PisoPage = () => {
+const CategoriaPage = () => {
   const {
-    pisos,
-    nombre_piso,
-    title,
+    categorias,
+    nombre_categoria,
+    setNombreCategoria,
     operation,
+    title,
     openModal,
     validar,
-    handleTogglePisoStatus,
-    setNombrePiso,
-  } = usePisos();
+    deleteCategoriaById,
+    handleToggleCategoria,
+  } = useCategoria();
 
   const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 5; // Número de pisos por página
-  const totalPages = pisos ? Math.ceil(pisos.length / itemsPerPage) : 0; // Total de páginas (con verificación de pisos)
+  const itemsPerPage = 5; // Número de categorías por página
+  const totalPages = categorias
+    ? Math.ceil(categorias.length / itemsPerPage)
+    : 0; // Total de páginas
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentPisos = pisos.slice(startIndex, startIndex + itemsPerPage); // Corregido el cálculo de slice
+  const currentCategoria = categorias.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  ); // Lista de categorías filtradas por página
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -29,20 +36,20 @@ const PisoPage = () => {
 
   const showHelp = () => {
     show_alerta(
-      " Guía de Gestión de Pisos\n\n" +
-        "En este apartado puedes gestionar los pisos del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
-        "<b>1. <i class='fas fa-plus-circle'></i> Añadir Piso:</b>\n" +
-        "   - Este botón te permite agregar un nuevo piso al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles del piso.\n\n" +
-        "<b>2. <i class='fas fa-edit'></i> Editar Piso:</b>\n" +
-        "   - Cuando quieras modificar los detalles de un piso existente, selecciona la opción de editar. Podrás cambiar el nombre del piso y otros atributos relevantes.\n\n" +
-        "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
-        "   - Este botón te permite activar o desactivar el piso según su disponibilidad. Si un piso está inactivo, no estará disponible para los usuarios del sistema.\n\n" +
-        "<b>¿Qué debes hacer?</b>\n" +
-        "   - Para gestionar los pisos correctamente, comienza añadiendo nuevos pisos si aún no están registrados. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activos para que los usuarios puedan verlos y utilizarlos.",
+      " Guía de Gestión de Categorías\n\n" +
+      "En este apartado puedes gestionar las categorías del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+      "<b>1. <i class='fas fa-plus-circle'></i> Añadir Categoría:</b>\n" +
+      "   - Este botón te permite agregar una nueva categoría al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar el nombre de la categoría.\n\n" +
+      "<b>2. <i class='fas fa-edit'></i> Editar Categoría:</b>\n" +
+      "   - Cuando quieras modificar los detalles de una categoría existente, selecciona la opción de editar. Podrás cambiar el nombre de la categoría.\n\n" +
+      "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+      "   - Este botón te permite activar o desactivar la categoría según su disponibilidad. Si una categoría está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
+      "<b>¿Qué debes hacer?</b>\n" +
+      "   - Para gestionar las categorías correctamente, comienza añadiendo nuevas categorías si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
       "info",
       "",
-      "1200px", // Ajuste del ancho a 1200px
-      "14px" // Ajuste del tamaño de la fuente
+      "1200px",  // Ajuste del ancho a 1200px
+      "14px"     // Ajuste del tamaño de la fuente
     );
   };
   
@@ -57,7 +64,7 @@ const PisoPage = () => {
               style={{ marginTop: "50px" }}
             >
               <Link
-                to="/homeH"
+                to="/home"
                 className="btn"
                 style={{
                   backgroundColor: "#a47551",
@@ -69,16 +76,16 @@ const PisoPage = () => {
               </Link>
               <button
                 onClick={() => openModal(1)}
-                className="btn"
+                className="btn btn-primary"
                 style={{
                   backgroundColor: "#a47551",
                   borderColor: "#a47551",
                   color: "white",
                 }}
                 data-bs-toggle="modal"
-                data-bs-target="#modalPisos"
+                data-bs-target="#modalCategorias"
               >
-                <i className="fa fa-plus-circle mt-2"></i> Añadir Piso
+                <i className="fa fa-plus-circle mt-2"></i> Añadir Categoría
               </button>
               <button
                 onClick={showHelp}
@@ -104,37 +111,36 @@ const PisoPage = () => {
           </div>
         </div>
 
-        {/* Tabla de Pisos */}
         <div className="row mt-5">
           <div className="col-12 col-lg-8 offset-0 offset-lg-2">
             <div className="card-container">
               <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
-                Lista de Pisos
+                Lista de Categorías
               </h2>
               <div className="table-responsive">
                 <table className="table table-bordered table-custom">
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>NUMERO</th>
-                      <th>ESTADO PISO</th>
+                      <th>NOMBRE</th>
+                      <th>ESTADO</th>
                       <th>ACCIONES</th>
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {currentPisos.map((piso, i) => (
-                      <tr key={piso.ID_PISO}>
+                    {currentCategoria.map((categoria, i) => (
+                      <tr key={categoria.ID_CATEGORIA}>
                         <td>{startIndex + i + 1}</td>
-                        <td>{piso.NOMBRE_PISO}</td>
+                        <td>{categoria.NOMBRE_CATEGORIA}</td>
                         <td>
                           <label className="switch">
                             <input
                               type="checkbox"
-                              checked={piso.ESTADO_PISO === true}
+                              checked={categoria.ESTADO_CATEGORIA === true}
                               onChange={() =>
-                                handleTogglePisoStatus(
-                                  piso.ID_PISO,
-                                  !piso.ESTADO_PISO
+                                handleToggleCategoria(
+                                  categoria.ID_CATEGORIA,
+                                  !categoria.ESTADO_CATEGORIA
                                 )
                               }
                             />
@@ -144,13 +150,29 @@ const PisoPage = () => {
                         <td>
                           <button
                             onClick={() =>
-                              openModal(2, piso.ID_PISO, piso.NOMBRE_PISO)
+                              openModal(
+                                2,
+                                categoria.ID_CATEGORIA,
+                                categoria.NOMBRE_CATEGORIA
+                              )
                             }
                             className="btn btn-warning btn-custom"
                             data-bs-toggle="modal"
-                            data-bs-target="#modalPisos"
+                            data-bs-target="#modalCategorias"
                           >
                             <i className="fa-solid fa-edit"></i>
+                          </button>
+                          &nbsp;
+                          <button
+                            onClick={() =>
+                              deleteCategoriaById(
+                                categoria.ID_CATEGORIA,
+                                categoria.NOMBRE_CATEGORIA
+                              )
+                            }
+                            className="btn btn-danger"
+                          >
+                            <i className="fa-solid fa-trash"></i>
                           </button>
                         </td>
                       </tr>
@@ -159,8 +181,6 @@ const PisoPage = () => {
                 </table>
               </div>
             </div>
-
-            {/* Paginación */}
             <nav aria-label="Page navigation">
               <ul className="pagination justify-content-center">
                 <li
@@ -208,8 +228,8 @@ const PisoPage = () => {
         </div>
       </div>
 
-      {/* Modal Piso */}
-      <div id="modalPisos" className="modal fade" aria-hidden="true">
+      {/* Modal para agregar/editar categorías */}
+      <div id="modalCategorias" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -218,12 +238,12 @@ const PisoPage = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
+                aria-label="close"
               ></button>
             </div>
             <div className="modal-body">
               <div className="mb-2">
-                <strong>Numero del Piso</strong>
+                <strong>Nombre de la Categoria</strong>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -231,11 +251,13 @@ const PisoPage = () => {
                 </span>
                 <input
                   type="text"
-                  id="nombre_piso"
+                  id="nombre_categoria"
                   className="form-control"
-                  placeholder="Ejemplo: piso (1, 2, 3), Piso Superior"
-                  value={nombre_piso}
-                  onChange={(e) => setNombrePiso(e.target.value)}
+                  placeholder="Ejemplo: Alimentación, Servicios, Restaurante"
+                  value={nombre_categoria}
+                  onChange={(e) => {
+                    setNombreCategoria(e.target.value);
+                  }}
                 />
               </div>
               <div className="d-grid col-6 mx-auto">
@@ -260,4 +282,4 @@ const PisoPage = () => {
   );
 };
 
-export default PisoPage;
+export default CategoriaPage;

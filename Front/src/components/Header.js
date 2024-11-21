@@ -8,20 +8,20 @@ export default function Header({ setSelectedView, setDataVisible }) {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Obtener rol e idUsuario desde sessionStorage cuando el componente se monta
+  // Obtener rol e idUsuario desde localStorage cuando el componente se monta
   useEffect(() => {
-    const storedRol = sessionStorage.getItem("rol");
-    const storedIdUsuario = sessionStorage.getItem("idUsuario");
+    const storedRol = localStorage.getItem("rol");
+    const storedIdUsuario = localStorage.getItem("idUsuario");
 
     if (storedRol && storedIdUsuario) {
       setRol(storedRol);
       setIdUsuario(storedIdUsuario);
     }
 
-    // Verificar cada segundo si los valores en sessionStorage cambian
+    // Verificar cada segundo si los valores en localStorege cambian
     const interval = setInterval(() => {
-      const newRol = sessionStorage.getItem("rol");
-      const newIdUsuario = sessionStorage.getItem("idUsuario");
+      const newRol = localStorage.getItem("rol");
+      const newIdUsuario = localStorage.getItem("idUsuario");
       if (newRol !== rol || newIdUsuario !== idUsuario) {
         setRol(newRol);
         setIdUsuario(newIdUsuario);
@@ -34,8 +34,8 @@ export default function Header({ setSelectedView, setDataVisible }) {
   // Función para manejar el cierre de sesión
   const handleLogout = () => {
     logout();
-    sessionStorage.removeItem("rol");
-    sessionStorage.removeItem("idUsuario");
+    localStorage.removeItem("rol");
+    localStorage.removeItem("idUsuario");
     setRol(null);
     setIdUsuario(null);
     navigate("/");
@@ -61,6 +61,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
         {rol && (
           <>
             <li className="nav-item d-none d-sm-inline-block">
+            <li className="nav-item d-none d-sm-inline-block">
               <Link
                 to={rol === "1" ? "/admin" : "/home"}
                 className="nav-link"
@@ -69,6 +70,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
               >
                 {rol === "1" ? "Administración" : "Home"}
               </Link>
+            </li>
             </li>
 
             {/* Mostrar solo si el rol no es 1 */}
@@ -104,17 +106,37 @@ export default function Header({ setSelectedView, setDataVisible }) {
           <>
             <li className="nav-item">
               <Link
-                to={
-                  rol === "1"
-                    ? `/perfilA/${idUsuario}`
-                    : `/perfilU/${idUsuario}`
-                }
+                to={rol === "1" ? `/perfilA/${idUsuario}` : `/perfilU/${idUsuario}`}
                 className="nav-link"
                 style={{ color: "#ffffff" }}
               >
                 <i className="fas fa-user" /> Perfil
               </Link>
             </li>
+
+            {/* Mostrar solo si el rol no es 1 */}
+            {rol !== "1" && (
+              <>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <Link
+                    to="/contactanos"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                  >
+                    <i className="fas fa-envelope" /> Contáctanos
+                  </Link>
+                </li>
+                <li className="nav-item d-none d-sm-inline-block">
+                  <Link
+                    to="/ayuda"
+                    className="nav-link"
+                    style={{ color: "#ffffff" }}
+                  >
+                    <i className="fas fa-question-circle" /> Ayuda
+                  </Link>
+                </li>
+              </>
+            )}
 
             <li className="nav-item">
               <a
@@ -128,6 +150,8 @@ export default function Header({ setSelectedView, setDataVisible }) {
             </li>
           </>
         )}
+
+        {/* El cuadrado (ícono de pantalla completa) al final */}
         <li className="nav-item">
           <a
             className="nav-link"

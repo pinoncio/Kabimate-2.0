@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useHabitacion from "../Hooks/useHabitacion";
+import { show_alerta } from "../functions";
 import "../Styles/habitacion.css";
 
 const HabitacionPage = () => {
@@ -36,8 +37,10 @@ const HabitacionPage = () => {
   } = useHabitacion();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-  const totalPages = Math.ceil(habitaciones.length / itemsPerPage);
+  const itemsPerPage = 4;
+  const totalPages = habitaciones
+    ? Math.ceil(habitaciones.length / itemsPerPage)
+    : 0;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentHabitaciones = habitaciones.slice(
@@ -45,8 +48,27 @@ const HabitacionPage = () => {
     startIndex + itemsPerPage
   );
 
-  const handlePageChange = (pageNumber) => {
+  const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const showHelp = () => {
+    show_alerta(
+      " Guía de Gestión de Habitaciones\n\n" +
+        "En este apartado puedes gestionar las habitaciones del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+        "<b>1. <i class='fas fa-plus-circle'></i> Añadir Habitación:</b>\n" +
+        "   - Este botón te permite agregar una nueva habitación al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles de la habitación.\n\n" +
+        "<b>2. <i class='fas fa-edit'></i> Editar Habitación:</b>\n" +
+        "   - Cuando quieras modificar los detalles de una habitación existente, selecciona la opción de editar. Podrás cambiar el nombre, tipo, capacidad y otros atributos de la habitación.\n\n" +
+        "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+        "   - Este botón te permite activar o desactivar la habitación según su disponibilidad. Si una habitación está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
+        "<b>¿Qué debes hacer?</b>\n" +
+        "   - Para gestionar las habitaciones correctamente, comienza añadiendo nuevas habitaciones si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
+      "info",
+      "",
+      "1200px", // Ajuste del ancho a 1200px
+      "14px" // Ajuste del tamaño de la fuente
+    );
   };
 
   return (
@@ -80,12 +102,32 @@ const HabitacionPage = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#modalHabitaciones"
               >
-                <i className="fa fa-plus-circle mt-2"></i> Añadir Habitación
+                <i className="fa fa-plus-circle "></i> Añadir Habitación
+              </button>
+              <button
+                onClick={showHelp}
+                className="btn btn-circle btn-danger"
+                style={{
+                  position: "fixed",
+                  bottom: "600px",
+                  right: "180px",
+                  borderRadius: "50%",
+                  width: "60px", 
+                  height: "60px", 
+                  padding: "0", 
+                  fontSize: "30px",
+                  zIndex: "999",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i className="fa fa-question-circle"></i>
               </button>
             </div>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row mt-3">
           <div className="col-12 col-lg-8 offset-0 offset-lg-2">
             <div className="card-container">
               <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
@@ -118,7 +160,9 @@ const HabitacionPage = () => {
                         <td>{habitacion.SERVICIOS_INCLUIDOS}</td>
                         <td>{habitacion.DESCRIPCION_HABITACION}</td>
                         <td>
-                          {obtenerNombreTipo(habitacion.ID_TIPO_HABITACION_HABITACION)}
+                          {obtenerNombreTipo(
+                            habitacion.ID_TIPO_HABITACION_HABITACION
+                          )}
                         </td>
                         <td>
                           {obtenerNombrePiso(habitacion.ID_PISO_HABITACION)}
@@ -169,25 +213,52 @@ const HabitacionPage = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="d-flex justify-content-between align-items-center mt-3">
-                <button
-                  className="btn btn-secondary"
-                  disabled={currentPage === 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Anterior
-                </button>
-                <span>
-                  Página {currentPage} de {totalPages}
-                </span>
-                <button
-                  className="btn btn-secondary"
-                  disabled={currentPage === totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Siguiente
-                </button>
-              </div>
+              {/* Paginación */}
+              <nav aria-label="Page navigation">
+                <ul className="pagination justify-content-center">
+                  <li
+                    className={`page-item ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => changePage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Anterior
+                    </button>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <li
+                      key={index + 1}
+                      className={`page-item ${
+                        currentPage === index + 1 ? "active" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => changePage(index + 1)}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => changePage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Siguiente
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
@@ -223,6 +294,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={numero_habitacion}
                     onChange={(e) => setNumeroHabitacion(e.target.value)}
+                    placeholder="Ejemplo: 101, 102A"
                   />
                 </div>
                 <div className="col-md-6">
@@ -232,6 +304,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={capacidad}
                     onChange={(e) => setCapacidad(e.target.value)}
+                    placeholder="Indique el número máximo de personas"
                   />
                 </div>
                 <div className="col-md-6">
@@ -241,6 +314,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={precio_por_noche}
                     onChange={(e) => setPrecioPorNoche(e.target.value)}
+                    placeholder="Ejemplo: 50000 sin punto"
                   />
                 </div>
                 <div className="col-md-6">
@@ -249,6 +323,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={servicios_incluidos}
                     onChange={(e) => setServiciosIncluidos(e.target.value)}
+                    placeholder="Ejemplo: Wi-Fi, Aire acondicionado, TV por cable"
                   />
                 </div>
                 <div className="col-md-6">
@@ -257,6 +332,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={descripcion_habitacion}
                     onChange={(e) => setDescripcionHabitacion(e.target.value)}
+                    placeholder="Describa brevemente las características de la habitación"
                   />
                 </div>
                 <div className="col-md-6">
@@ -267,9 +343,12 @@ const HabitacionPage = () => {
                     value={id_tipo_habitacion}
                     onChange={(e) => setIdTipoHabitacion(e.target.value)}
                   >
-                    <option value="">Seleccione un Tipo de habitacion</option>
+                    <option value="">Seleccione un Tipo de habitación</option>
                     {tipos.map((tipo) => (
-                      <option key={tipo.ID_TIPO_HABITACION} value={tipo.ID_TIPO_HABITACION}>
+                      <option
+                        key={tipo.ID_TIPO_HABITACION}
+                        value={tipo.ID_TIPO_HABITACION}
+                      >
                         {tipo.NOMBRE_TIPO_HABITACION}
                       </option>
                     ))}
@@ -310,25 +389,21 @@ const HabitacionPage = () => {
                     </select>
                   )}
                 </div>
-
-                <div className="modal-footer">
-                  <button
-                    id="btnCerrar"
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={validar}
-                  >
-                    {operation === 1 ? "Crear Usuario" : "Actualizar Usuario"}
-                  </button>
-                </div>
               </div>
+            </div>
+            <div className="d-grid col-6 mx-auto">
+              <button onClick={() => validar()} className="btn btn-success">
+                {operation === 1 ? "Registrar" : "Actualizar"}
+                <i className="fas fa-save ms-2"></i>
+              </button>
+              <button
+                id="btnCerrar"
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
             </div>
           </div>
         </div>

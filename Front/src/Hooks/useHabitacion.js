@@ -28,8 +28,8 @@ const useHabitacion = () => {
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState("");
 
-  const id_usuario_habitacion = sessionStorage.getItem("idUsuario");
-
+  const id_usuario_habitacion = localStorage.getItem("idUsuario");
+  
   useEffect(() => {
     if (id_usuario_habitacion) {
       getAllHabitaciones(id_usuario_habitacion);
@@ -110,7 +110,7 @@ const useHabitacion = () => {
     id_estado = ""
   ) => {
     // Usar el id_usuario_habitacion desde el estado
-    const id_usuario_habitacion = sessionStorage.getItem("idUsuario");
+    const id_usuario_habitacion = localStorage.getItem("idUsuario");
 
     setIdHabitacion(id_habitacion);
     setNumeroHabitacion(numero_habitacion);

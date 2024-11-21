@@ -24,7 +24,7 @@ const useCabana = () => {
   const [id_estado_cabania, setIdEstadoCabania] = useState("");
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState("");
-  const id_usuario_cabania = sessionStorage.getItem("idUsuario");
+  const id_usuario_cabania = localStorage.getItem("idUsuario");
 
   useEffect(() => {
     getAllCabanas(id_usuario_cabania);
@@ -63,7 +63,7 @@ const useCabana = () => {
     ubicacion = "",
     servicios_incluidos = "",
     descripcion_cabania = "",
-    id_usuario_cabania = sessionStorage.getItem("idUsuario"),
+    id_usuario_cabania = localStorage.getItem("idUsuario"),
     id_estado_cabania = ""
   ) => {
     setIdCabana(id_cabania);
@@ -87,7 +87,7 @@ const useCabana = () => {
   };
 
   const validar = async () => {
-    const id_usuario_cabania = sessionStorage.getItem("idUsuario");
+    const id_usuario_cabania = localStorage.getItem("idUsuario");
 
     const validarCreacion = () => {
       return (

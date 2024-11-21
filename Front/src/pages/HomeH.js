@@ -16,7 +16,7 @@ const HomeH = () => {
           {/* Contenedor para las cartas */}
           <div className="cards-container-cabana">
             <div className="category-description-cabana">
-              <i className="fa fa-house"></i> {/* Icono de Casa para Hoteles */}
+              <i className="fas fa-hotel"></i> {/* Icono de Casa para Hoteles */}
               <h2>Hotel</h2>
               <ula>
                 <li>Aquí puedes ver la lista completa de todos las habitaciones disponibles en el sistema.</li>
@@ -61,7 +61,7 @@ const HomeH = () => {
             </div>
   
             <div className="category-description-cabana">
-              <i className="fa fa-house-user"></i> {/* Icono de Casa para Hoteles */}
+              <i className="fa fas fa-hotel"></i>
               <h2>Gestión del Hotel</h2>
               <ul>
                 <li>Agrega y administra habitaciones.</li>
