@@ -47,13 +47,18 @@ class Server {
         this.port = process.env.PORT || '3001';
         this.midlewares();
         this.routes();
-        this.listen();
-        this.dbConnect();
     }
     listen() {
-        this.app.listen(this.port, () => {
-            console.log('Ejecutandose en el puerto ' + this.port);
+        this.server = this.app.listen(this.port, () => {
+            console.log('Ejecutándose en el puerto ' + this.port);
         });
+    }
+    close() {
+        if (this.server) {
+            this.server.close(() => __awaiter(this, void 0, void 0, function* () {
+                console.log('Servidor cerrado');
+            }));
+        }
     }
     routes() {
         this.app.use('/api/instituciones', institucionRoutes_1.default);
