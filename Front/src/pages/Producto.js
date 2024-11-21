@@ -306,7 +306,7 @@ const ProductoPage = () => {
                   type="number"
                   id="precio_producto"
                   className="form-control"
-                  placeholder="Ejemplo: 10.00 (precio por unidad)"
+                  placeholder="Ejemplo: 10000 (precio por unidad)"
                   value={precio_producto}
                   onChange={(e) => setPrecioProducto(e.target.value)}
                 />

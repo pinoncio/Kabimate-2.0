@@ -27,7 +27,7 @@ export default function Ayuda() {
             <li>
               <button
                 className="faq-question"
-                onClick={() => showAlert("Sí, puedes cambiar tu contraseña desde el panel de usuario en la sección 'Configuración'.", "info")}
+                onClick={() => showAlert("No puedes cambiar tu contraseña. Por favor, comunícate con el administrador.", "info")}
               >
                 ¿Puedo cambiar mi contraseña?
               </button>
@@ -35,7 +35,7 @@ export default function Ayuda() {
             <li>
               <button
                 className="faq-question"
-                onClick={() => showAlert("Las reservas se hacen a través de la plataforma en línea, donde podrás seleccionar el servicio que necesitas.", "info")}
+                onClick={() => showAlert("Las reservas se hacen a través de la plataforma en línea, en el apartado Habitaciones o Cabañas.", "info")}
               >
                 ¿Cómo puedo hacer una reserva?
               </button>
@@ -51,7 +51,7 @@ export default function Ayuda() {
             <li>
               <button
                 className="faq-question"
-                onClick={() => showAlert("Sí, puedes cancelar tu reserva en el apartado Mis Reservas en la barra lateral de la plataforma.", "info")}
+                onClick={() => showAlert("Sí, puedes cancelar tu reserva en el apartado Reservas en la barra lateral de la plataforma.", "info")}
               >
                 ¿Puedo cancelar mi reserva?
               </button>
@@ -59,7 +59,7 @@ export default function Ayuda() {
             <li>
               <button
                 className="faq-question"
-                onClick={() => showAlert("Ingresa a tu perfil y modifica los datos que desees actualizar, como teléfono o dirección.", "info")}
+                onClick={() => showAlert("Ingresa a tu perfil y modifica los datos que desees actualizar, como tu dirección.", "info")}
               >
                 ¿Cómo puedo actualizar mis datos?
               </button>

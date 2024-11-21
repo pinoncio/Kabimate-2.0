@@ -21,6 +21,13 @@
     margin-top: 30px;
 }
 
+.homec-title{
+    font-size: 2.5rem;
+    color: #a47551;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
 /* Estilo de las tarjetas */
 .category-description-cabana {
     margin: 0;

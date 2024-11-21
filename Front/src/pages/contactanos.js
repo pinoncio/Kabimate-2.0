@@ -12,7 +12,7 @@ export default function ContactPage() {
           <h2>Correo:</h2>
           <p>
             <strong>Email:</strong>{" "}
-            <a href="mailto:contacto@kabimate.com">contacto@kabimate.com</a>
+            <a href="mailto:contactokabimate@gmail.com">contactokabimate@gmail.com</a>
           </p>
         </div>
 
