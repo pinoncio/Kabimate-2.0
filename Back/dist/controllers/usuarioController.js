@@ -172,7 +172,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = jsonwebtoken_1.default.sign({
         email: email,
         rol: usuarioRol
-    }, process.env.SECRET_KEY || 'PRUEBA1', { expiresIn: '10000' }); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
+    }, process.env.SECRET_KEY || 'PRUEBA1', { expiresIn: '10m' }); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
     res.json({ token, rol: usuarioRol, idUsuario: usuarioId });
 });
 exports.loginUser = loginUser;
