@@ -243,6 +243,7 @@ export default function Aside({ selectedView }) {
                     <li className="nav-item">
                       <Link to="/gcabana" className="nav-link">
                         <i
+                          id = "gcabanas"
                           className="nav-icon fas fa-home"
                           style={{ color: "#ffffff" }}
                         />

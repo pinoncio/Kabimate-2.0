@@ -99,7 +99,7 @@ const CabanaPage = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#modalCabanas"
               >
-                <i className="fa fa-plus-circle mt-2"></i> Añadir Cabaña
+                <i id = "añadirC" className="fa fa-plus-circle mt-2"></i> Añadir Cabaña
               </button>
 
               <button

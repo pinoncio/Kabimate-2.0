@@ -100,6 +100,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
                   <a
+                    id = "cabanas"
                     href="#"
                     className="nav-link"
                     style={{ color: "#ffffff" }}
