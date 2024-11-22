@@ -1,8 +1,5 @@
 import React from "react";
 
 export default function Content() {
-  return (
-    <div className="content-wrapper">
-    </div>
-  );
+  return <div className="content-wrapper"></div>;
 }

@@ -1,21 +1,22 @@
-html, body {
-  height: 100%; 
+html,
+body {
+  height: 100%;
   margin: 0;
 }
 
 body {
-  background-color: #f5f5f0; 
+  background-color: #f5f5f0;
 }
 
 .container-fluid {
-  height: calc(97vh - 100px); 
-  padding: 20px 0; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: flex-start; 
-  background-image: url('../Images/email-pattern.png');
-  background-size: 150px; 
-  background-color: #f5f5f0; 
+  height: calc(97vh - 100px);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: url("../Images/email-pattern.png");
+  background-size: 150px;
+  background-color: #f5f5f0;
 }
 
 .card-container {
@@ -32,24 +33,23 @@ body {
 }
 
 .table-custom thead th {
-  background-color: #a47551;  /* Fondo del encabezado */
+  background-color: #a47551; /* Fondo del encabezado */
   color: white;
   text-align: center;
-  border: 1px solid #a47551;  /* Borde entre encabezados */
+  border: 1px solid #a47551; /* Borde entre encabezados */
 }
 
 .table-custom tbody td {
   text-align: center;
-  border: 1px solid #ddd;  /* Borde de las celdas */
+  border: 1px solid #ddd; /* Borde de las celdas */
 }
 
-
 .table-responsive {
-  margin-top: 50px; 
+  margin-top: 50px;
 }
 
 .btn-custom {
-  padding: 0.5rem 4rem; 
+  padding: 0.5rem 4rem;
 }
 
 .btn-custom {

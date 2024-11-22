@@ -18,7 +18,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
       setIdUsuario(storedIdUsuario);
     }
 
-    // Verificar cada segundo si los valores en localStorege cambian
+    // Verificar cada segundo si los valores en localStorage cambian
     const interval = setInterval(() => {
       const newRol = localStorage.getItem("rol");
       const newIdUsuario = localStorage.getItem("idUsuario");
@@ -36,6 +36,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
     logout();
     localStorage.removeItem("rol");
     localStorage.removeItem("idUsuario");
+    localStorage.removeItem("selectedView")
     setRol(null);
     setIdUsuario(null);
     navigate("/");
@@ -44,8 +45,20 @@ export default function Header({ setSelectedView, setDataVisible }) {
   // Cambiar vista entre Hoteles y Cabañas
   const handleViewChange = (view) => {
     setSelectedView(view);
+    // Guardamos el valor de selectedView en localStorage
+    localStorage.setItem("selectedView", view);
+
+    // Navegar a la ruta correspondiente según la vista seleccionada
     navigate(`/home${view === "hoteles" ? "H" : "C"}`);
   };
+
+  // Recuperamos el estado de selectedView de localStorage cuando el componente se monta
+  useEffect(() => {
+    const storedView = localStorage.getItem("selectedView");
+    if (storedView) {
+      setSelectedView(storedView);
+    }
+  }, [setSelectedView]);
 
   return (
     <nav
@@ -61,16 +74,14 @@ export default function Header({ setSelectedView, setDataVisible }) {
         {rol && (
           <>
             <li className="nav-item d-none d-sm-inline-block">
-            <li className="nav-item d-none d-sm-inline-block">
               <Link
                 to={rol === "1" ? "/admin" : "/home"}
                 className="nav-link"
                 style={{ color: "#ffffff" }}
-                onClick={handleViewChange}
+                onClick={() => handleViewChange("home")}
               >
                 {rol === "1" ? "Administración" : "Home"}
               </Link>
-            </li>
             </li>
 
             {/* Mostrar solo si el rol no es 1 */}
@@ -106,7 +117,11 @@ export default function Header({ setSelectedView, setDataVisible }) {
           <>
             <li className="nav-item">
               <Link
-                to={rol === "1" ? `/perfilA/${idUsuario}` : `/perfilU/${idUsuario}`}
+                to={
+                  rol === "1"
+                    ? `/perfilA/${idUsuario}`
+                    : `/perfilU/${idUsuario}`
+                }
                 className="nav-link"
                 style={{ color: "#ffffff" }}
               >

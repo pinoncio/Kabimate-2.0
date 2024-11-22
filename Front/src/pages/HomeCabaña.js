@@ -188,104 +188,103 @@ export default function HomeCabana() {
     <div className="home-cabana-container">
       {/* Filtros */}
       <div className="filters">
-  {/* Filtros agrupados */}
-  <div className="input-filters">
-    <select
-      value={precioMin}
-      onChange={(e) => setPrecioMin(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Precio mínimo</option>
-      <option value="5000">5,000 CLP</option>
-      <option value="10000">10,000 CLP</option>
-      <option value="20000">20,000 CLP</option>
-    </select>
-    <select
-      value={precioMax}
-      onChange={(e) => setPrecioMax(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Precio máximo</option>
-      <option value="50000">50,000 CLP</option>
-      <option value="100000">100,000 CLP</option>
-      <option value="200000">200,000 CLP</option>
-    </select>
+        {/* Filtros agrupados */}
+        <div className="input-filters">
+          <select
+            value={precioMin}
+            onChange={(e) => setPrecioMin(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Precio mínimo</option>
+            <option value="5000">5,000 CLP</option>
+            <option value="10000">10,000 CLP</option>
+            <option value="20000">20,000 CLP</option>
+          </select>
+          <select
+            value={precioMax}
+            onChange={(e) => setPrecioMax(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Precio máximo</option>
+            <option value="50000">50,000 CLP</option>
+            <option value="100000">100,000 CLP</option>
+            <option value="200000">200,000 CLP</option>
+          </select>
 
-    <select
-      value={capacidadMin}
-      onChange={(e) => setCapacidadMin(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Capacidad mínima</option>
-      <option value="1">1 persona</option>
-      <option value="2">2 personas</option>
-      <option value="4">4 personas</option>
-    </select>
-    <select
-      value={capacidadMax}
-      onChange={(e) => setCapacidadMax(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Capacidad máxima</option>
-      <option value="4">4 personas</option>
-      <option value="6">6 personas</option>
-      <option value="8">8 personas</option>
-    </select>
+          <select
+            value={capacidadMin}
+            onChange={(e) => setCapacidadMin(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Capacidad mínima</option>
+            <option value="1">1 persona</option>
+            <option value="2">2 personas</option>
+            <option value="4">4 personas</option>
+          </select>
+          <select
+            value={capacidadMax}
+            onChange={(e) => setCapacidadMax(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Capacidad máxima</option>
+            <option value="4">4 personas</option>
+            <option value="6">6 personas</option>
+            <option value="8">8 personas</option>
+          </select>
 
-    <select
-      value={cantidadPiezasMin}
-      onChange={(e) => setCantidadPiezasMin(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Piezas mínimas</option>
-      <option value="1">1 pieza</option>
-      <option value="2">2 piezas</option>
-    </select>
-    <select
-      value={cantidadPiezasMax}
-      onChange={(e) => setCantidadPiezasMax(e.target.value)}
-      className="form-control"
-    >
-      <option value="">Piezas máximas</option>
-      <option value="4">4 piezas</option>
-      <option value="6">6 piezas</option>
-    </select>
+          <select
+            value={cantidadPiezasMin}
+            onChange={(e) => setCantidadPiezasMin(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Piezas mínimas</option>
+            <option value="1">1 pieza</option>
+            <option value="2">2 piezas</option>
+          </select>
+          <select
+            value={cantidadPiezasMax}
+            onChange={(e) => setCantidadPiezasMax(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Piezas máximas</option>
+            <option value="4">4 piezas</option>
+            <option value="6">6 piezas</option>
+          </select>
 
-    <input
-      type="text"
-      placeholder="Buscar por ubicación o descripción"
-      value={busqueda}
-      onChange={handleBusqueda}
-      className="form-control"
-    />
-  </div>
+          <input
+            type="text"
+            placeholder="Buscar por ubicación o descripción"
+            value={busqueda}
+            onChange={handleBusqueda}
+            className="form-control"
+          />
+        </div>
 
-  {/* Botones de estado */}
-  <div className="button-filters">
-    <button
-      onClick={() => handleFiltroEstado("Disponible")}
-      className="filter-button disponible"
-    >
-      Disponible
-    </button>
-    <button
-      onClick={() => handleFiltroEstado("Ocupado")}
-      className="filter-button ocupado"
-    >
-      Ocupado
-    </button>
-    <button
-      onClick={() => handleFiltroEstado("En Mantención")}
-      className="filter-button mantenimiento"
-    >
-      En Mantención
-    </button>
-    <button onClick={clearFiltroEstado} className="filter-button reset">
-      Quitar Filtro
-    </button>
-  </div>
-</div>
-
+        {/* Botones de estado */}
+        <div className="button-filters">
+          <button
+            onClick={() => handleFiltroEstado("Disponible")}
+            className="filter-button disponible"
+          >
+            Disponible
+          </button>
+          <button
+            onClick={() => handleFiltroEstado("Ocupado")}
+            className="filter-button ocupado"
+          >
+            Ocupado
+          </button>
+          <button
+            onClick={() => handleFiltroEstado("En Mantención")}
+            className="filter-button mantenimiento"
+          >
+            En Mantención
+          </button>
+          <button onClick={clearFiltroEstado} className="filter-button reset">
+            Quitar Filtro
+          </button>
+        </div>
+      </div>
 
       {/* Contenedor de cartas */}
       <div className="cabana-cards-container">

@@ -39,26 +39,24 @@ const ProductoPage = () => {
     setCurrentPage(pageNumber);
   };
 
-
   const showHelp = () => {
     show_alerta(
       " Guía de Gestión de Productos para Hoteles y Cabañas\n\n" +
         "En este apartado podrás gestionar los productos de tu sistema para hoteles y cabañas. A continuación, te explicamos las acciones disponibles y cómo utilizar cada opción:\n\n" +
         "<b>1. <i class='fas fa-plus-circle'></i> Añadir Producto:</b>\n" +
-        "   - Este botón te permitirá agregar un nuevo producto al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles del producto, como su nombre, tipo y cantidad.\n\n" +
+        "   - Este botón te permitirá agregar un nuevo producto al sistema. Antes de crear un producto, verifica si la categoría a la que pertenece ya existe. Si no es así, deberás crearla primero para poder asignarla al producto. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles del producto, como su nombre, tipo, categoría y cantidad.\n\n" +
         "<b>2. <i class='fas fa-edit'></i> Editar Producto:</b>\n" +
         "   - Si deseas modificar la información de un producto que ya está registrado, selecciona la opción de editar. Podrás actualizar su nombre, tipo, precio y otros detalles según sea necesario.\n\n" +
         "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Producto:</b>\n" +
         "   - Este botón te permite activar o desactivar un producto, indicando si está disponible para los clientes. Si un producto está desactivado, no será visible para los usuarios del sistema.\n\n" +
         "<b>¿Cómo gestionar los productos?</b>\n" +
-        "   - Primero, añade los productos necesarios al sistema. Luego, podrás editar sus detalles y activar o desactivar su disponibilidad según lo requieras para la gestión de reservas y servicios en el hotel o cabaña.",
+        "   - Primero, verifica si la categoría del producto ya existe en el sistema. Si no existe, créala antes de añadir el producto. Luego, podrás añadir los productos necesarios al sistema. Después de esto, podrás editar sus detalles y activar o desactivar su disponibilidad según lo requieras para la gestión de reservas y servicios en el hotel o cabaña.",
       "info",
       "",
-      "1200px", // Ajuste del ancho a 1200px
-      "14px" // Ajuste del tamaño de la fuente
+      "1200px",
+      "14px"
     );
   };
-  
 
   return (
     <div className="bg-light">
@@ -101,9 +99,9 @@ const ProductoPage = () => {
                   bottom: "600px",
                   right: "180px",
                   borderRadius: "50%",
-                  width: "60px", 
-                  height: "60px", 
-                  padding: "0", 
+                  width: "60px",
+                  height: "60px",
+                  padding: "0",
                   fontSize: "30px",
                   zIndex: "999",
                   display: "flex",
@@ -259,7 +257,32 @@ const ProductoPage = () => {
               ></button>
             </div>
             <div className="modal-body">
-              {/* Mini Título para Nombre del Producto */}
+              <div className="mb-2">
+                <strong>Categoría del Producto</strong>
+                <p>(Recuerde si no existe la categoria, debe registrarla)</p>
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-tag"></i>
+                </span>
+                <select
+                  className="form-control"
+                  name="id_categoria"
+                  value={id_categoria}
+                  onChange={(e) => setIdCategoria(e.target.value)}
+                  style={{ color: "black" }}
+                >
+                  <option value="">Seleccione una categoría</option>
+                  {categorias.map((categoria) => (
+                    <option
+                      key={categoria.ID_CATEGORIA}
+                      value={categoria.ID_CATEGORIA}
+                    >
+                      {categoria.NOMBRE_CATEGORIA}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mb-2">
                 <strong>Nombre del Producto</strong>
               </div>
@@ -271,7 +294,7 @@ const ProductoPage = () => {
                   type="text"
                   id="nombre_producto"
                   className="form-control"
-                  placeholder="Ejemplo: Toallas, Almohadas, Ropa de cama, Artículos de tocador"
+                  placeholder="Toallas, Ropa de cama, Artículos de tocador, etc."
                   value={nombre_producto}
                   onChange={(e) => setNombreProducto(e.target.value)}
                 />
@@ -306,37 +329,15 @@ const ProductoPage = () => {
                   type="number"
                   id="precio_producto"
                   className="form-control"
-                  placeholder="Ejemplo: 10000 (precio por unidad)"
                   value={precio_producto}
-                  onChange={(e) => setPrecioProducto(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value > 0) {
+                      setPrecioProducto(value);
+                    }
+                  }}
+                  placeholder="10000 (precio por unidad)"
                 />
-              </div>
-
-              {/* Mini Título para Categoría del Producto */}
-              <div className="mb-2">
-                <strong>Categoría del Producto</strong>
-              </div>
-              <div className="input-group mb-3">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-tag"></i>
-                </span>
-                <select
-                  className="form-control"
-                  name="id_categoria"
-                  value={id_categoria}
-                  onChange={(e) => setIdCategoria(e.target.value)}
-                  style={{ color: "black" }}
-                >
-                  <option value="">Seleccione una categoría</option>
-                  {categorias.map((categoria) => (
-                    <option
-                      key={categoria.ID_CATEGORIA}
-                      value={categoria.ID_CATEGORIA}
-                    >
-                      {categoria.NOMBRE_CATEGORIA}
-                    </option>
-                  ))}
-                </select>
               </div>
 
               <div className="d-grid col-6 mx-auto">

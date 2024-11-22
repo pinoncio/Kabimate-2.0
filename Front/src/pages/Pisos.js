@@ -45,7 +45,6 @@ const PisoPage = () => {
       "14px" // Ajuste del tamaño de la fuente
     );
   };
-  
 
   return (
     <div className="bg-light">
@@ -88,9 +87,9 @@ const PisoPage = () => {
                   bottom: "600px",
                   right: "180px",
                   borderRadius: "50%",
-                  width: "60px", 
-                  height: "60px", 
-                  padding: "0", 
+                  width: "60px",
+                  height: "60px",
+                  padding: "0",
                   fontSize: "30px",
                   zIndex: "999",
                   display: "flex",

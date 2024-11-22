@@ -37,7 +37,6 @@
   }
 }
 
-
 /* Personaliza el contenedor de la alerta */
 .custom-swal-popup {
   width: 600px; /* Puedes ajustar el ancho aquí si lo deseas */
@@ -50,7 +49,7 @@
 
 /* Personaliza el contenido de la alerta */
 .alert-content {
-  font-size: 14px;  /* Ajusta el tamaño de la fuente del contenido */
+  font-size: 14px; /* Ajusta el tamaño de la fuente del contenido */
 }
 
 .custom-swal-popup .swal2-html-container {

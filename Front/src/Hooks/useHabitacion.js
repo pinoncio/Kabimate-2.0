@@ -29,7 +29,7 @@ const useHabitacion = () => {
   const [title, setTitle] = useState("");
 
   const id_usuario_habitacion = localStorage.getItem("idUsuario");
-  
+
   useEffect(() => {
     if (id_usuario_habitacion) {
       getAllHabitaciones(id_usuario_habitacion);
@@ -105,7 +105,7 @@ const useHabitacion = () => {
     precio_por_noche = "",
     servicios_incluidos = "",
     descripcion_habitacion = "",
-    id_tipo_habitacion= "",
+    id_tipo_habitacion = "",
     id_piso = "",
     id_estado = ""
   ) => {

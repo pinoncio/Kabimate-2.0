@@ -7,6 +7,7 @@ import "../Styles/Login.css";
 
 const Login = () => {
   const [errors, setErrors] = useState({ email: false, contraseña: false });
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -44,7 +45,6 @@ const Login = () => {
           navigate("/home");
         }
       } else {
-        // Si no hay token en la respuesta, se asume que hubo un error
         setErrors({ email: true, contraseña: true });
         show_alerta(
           "Error al iniciar sesión, por favor verifique los datos.",
@@ -54,16 +54,13 @@ const Login = () => {
     } catch (error) {
       console.error("Login error:", error);
 
-      // Si el error es de tipo response (backend devuelve un error)
       if (error.response) {
-        // Mostrar mensaje de error basado en el mensaje de respuesta del backend
         show_alerta(
           error.response.data.msg ||
             "Ocurrió un error al intentar iniciar sesión.",
           "error"
         );
 
-        // Opcional: establecer errores en el formulario según el tipo de error recibido
         if (error.response.data.msg === "El email ingresado no es valido") {
           setErrors({ email: true, contraseña: false });
         } else if (error.response.data.msg === "Contraseña Incorrecta") {
@@ -72,7 +69,6 @@ const Login = () => {
           setErrors({ email: true, contraseña: true });
         }
       } else {
-        // Si el error es de otro tipo (red, problemas en la conexión, etc.)
         show_alerta(
           "Hubo un problema con la conexión. Intenta más tarde.",
           "error"
@@ -109,22 +105,43 @@ const Login = () => {
           </span>
         )}
 
-        <div className="form-group input-group">
+        <div
+          className="form-group input-group"
+          style={{ position: "relative" }}
+        >
           <div className="input-group-prepend">
             <span className="input-group-text">
               <i className="fas fa-lock"></i>
             </span>
           </div>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // Alternar entre texto y contraseña
             name="contraseña"
             placeholder="Contraseña"
             className={`login-input form-control ${
               errors.contraseña ? "error" : ""
             }`}
             onBlur={handleBlur}
-            autocomplete="on"
+            autoComplete="on"
+            style={{ paddingRight: "35px" }} // Añadir espacio para el ícono
           />
+          <span
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)} // Cambiar visibilidad
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: "100", // Mayor z-index para garantizar que esté sobre el input
+              pointerEvents: "auto", // Asegura que el ícono sea interactuable
+            }}
+          >
+            <i
+              className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+            ></i>
+          </span>
         </div>
         {errors.contraseña && (
           <span className="error-text">
@@ -133,7 +150,7 @@ const Login = () => {
         )}
 
         <div className="button-wrapper">
-          <button id = "boton" type="submit" className="button">
+          <button type="submit" className="button">
             Iniciar sesión
           </button>
         </div>

@@ -1,21 +1,22 @@
-html, body {
-  height: 100%; 
+html,
+body {
+  height: 100%;
   margin: 0;
 }
 
 body {
-  background-color: #f5f5f0; 
+  background-color: #f5f5f0;
 }
 
 .container-fluid {
-  height: calc(97vh - 100px); 
-  padding: 20px 0; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: flex-start; 
-  background-image: url('../Images/email-pattern.png');
-  background-size: 150px; 
-  background-color: #f5f5f0; 
+  height: calc(97vh - 100px);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: url("../Images/email-pattern.png");
+  background-size: 150px;
+  background-color: #f5f5f0;
 }
 
 .card-container {
@@ -31,24 +32,23 @@ body {
   font-weight: bold;
 }
 
-  
-  .table-custom thead th {
-    background-color: #a47551;  /* Fondo del encabezado */
-    color: white;
-    text-align: center;
-    border: 1px solid #a47551;  /* Borde entre encabezados */
-  }
-  
-  .table-custom tbody td {
-    text-align: center;
-    border: 1px solid #ddd;  /* Borde de las celdas */
-  }
-  
-  .btn-custom {
-    margin-right: 5px;  /* Espacio entre botones */
-  }
-  
-  .btn-cafe {
+.table-custom thead th {
+  background-color: #a47551; /* Fondo del encabezado */
+  color: white;
+  text-align: center;
+  border: 1px solid #a47551; /* Borde entre encabezados */
+}
+
+.table-custom tbody td {
+  text-align: center;
+  border: 1px solid #ddd; /* Borde de las celdas */
+}
+
+.btn-custom {
+  margin-right: 5px; /* Espacio entre botones */
+}
+
+.btn-cafe {
   background-color: #a47551;
   border-color: #a47551;
   color: white;
@@ -63,52 +63,6 @@ body {
   background-color: white; /* O cualquier otro color */
   color: black; /* Asegúrate de que el texto sea visible */
 }
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
 
 .switch {
   position: relative;
@@ -131,7 +85,7 @@ input:checked + .slider:before {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -143,12 +97,57 @@ input:checked + .slider:before {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
 }
 
 input:checked + .slider:before {

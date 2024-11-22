@@ -5,7 +5,6 @@ import "../Styles/Aside.css";
 export default function Aside({ selectedView }) {
   const [rol, setRol] = useState(localStorage.getItem("rol"));
   const [scrolling, setScrolling] = useState(false);
-  const [showHotelSubmenu, setShowHotelSubmenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,10 +30,6 @@ export default function Aside({ selectedView }) {
 
   const isHotelesView = selectedView === "hoteles";
   const isCabanasView = selectedView === "cabanas";
-
-  const toggleHotelSubmenu = () => {
-    setShowHotelSubmenu(!showHotelSubmenu);
-  };
 
   return (
     <aside
@@ -68,6 +63,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>Habitaciones</p>
                       </Link>
                     </li>
+                    {/*  
                     <li className="nav-item">
                       <Link to="/reservations" className="nav-link">
                         <i
@@ -96,70 +92,108 @@ export default function Aside({ selectedView }) {
                           Historial de Reservas
                         </p>
                       </Link>
-                    </li>
+                    </li>*/}
+                    {/* Submenú Gestión del Hotel */}
                     <li className="nav-item">
-                      <Link
-                        to="#!"
-                        className="nav-link"
-                        onClick={toggleHotelSubmenu}
-                      >
+                      <a href="#" className="nav-link">
                         <i
                           className="nav-icon fas fa-building"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>
+                        <p
+                          style={{
+                            color: "#ffffff",
+                            display: "inline-block",
+                            marginRight: "10px",
+                          }}
+                        >
                           Gestión del Hotel
-                          <i
-                            className={`right fas ${
-                              showHotelSubmenu ? "fa-angle-up" : "fa-angle-down"
-                            }`}
-                          />
                         </p>
-                      </Link>
-                      {showHotelSubmenu && (
-                        <ul className="nav nav-treeview">
-                          <li className="nav-item">
-                            <Link to="/ghotel" className="nav-link">
-                              <i
-                                className="nav-icon fas fa-hotel"
-                                style={{ color: "#ffffff" }}
-                              />
-                              <p style={{ color: "#ffffff" }}>Habitaciones</p>
-                            </Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to="/pisos" className="nav-link">
-                              <i
-                                className="nav-icon fas fa-layer-group"
-                                style={{ color: "#ffffff" }}
-                              />
-                              <p style={{ color: "#ffffff" }}>Pisos</p>
-                            </Link>
-                          </li>
-                        </ul>
-                      )}
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/gCategory" className="nav-link">
                         <i
-                          className="nav-icon fas fa-tags"
+                          className="fas fa-angle-right"
+                          style={{
+                            color: "#ffffff",
+                            transform: "rotate(90deg)",
+                            transition: "transform 0.3s ease",
+                          }}
+                        />
+                      </a>
+                      <ul
+                        className="nav nav-treeview"
+                        style={{ display: "none" }}
+                      >
+                        <li className="nav-item">
+                          <Link to="/pisos" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-layer-group"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>Pisos</p>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link to="/ghotel" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-hotel"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>Habitaciones</p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li className="nav-item">
+                      <a href="#" className="nav-link">
+                        <i
+                          className="nav-icon fas fa-cogs"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>
-                          Gestión de Categorías
+                        <p
+                          style={{
+                            color: "#ffffff",
+                            display: "inline-block",
+                            marginRight: "10px",
+                          }}
+                        >
+                          Productos y servicios
                         </p>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/gProducto" className="nav-link">
                         <i
-                          className="nav-icon fas fa-box"
-                          style={{ color: "#ffffff" }}
+                          className="fas fa-angle-right"
+                          style={{
+                            color: "#ffffff",
+                            transform: "rotate(90deg)",
+                            transition: "transform 0.3s ease",
+                          }}
                         />
-                        <p style={{ color: "#ffffff" }}>
-                          Gestión de Productos y Servicios
-                        </p>
-                      </Link>
+                      </a>
+                      <ul
+                        className="nav nav-treeview"
+                        style={{ display: "none" }}
+                      >
+                        <li className="nav-item">
+                          <Link to="/gCategory" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-tags"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>
+                              Gestión de Categorías
+                            </p>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link to="/gProducto" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-box"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>
+                              Gestión de Productos y Servicios
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
                   </>
                 )}
@@ -176,6 +210,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>Cabañas</p>
                       </Link>
                     </li>
+                    {/* 
                     <li className="nav-item">
                       <Link to="/crud-reservations" className="nav-link">
                         <i
@@ -204,7 +239,7 @@ export default function Aside({ selectedView }) {
                           Historial de Reservas
                         </p>
                       </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                       <Link to="/gcabana" className="nav-link">
                         <i
@@ -215,26 +250,56 @@ export default function Aside({ selectedView }) {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/gCategory" className="nav-link">
+                      <a href="#" className="nav-link">
                         <i
-                          className="nav-icon fas fa-tags"
+                          className="nav-icon fas fa-cogs"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>
-                          Gestión de Categorías
+                        <p
+                          style={{
+                            color: "#ffffff",
+                            display: "inline-block",
+                            marginRight: "10px",
+                          }}
+                        >
+                          Productos y servicios
                         </p>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/gProducto" className="nav-link">
                         <i
-                          className="nav-icon fas fa-box"
-                          style={{ color: "#ffffff" }}
+                          className="fas fa-angle-right"
+                          style={{
+                            color: "#ffffff",
+                            transform: "rotate(90deg)",
+                            transition: "transform 0.3s ease",
+                          }}
                         />
-                        <p style={{ color: "#ffffff" }}>
-                          Gestión de Productos y Servicios
-                        </p>
-                      </Link>
+                      </a>
+                      <ul
+                        className="nav nav-treeview"
+                        style={{ display: "none" }}
+                      >
+                        <li className="nav-item-sub">
+                          <Link to="/gCategory" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-tags"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>
+                              Gestión de Categorías
+                            </p>
+                          </Link>
+                        </li>
+                        <li className="nav-item-sub">
+                          <Link to="/gProducto" className="nav-link">
+                            <i
+                              className="nav-icon fas fa-box"
+                              style={{ color: "#ffffff" }}
+                            />
+                            <p style={{ color: "#ffffff" }}>
+                              Gestión de Productos y Servicios
+                            </p>
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
                   </>
                 )}

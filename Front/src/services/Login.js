@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:3001/api/usuarios';
+const API_URL = "http://localhost:3001/api/usuarios";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -12,6 +12,6 @@ api.interceptors.response.use(
 );
 
 // Función para iniciar sesión
-export const loginUser = (credentials) => api.post('/login', credentials);
+export const loginUser = (credentials) => api.post("/login", credentials);
 
 export default api;

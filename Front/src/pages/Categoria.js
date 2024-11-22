@@ -37,22 +37,21 @@ const CategoriaPage = () => {
   const showHelp = () => {
     show_alerta(
       " Guía de Gestión de Categorías\n\n" +
-      "En este apartado puedes gestionar las categorías del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
-      "<b>1. <i class='fas fa-plus-circle'></i> Añadir Categoría:</b>\n" +
-      "   - Este botón te permite agregar una nueva categoría al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar el nombre de la categoría.\n\n" +
-      "<b>2. <i class='fas fa-edit'></i> Editar Categoría:</b>\n" +
-      "   - Cuando quieras modificar los detalles de una categoría existente, selecciona la opción de editar. Podrás cambiar el nombre de la categoría.\n\n" +
-      "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
-      "   - Este botón te permite activar o desactivar la categoría según su disponibilidad. Si una categoría está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
-      "<b>¿Qué debes hacer?</b>\n" +
-      "   - Para gestionar las categorías correctamente, comienza añadiendo nuevas categorías si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
+        "En este apartado puedes gestionar las categorías del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
+        "<b>1. <i class='fas fa-plus-circle'></i> Añadir Categoría:</b>\n" +
+        "   - Este botón te permite agregar una nueva categoría al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar el nombre de la categoría.\n\n" +
+        "<b>2. <i class='fas fa-edit'></i> Editar Categoría:</b>\n" +
+        "   - Cuando quieras modificar los detalles de una categoría existente, selecciona la opción de editar. Podrás cambiar el nombre de la categoría.\n\n" +
+        "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
+        "   - Este botón te permite activar o desactivar la categoría según su disponibilidad. Si una categoría está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
+        "<b>¿Qué debes hacer?</b>\n" +
+        "   - Para gestionar las categorías correctamente, comienza añadiendo nuevas categorías si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
       "info",
       "",
-      "1200px",  // Ajuste del ancho a 1200px
-      "14px"     // Ajuste del tamaño de la fuente
+      "1200px", // Ajuste del ancho a 1200px
+      "14px" // Ajuste del tamaño de la fuente
     );
   };
-  
 
   return (
     <div className="bg-light">
@@ -95,9 +94,9 @@ const CategoriaPage = () => {
                   bottom: "600px",
                   right: "180px",
                   borderRadius: "50%",
-                  width: "60px", 
-                  height: "60px", 
-                  padding: "0", 
+                  width: "60px",
+                  height: "60px",
+                  padding: "0",
                   fontSize: "30px",
                   zIndex: "999",
                   display: "flex",
