@@ -32,23 +32,29 @@ import routesProducto from '../routes/productoRoutes';
 class Server {
     private app: Application;
     private port: string;
-    
+    private server: any;
+
     constructor() {
-        this.app= express();
+        this.app = express();
         this.port = process.env.PORT || '3001';
 
         this.midlewares();
         this.routes();
-        this.listen();
-        this.dbConnect();
-
     }
 
-    listen(){
-        this.app.listen(this.port, () => {
-            console.log('Ejecutandose en el puerto ' + this.port);
-        })
+    listen() {
+        this.server = this.app.listen(this.port, () => {
+            console.log('Ejecutándose en el puerto ' + this.port);
+        });
     }
+    close() {
+        if (this.server) {
+            this.server.close(async () => {
+                console.log('Servidor cerrado');
+            });
+        }
+    }
+
     routes() {
         this.app.use('/api/instituciones', routesInstitucion);
         this.app.use('/api/roles', routesRol);
@@ -61,12 +67,13 @@ class Server {
         this.app.use('/api/categorias', routesCategoria);
         this.app.use('/api/productos', routesProducto);
     }
-    midlewares(){
+
+    midlewares() {
         this.app.use(express.json());
         this.app.use(cors());
     }
 
-    async dbConnect(){
+    async dbConnect() {
         try {
             await Rol.sync();
             await Institucion.sync();
@@ -74,25 +81,24 @@ class Server {
             await Estado.sync();
             await Cabania.sync();
             await Piso.sync();
-            await TipoHabitacion.sync()
+            await TipoHabitacion.sync();
             await Habitacion.sync();
             await Categoria.sync();
             await Producto.sync();
 
             //correr seeders
             await this.runSeeders();
-
-        } catch (error){
-            console.log('No se ha podido establecer conexion a la base de datos')
+        } catch (error) {
+            console.log('No se ha podido establecer conexion a la base de datos');
         }
     }
 
-    async runSeeders(){
+    async runSeeders() {
         await seedRoles();
         await seedEstados();
         await seedInstituciones();
         await seedTipoHabitacion();
-
     }
 }
+
 export default Server;
