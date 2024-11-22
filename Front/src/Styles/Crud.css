@@ -111,3 +111,38 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(14px);
 }
+
+.btn-circle {
+  position: fixed;
+  bottom: 60%; /* Relativo al tamaño de la ventana */
+  left: 22%; /* Posición desde el borde izquierdo */
+  border-radius: 50%; /* Forma circular */
+  width: 10vw; /* Ancho relativo al viewport */
+  height: 10vw; /* Alto relativo al viewport */
+  max-width: 60px; /* Máximo tamaño del botón */
+  max-height: 60px; /* Máximo tamaño del botón */
+  min-width: 40px; /* Mínimo tamaño del botón */
+  min-height: 40px; /* Mínimo tamaño del botón */
+  padding: 0; /* Sin padding interno */
+  font-size: 2vw; /* Tamaño del texto relativo al viewport */
+  z-index: 999; /* Prioridad sobre otros elementos */
+  display: flex; /* Permite alinear contenido interno */
+  align-items: center; /* Centra el contenido verticalmente */
+  justify-content: center; /* Centra el contenido horizontalmente */
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Color de fondo rojo */
+  color: #fff; /* Color del texto blanco */
+  border: none; /* Sin bordes */
+  cursor: pointer; /* Icono de puntero */
+  transition: transform 0.2s ease; /* Animación suave al interactuar */
+}
+
+.btn-danger:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el mouse */
+}
+
+.btn-danger:active {
+  transform: scale(0.95); /* Reduce ligeramente el tamaño al presionar */
+}

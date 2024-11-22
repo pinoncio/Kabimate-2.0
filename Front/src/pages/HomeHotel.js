@@ -9,6 +9,10 @@ export default function HomeHabitacion() {
   const [habitaciones, setHabitaciones] = useState([]);
   const [filtroEstado, setFiltroEstado] = useState("");
   const [busqueda, setBusqueda] = useState("");
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
+  const [capacidadMin, setCapacidadMin] = useState("");
+  const [capacidadMax, setCapacidadMax] = useState("");
   const [filteredHabitaciones, setFilteredHabitaciones] = useState([]);
   const [estados, setEstados] = useState({});
   const [pisos, setPisos] = useState({});
@@ -73,13 +77,38 @@ export default function HomeHabitacion() {
     let filtered = habitaciones;
 
     if (filtroEstado) {
-      filtered = filtered.filter((habitacion) => {
-        const estadoNombre = estados[habitacion.ID_ESTADO_HABITACION];
-        return (
-          estadoNombre &&
-          estadoNombre.toLowerCase() === filtroEstado.toLowerCase()
-        );
-      });
+      filtered = filtered.filter(
+        (habitacion) =>
+          habitacion.DESCRIPCION_HABITACION.toLowerCase().includes(
+            busqueda.toLowerCase()
+          ) ||
+          habitacion.ID_PISO_HABITACION.toLowerCase().includes(
+            busqueda.toLowerCase()
+          )
+      );
+    }
+
+    if (precioMin) {
+      filtered = filtered.filter(
+        (Habitacion) => Habitacion.PRECIO_POR_NOCHE >= precioMin
+      );
+    }
+    if (precioMax) {
+      filtered = filtered.filter(
+        (habitacion) => habitacion.PRECIO_POR_NOCHE <= precioMax
+      );
+    }
+
+    // Filtrar por capacidad
+    if (capacidadMin) {
+      filtered = filtered.filter(
+        (habitacion) => habitacion.CAPACIDAD >= capacidadMin
+      );
+    }
+    if (capacidadMax) {
+      filtered = filtered.filter(
+        (habitacion) => habitacion.CAPACIDAD <= capacidadMax
+      );
     }
 
     if (busqueda) {
@@ -92,16 +121,44 @@ export default function HomeHabitacion() {
     }
 
     setFilteredHabitaciones(filtered);
-  }, [filtroEstado, busqueda, habitaciones, estados]);
+  }, [
+    filtroEstado,
+    busqueda,
+    habitaciones,
+    estados,
+    precioMin,
+    precioMax,
+    capacidadMin,
+    capacidadMax,
+  ]);
 
   const handleFiltroEstado = (estado) => {
     setFiltroEstado(estado);
+    console.log("Estados cargados:", estados);
   };
 
+  /*
   const handleBusqueda = (e) => {
     setBusqueda(e.target.value);
   };
 
+ 
+  const handlePrecioMin = (e) => {
+    setPrecioMin(e.target.value);
+  };
+
+  const handlePrecioMax = (e) => {
+    setPrecioMax(e.target.value);
+  };
+
+  const handleCapacidadMin = (e) => {
+    setCapacidadMin(e.target.value);
+  };
+
+  const handleCapacidadMax = (e) => {
+    setCapacidadMax(e.target.value);
+  };
+*/
   const clearFiltroEstado = () => {
     setFiltroEstado("");
   };
@@ -112,7 +169,7 @@ export default function HomeHabitacion() {
         return "#e8f5e9";
       case "Ocupado":
         return "#ffebee";
-      case "En Mantención":
+      case "Mantenimiento":
         return "#fffde7";
       default:
         return "#f5f5f5";
@@ -122,13 +179,81 @@ export default function HomeHabitacion() {
   return (
     <div className="home-habitacion-container">
       <div className="filters">
-        <input
-          type="text"
-          placeholder="Buscar habitación..."
-          value={busqueda}
-          onChange={handleBusqueda}
-          className="search-input"
-        />
+        <div className="input-filters">
+          <select
+            value={precioMin}
+            onChange={(e) => setPrecioMin(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Precio mínimo</option>
+            <option value="1000">1,000 CLP</option>
+            <option value="5000">5,000 CLP</option>
+            <option value="10000">10,000 CLP</option>
+            <option value="15000">15,000 CLP</option>
+            <option value="20000">20,000 CLP</option>
+            <option value="25000">25,000 CLP</option>
+            <option value="30000">30,000 CLP</option>
+            <option value="35000">35,000 CLP</option>
+            <option value="40000">40,000 CLP</option>
+            <option value="45000">45,000 CLP</option>
+            <option value="50000">50,000 CLP</option>
+          </select>
+
+          <select
+            value={precioMax}
+            onChange={(e) => setPrecioMax(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Precio máximo</option>
+            <option value="1000">1,000 CLP</option>
+            <option value="5000">5,000 CLP</option>
+            <option value="10000">10,000 CLP</option>
+            <option value="20000">20,000 CLP</option>
+            <option value="30000">30,000 CLP</option>
+            <option value="40000">40,000 CLP</option>
+            <option value="50000">50,000 CLP</option>
+            <option value="75000">75,000 CLP</option>
+            <option value="100000">100,000 CLP</option>
+            <option value="150000">150,000 CLP</option>
+            <option value="200000">200,000 CLP</option>
+          </select>
+
+          <select
+            value={capacidadMin}
+            onChange={(e) => setCapacidadMin(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Capacidad mínima</option>
+            <option value="1">1 persona</option>
+            <option value="2">2 personas</option>
+            <option value="3">3 personas</option>
+            <option value="4">4 personas</option>
+            <option value="5">5 personas</option>
+            <option value="6">6 personas</option>
+            <option value="7">7 personas</option>
+            <option value="8">8 personas</option>
+            <option value="9">9 personas</option>
+            <option value="10">10 personas</option>
+          </select>
+
+          <select
+            value={capacidadMax}
+            onChange={(e) => setCapacidadMax(e.target.value)}
+            className="form-control"
+          >
+            <option value="">Capacidad máxima</option>
+            <option value="4">4 personas</option>
+            <option value="5">5 personas</option>
+            <option value="6">6 personas</option>
+            <option value="7">7 personas</option>
+            <option value="8">8 personas</option>
+            <option value="9">9 personas</option>
+            <option value="10">10 personas</option>
+            <option value="12">12 personas</option>
+            <option value="14">14 personas</option>
+            <option value="16">16 personas</option>
+          </select>
+        </div>
         <div className="button-filters">
           <button
             onClick={() => handleFiltroEstado("Disponible")}
@@ -143,7 +268,7 @@ export default function HomeHabitacion() {
             Ocupado
           </button>
           <button
-            onClick={() => handleFiltroEstado("En Mantención")}
+            onClick={() => handleFiltroEstado("Mantenimiento")}
             className="filter-button mantenimiento"
           >
             En Mantención
@@ -181,29 +306,36 @@ export default function HomeHabitacion() {
                     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  <div className="habitacion-card-header">
-                    <h3>
+                  <div className="habitacion-card-header"></div>
+                  <div className="habitacion-card-body">
+                    <div className="hotel-icon"></div>
+                    <h5 class="left-align">
+                      {habitacion.PRECIO_POR_NOCHE} CLP por noche
+                    </h5>
+                    <p class="justify-text">
                       <strong>Habitación:</strong>{" "}
                       {habitacion.NUMERO_HABITACION}
-                    </h3>
-                  </div>
-                  <div className="habitacion-card-body">
-                    <p>
+                    </p>
+                    <p class="justify-text">
+                      <strong>Capacidad:</strong> {habitacion.CAPACIDAD}{" "}
+                      persona(s)
+                    </p>
+                    <p class="justify-text">
                       <strong>Ubicación: </strong>
                       {pisoNombre || "Sin Piso"}
                     </p>
-                    <p>
+                    <p class="justify-text">
                       <strong>Tipo:</strong> {tipoNombre || "Sin Tipo"}
                     </p>
-                    <p>
+                    <p class="justify-text">
                       <strong>Servicios incluidos:</strong>{" "}
                       {habitacion.SERVICIOS_INCLUIDOS}
                     </p>
-                    <p>
+                    <p class="justify-text">
                       <strong>Descripción:</strong>{" "}
                       {habitacion.DESCRIPCION_HABITACION}
                     </p>
-                    <p>
+                    <p class="justify-text">
                       <strong>Estado:</strong> {estadoNombre || "Sin Estado"}
                     </p>
                   </div>
