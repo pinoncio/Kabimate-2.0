@@ -9,7 +9,6 @@ body {
 }
 
 .container-fluid {
-  height: calc(97vh - 100px);
   padding: 20px 0;
   display: flex;
   flex-direction: column;

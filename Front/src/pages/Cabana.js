@@ -31,18 +31,7 @@ const CabanaPage = () => {
   } = useCabanas();
   
 
-  const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 4; // Número de cabañas por página
-  const totalPages = cabanas ? Math.ceil(cabanas.length / itemsPerPage) : 0; // Total de páginas
 
-  // Cálculo de las cabañas a mostrar en la página actual
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentCabanas = cabanas.slice(startIndex, startIndex + itemsPerPage);
-
-  // Cambiar la página actual
-  const changePage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const validarNumero = (value) => {
     // Permite solo números o vacío
@@ -133,9 +122,9 @@ const CabanaPage = () => {
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {currentCabanas.map((cabana, i) => (
+                    {cabanas.map((cabana, i) => (
                       <tr key={cabana.ID_CABANIA}>
-                        <td>{startIndex + i + 1}</td>
+                        <td>{ i + 1}</td>
                         <td>{cabana.CAPACIDAD}</td>
                         <td>{cabana.CANTIDAD_PIEZAS}</td>
                         <td>{cabana.PRECIO_POR_NOCHE}</td>
@@ -188,50 +177,7 @@ const CabanaPage = () => {
               </div>
             </div>
 
-            {/* Paginación */}
-            <nav aria-label="Page navigation">
-              <ul className="pagination justify-content-center">
-                <li
-                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => changePage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Anterior
-                  </button>
-                </li>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <li
-                    key={index + 1}
-                    className={`page-item ${
-                      currentPage === index + 1 ? "active" : ""
-                    }`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => changePage(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-                <li
-                  className={`page-item ${
-                    currentPage === totalPages ? "disabled" : ""
-                  }`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => changePage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Siguiente
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            
           </div>
         </div>
       </div>

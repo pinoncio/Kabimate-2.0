@@ -10,9 +10,6 @@ body {
 }
 
 .container-fluid {
-  height: calc(
-    100vh - 100px
-  ); /* Ajusta para asegurar que la vista ocupe el 97% de la altura */
   padding: 20px;
   display: flex;
   flex-direction: column;
