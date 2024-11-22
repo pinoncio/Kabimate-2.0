@@ -2,81 +2,81 @@
 
 /* Contenedor principal */
 .homec-wrapper {
-    background-image: url('../Images/email-pattern.png');
-    background-size: 150px;
-    background-repeat: repeat;
-    background-color: #f5f5f0;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    padding: 20px;
-    text-align: center;
+  background-image: url("../Images/email-pattern.png");
+  background-size: 150px;
+  background-repeat: repeat;
+  background-color: #f5f5f0;
+  color: #333;
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+  text-align: center;
 }
 
 /* Contenedor que envuelve las cartas (categorías) */
 .cards-container-cabana {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cartas por fila */
-    gap: 20px; /* Espaciado entre cartas */
-    justify-items: center;
-    margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cartas por fila */
+  gap: 20px; /* Espaciado entre cartas */
+  justify-items: center;
+  margin-top: 30px;
 }
 
-.homec-title{
-    font-size: 2.5rem;
-    color: #a47551;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
+.homec-title {
+  font-size: 2.5rem;
+  color: #a47551;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
 }
 /* Estilo de las tarjetas */
 .category-description-cabana {
-    margin: 0;
-    padding: 15px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    border: 2px solid #ddd; 
-    transition: all 0.3s ease;
-    text-align: center;
-    max-width: 280px; /* Ancho máximo aumentado */
-    min-height: 160px; /* Altura mínima reducida */
-    cursor: pointer;
+  margin: 0;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ddd;
+  transition: all 0.3s ease;
+  text-align: center;
+  max-width: 280px; /* Ancho máximo aumentado */
+  min-height: 160px; /* Altura mínima reducida */
+  cursor: pointer;
 }
 
 .category-description-cabana:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Efecto de elevación */
-    background-color: #f8f8f8;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Efecto de elevación */
+  background-color: #f8f8f8;
 }
 
 /* Iconos de las cartas */
 .category-description-cabana i {
-    font-size: 3rem;
-    color: #a47551;
-    margin-bottom: 10px;
+  font-size: 3rem;
+  color: #a47551;
+  margin-bottom: 10px;
 }
 
 /* Títulos de las cartas */
 .category-description-cabana h2 {
-    font-size: 1.3rem;
-    color: #a47551;
-    margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #a47551;
+  margin-bottom: 10px;
 }
 
 /* Lista dentro de las cartas */
 .category-description-cabana ul {
-    text-align: left;
-    padding-left: 20px;
+  text-align: left;
+  padding-left: 20px;
 }
 
 .category-description-cabana li {
-    font-size: 1rem;
-    color: #555;
-    margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
+  margin: 10px 0;
 }
 
 /* Resaltado de cartas al pasar el mouse */
 .category-description-cabana.highlight {
-    background-color: #f0f8ff;
-    border-color: #a47551;
+  background-color: #f0f8ff;
+  border-color: #a47551;
 }

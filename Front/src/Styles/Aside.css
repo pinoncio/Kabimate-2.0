@@ -1,17 +1,16 @@
 .kabimate-header {
   text-align: center;
   font-size: 1.8rem;
-  color: #ffffff;  /* Mantener el color blanco */
+  color: #ffffff; /* Mantener el color blanco */
   margin: -6px;
-  font-family: 'Montserrat', sans-serif;  /* Fuente gruesa */
-  font-weight: 700;  /* Hacerla más gruesa */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  /* Sombra suave */
+  font-family: "Montserrat", sans-serif; /* Fuente gruesa */
+  font-weight: 700; /* Hacerla más gruesa */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra suave */
 }
-
 
 /* Apartado principal */
 .main-sidebar {
-  background-color: #a47551; 
+  background-color: #a47551;
   transition: transform 0.3s ease;
 }
 
@@ -29,6 +28,20 @@
   color: #ffffff;
 }
 
+.nav-item {
+  margin-left: -18px; /* Ajusta el valor según sea necesario */
+}
+
+.nav-treeview {
+  margin-left: 10px; /* Ajusta esto según lo que necesites, para no mover demasiado los submenús */
+  padding-left: 10px; /* Asegura que los submenús no se desalineen */
+}
+
+/* Asegurar que los enlaces dentro de los submenús no se desplacen demasiado */
+.nav-treeview .nav-item .nav-link {
+  padding-left: 20px; /* Ajustar el padding para los ítems de submenú */
+}
+
 .nav-link:hover {
   background-color: #8b5b48;
 }
@@ -40,7 +53,6 @@
 .form-control-sidebar::placeholder {
   color: #ffffff;
 }
-
 
 .kabimate-divider {
   border: 1px solid #ffffff;

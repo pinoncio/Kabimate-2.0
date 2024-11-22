@@ -162,7 +162,9 @@ const useCabana = () => {
       const response = await createCabana(id_usuario_cabania, cabanaData);
       show_alerta(response.msg, "sucess");
       setCabanas((prevCabanas) => {
-        return [...prevCabanas, response.cabana].sort((a, b) => a.ID_CABANIA - b.ID_CABANIA);
+        return [...prevCabanas, response.cabana].sort(
+          (a, b) => a.ID_CABANIA - b.ID_CABANIA
+        );
       });
       document.getElementById("btnCerrar").click();
     } catch (error) {
@@ -176,9 +178,13 @@ const useCabana = () => {
       await updateCabana(id_cabania, cabanaData);
       show_alerta("La cabaña fue editada con éxito.", "success");
       setCabanas((prevCabanas) => {
-        return prevCabanas.map((cabana) =>
-          cabana.ID_CABANIA === id_cabania ? { ...cabana, ...cabanaData } : cabana
-        ).sort((a, b) => a.ID_CABANIA - b.ID_CABANIA);
+        return prevCabanas
+          .map((cabana) =>
+            cabana.ID_CABANIA === id_cabania
+              ? { ...cabana, ...cabanaData }
+              : cabana
+          )
+          .sort((a, b) => a.ID_CABANIA - b.ID_CABANIA);
       });
       document.getElementById("btnCerrar").click();
     } catch (error) {
@@ -194,11 +200,15 @@ const useCabana = () => {
 
       setCabanas((prevCabanas) =>
         prevCabanas.map((cabana) =>
-          cabana.ID_CABANIA === id_cabania ? { ...cabana, ESTADO_CABANIA: nuevoEstado } : cabana
+          cabana.ID_CABANIA === id_cabania
+            ? { ...cabana, ESTADO_CABANIA: nuevoEstado }
+            : cabana
         )
       );
 
-      const mensaje = nuevoEstado ? "Cabaña habilitada con éxito" : "Cabaña deshabilitada con éxito";
+      const mensaje = nuevoEstado
+        ? "Cabaña habilitada con éxito"
+        : "Cabaña deshabilitada con éxito";
       show_alerta(mensaje, "success");
     } catch (error) {
       console.error("Error al cambiar estado de cabaña:", error);

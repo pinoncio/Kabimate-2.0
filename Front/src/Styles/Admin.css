@@ -1,8 +1,8 @@
 .admin-wrapper {
   text-align: center;
-  height: calc(97vh - 100px); 
+  height: calc(97vh - 100px);
   min-height: auto;
-  background-image: url('../Images/email-pattern.png'); /* Ruta local del patrón */
+  background-image: url("../Images/email-pattern.png"); /* Ruta local del patrón */
   background-size: 150px; /* Ajusta el tamaño del patrón según tu preferencia */
   background-repeat: repeat; /* Repetir el patrón */
   background-color: #f5f5f0; /* Blanco beige (opcional) */
@@ -23,15 +23,17 @@
 
 .info-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajuste dinámico para los tamaños de las tarjetas */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Ajuste dinámico para los tamaños de las tarjetas */
   gap: 15px;
   justify-items: center;
   margin: 0 auto;
 }
 
-
 .card {
-  max-width: 380px; 
+  max-width: 380px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -40,7 +42,6 @@
   transition: transform 0.3s ease;
   cursor: pointer;
 }
-
 
 .card:hover {
   transform: translateY(-10px);

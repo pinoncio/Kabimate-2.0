@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { AuthContext } from './AuthContext';
-import { jwtDecode } from 'jwt-decode';
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 // Función para validar el token (si es un JWT)
 const isValidToken = (token) => {
@@ -19,18 +19,22 @@ const isValidToken = (token) => {
 const PrivateRoute = ({ element }) => {
   const { token } = useContext(AuthContext);
   const [isTokenValid, setIsTokenValid] = useState(null); // Estado para manejar la validez del token
+  const [loading, setLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
     // Verificar la validez del token cuando se actualice
-    setIsTokenValid(isValidToken(token));
+    const valid = isValidToken(token);
+    setIsTokenValid(valid);
+    setLoading(false); // Cambiar a false después de verificar
   }, [token]);
 
-  // Si no hay token o el token es inválido, redirigir
-  if (isTokenValid === null) {
-    return null; // Puede mostrar un loading mientras se verifica
+  // Si aún se está verificando la validez del token
+  if (loading) {
+    return <div>Loading...</div>; // Puedes mostrar un spinner o algo de "cargando"
   }
 
-  return isTokenValid ? element : <Navigate to="/" replace />;
+  // Si no hay token o el token es inválido, redirigir
+  return isTokenValid ? element : <Navigate to="/home" replace />;
 };
 
 export default PrivateRoute;

@@ -43,6 +43,11 @@ const CabanaPage = () => {
     setCurrentPage(pageNumber);
   };
 
+  const validarNumero = (value) => {
+    // Permite solo números o vacío
+    return value === "" || /^[0-9]+$/.test(value);
+  };
+
   // Función para mostrar la ayuda
   const showHelp = () => {
     show_alerta(
@@ -105,9 +110,9 @@ const CabanaPage = () => {
                   bottom: "600px",
                   right: "180px",
                   borderRadius: "50%",
-                  width: "60px", 
-                  height: "60px", 
-                  padding: "0", 
+                  width: "60px",
+                  height: "60px",
+                  padding: "0",
                   fontSize: "30px",
                   zIndex: "999",
                   display: "flex",
@@ -261,7 +266,6 @@ const CabanaPage = () => {
             <div className="modal-body">
               <input type="hidden" id="id"></input>
 
-              {/* Mini Título para Capacidad de la Cabaña */}
               <div className="mb-2">
                 <strong>Capacidad de la Cabaña</strong>
               </div>
@@ -275,7 +279,15 @@ const CabanaPage = () => {
                   className="form-control"
                   placeholder="Número máximo de personas que puede alojar la cabaña"
                   value={capacidad}
-                  onChange={(e) => setCapacidad(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (
+                      validarNumero(value) &&
+                      (value === "" || parseInt(value) > 0)
+                    ) {
+                      setCapacidad(value);
+                    }
+                  }}
                 />
               </div>
 
@@ -293,7 +305,15 @@ const CabanaPage = () => {
                   className="form-control"
                   placeholder="Número de piezas disponibles en la cabaña"
                   value={cantidad_piezas}
-                  onChange={(e) => setCantidadPiezas(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (
+                      validarNumero(value) &&
+                      (value === "" || parseInt(value) > 0)
+                    ) {
+                      setCantidadPiezas(value);
+                    }
+                  }}
                 />
               </div>
 
@@ -309,9 +329,17 @@ const CabanaPage = () => {
                   type="number"
                   id="precio_por_noche"
                   className="form-control"
-                  placeholder="Precio por noche"
+                  placeholder="50000 por noche."
                   value={precio_por_noche}
-                  onChange={(e) => setPrecioPorNoche(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (
+                      validarNumero(value) &&
+                      (value === "" || parseInt(value) > 0)
+                    ) {
+                      setPrecioPorNoche(value);
+                    }
+                  }}
                 />
               </div>
 

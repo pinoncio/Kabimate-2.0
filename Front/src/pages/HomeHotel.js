@@ -188,7 +188,10 @@ export default function HomeHabitacion() {
                     </h3>
                   </div>
                   <div className="habitacion-card-body">
-                    <p><strong>Ubicación: </strong>{pisoNombre || "Sin Piso"}</p>
+                    <p>
+                      <strong>Ubicación: </strong>
+                      {pisoNombre || "Sin Piso"}
+                    </p>
                     <p>
                       <strong>Tipo:</strong> {tipoNombre || "Sin Tipo"}
                     </p>

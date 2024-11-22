@@ -57,17 +57,17 @@ const HabitacionPage = () => {
       " Guía de Gestión de Habitaciones\n\n" +
         "En este apartado puedes gestionar las habitaciones del sistema. A continuación, te explicamos las acciones disponibles y qué hace cada botón:\n\n" +
         "<b>1. <i class='fas fa-plus-circle'></i> Añadir Habitación:</b>\n" +
-        "   - Este botón te permite agregar una nueva habitación al sistema. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles de la habitación.\n\n" +
+        "   - Este botón te permite agregar una nueva habitación al sistema. Antes de crear una habitación, verifica si el piso en el que se encuentra ya está registrado. Si no es así, deberás crear el piso primero. Al hacer clic, se abrirá un formulario donde podrás ingresar los detalles de la habitación, incluyendo el piso en el que se encuentra.\n\n" +
         "<b>2. <i class='fas fa-edit'></i> Editar Habitación:</b>\n" +
         "   - Cuando quieras modificar los detalles de una habitación existente, selecciona la opción de editar. Podrás cambiar el nombre, tipo, capacidad y otros atributos de la habitación.\n\n" +
         "<b>3. <i class='fas fa-toggle-on'></i> Activar/Desactivar Estado:</b>\n" +
         "   - Este botón te permite activar o desactivar la habitación según su disponibilidad. Si una habitación está inactiva, no estará disponible para los usuarios del sistema.\n\n" +
         "<b>¿Qué debes hacer?</b>\n" +
-        "   - Para gestionar las habitaciones correctamente, comienza añadiendo nuevas habitaciones si aún no están registradas. Después, podrás modificar cualquier detalle según sea necesario y asegurarte de que estén activas para que los usuarios puedan verlas y utilizarlas.",
+        "   - Antes de añadir una habitación, asegúrate de que el piso en el que se encuentra esté registrado. Si no existe, crea el piso antes de añadir la habitación. Luego, podrás gestionar las habitaciones añadiendo nuevas, editando detalles y activando o desactivando su disponibilidad según lo necesites para la gestión de reservas en el sistema.",
       "info",
       "",
-      "1200px", // Ajuste del ancho a 1200px
-      "14px" // Ajuste del tamaño de la fuente
+      "1200px",
+      "14px"
     );
   };
 
@@ -110,11 +110,11 @@ const HabitacionPage = () => {
                 style={{
                   position: "fixed",
                   bottom: "600px",
-                  right: "180px",
+                  left: "240px",
                   borderRadius: "50%",
-                  width: "60px", 
-                  height: "60px", 
-                  padding: "0", 
+                  width: "60px",
+                  height: "60px",
+                  padding: "0",
                   fontSize: "30px",
                   zIndex: "999",
                   display: "flex",
@@ -288,13 +288,31 @@ const HabitacionPage = () => {
             <div className="modal-body">
               <div className="row">
                 <div className="col-md-6">
+                  <label className="form-label">Piso</label>
+                  <p>(Recuerde si no existe el piso, debe registrarlo )</p>
+                  <select
+                    className="form-control"
+                    name="id_piso"
+                    value={id_piso}
+                    onChange={(e) => setIdPisoHabitacion(e.target.value)}
+                    style={{ color: "black" }}
+                  >
+                    <option value="">Seleccione un Piso</option>
+                    {pisos.map((piso) => (
+                      <option key={piso.ID_PISO} value={piso.ID_PISO}>
+                        {piso.NOMBRE_PISO}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-md-6">
                   <label className="form-label">Número de Habitación</label>
                   <input
                     type="text"
                     className="form-control"
                     value={numero_habitacion}
                     onChange={(e) => setNumeroHabitacion(e.target.value)}
-                    placeholder="Ejemplo: 101, 102A"
+                    placeholder="Ejemplo: 101, 102A."
                   />
                 </div>
                 <div className="col-md-6">
@@ -303,8 +321,14 @@ const HabitacionPage = () => {
                     type="number"
                     className="form-control"
                     value={capacidad}
-                    onChange={(e) => setCapacidad(e.target.value)}
-                    placeholder="Indique el número máximo de personas"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Only allow positive numbers greater than 0
+                      if (value > 0) {
+                        setCapacidad(value);
+                      }
+                    }}
+                    placeholder="Indique el número máximo de personas."
                   />
                 </div>
                 <div className="col-md-6">
@@ -313,8 +337,14 @@ const HabitacionPage = () => {
                     type="number"
                     className="form-control"
                     value={precio_por_noche}
-                    onChange={(e) => setPrecioPorNoche(e.target.value)}
-                    placeholder="Ejemplo: 50000 sin punto"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Only allow positive numbers greater than 0
+                      if (value > 0) {
+                        setPrecioPorNoche(value);
+                      }
+                    }}
+                    placeholder="50000 por noche."
                   />
                 </div>
                 <div className="col-md-6">
@@ -323,7 +353,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={servicios_incluidos}
                     onChange={(e) => setServiciosIncluidos(e.target.value)}
-                    placeholder="Ejemplo: Wi-Fi, Aire acondicionado, TV por cable"
+                    placeholder="Wi-Fi, Aire acondicionado, TV por cable, etc."
                   />
                 </div>
                 <div className="col-md-6">
@@ -332,7 +362,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={descripcion_habitacion}
                     onChange={(e) => setDescripcionHabitacion(e.target.value)}
-                    placeholder="Describa brevemente las características de la habitación"
+                    placeholder="Describa brevemente las características de la habitación."
                   />
                 </div>
                 <div className="col-md-6">
@@ -354,23 +384,7 @@ const HabitacionPage = () => {
                     ))}
                   </select>
                 </div>
-                <div className="col-md-6">
-                  <label className="form-label">Piso</label>
-                  <select
-                    className="form-control"
-                    name="id_piso"
-                    value={id_piso}
-                    onChange={(e) => setIdPisoHabitacion(e.target.value)}
-                    style={{ color: "black" }}
-                  >
-                    <option value="">Seleccione un Piso</option>
-                    {pisos.map((piso) => (
-                      <option key={piso.ID_PISO} value={piso.ID_PISO}>
-                        {piso.NOMBRE_PISO}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+
                 <div className="col-md-6">
                   {operation === 2 && (
                     <select
@@ -391,7 +405,7 @@ const HabitacionPage = () => {
                 </div>
               </div>
             </div>
-            <div className="d-grid col-6 mx-auto">
+            <div className="d-grid col-4 mx-auto">
               <button onClick={() => validar()} className="btn btn-success">
                 {operation === 1 ? "Registrar" : "Actualizar"}
                 <i className="fas fa-save ms-2"></i>

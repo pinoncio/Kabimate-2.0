@@ -1,139 +1,137 @@
 /* Fondo general de la página */
 .home-habitacion-container {
-    padding: 20px;
-    background-color: #f5f5f0; /* Fondo claro */
-    background-image: url('../Images/email-pattern.png');
-    background-size: 150px;
-    min-height: 100vh;  /* Asegura que el fondo cubra toda la altura */
-  }
-  
-  /* Contenedor de filtros */
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  /* Estilo para el input de búsqueda */
-  .search-input {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #a47551;  /* Color café en el borde */
-    border-radius: 5px;
-    background-color: white;
-    color: #333;
-  }
-  
-  .search-input::placeholder {
-    color: #a47551;  /* Café para el texto del placeholder */
-  }
-  
-  /* Estilo para los botones de filtro */
-  button {
-    padding: 10px;
-    cursor: pointer;
-    margin: 0 8px;
-    border: none;
-    background-color: #a47551;  /* Fondo café */
-    color: white;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-    background-color: #8c6239;  /* Café más oscuro al pasar el mouse */
-  }
-  
-  /* Contenedor de las cartas */
-  .habitacion-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  /* Contenedor de la carta */
+  padding: 20px;
+  background-color: #f5f5f0; /* Fondo claro */
+  background-image: url("../Images/email-pattern.png");
+  background-size: 150px;
+  min-height: 100vh; /* Asegura que el fondo cubra toda la altura */
+}
+
+/* Contenedor de filtros */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el input de búsqueda */
+.search-input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #a47551; /* Color café en el borde */
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #a47551; /* Café para el texto del placeholder */
+}
+
+/* Estilo para los botones de filtro */
+button {
+  padding: 10px;
+  cursor: pointer;
+  margin: 0 8px;
+  border: none;
+  background-color: #a47551; /* Fondo café */
+  color: white;
+  border-radius: 5px;
+}
+
+button:hover {
+  opacity: 0.8;
+  background-color: #8c6239; /* Café más oscuro al pasar el mouse */
+}
+
+/* Contenedor de las cartas */
+.habitacion-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Contenedor de la carta */
 .habitacion-card-container {
-    background-color: #f5f5f5; /* Fondo gris por defecto */
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para efecto 3D */
-    /* Asegúrate de que el color del fondo se aplica solo aquí, dependiendo del estado */
-  }
-  
-  /* Estilo de cada carta de cabaña */
-  .habitacion-card {
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #333;  /* Color oscuro para el texto */
-    background-color: transparent;  /* Fondo transparente */
-    transition: transform 0.3s ease;
-  }
-  
-  .habitacion-card:hover {
-    transform: translateY(-5px);  /* Efecto hover para las cartas */
-  }
-  
-  /* Color según el estado de la cabaña */
-  .habitacion-card-container[data-estado='disponible'] {
-    background-color: #e8f5e9;  /* Fondo verde claro para disponible */
-  }
-  
-  .habitacion-card-container[data-estado='reservada'] {
-    background-color: #ffebee;  /* Fondo rojo claro para reservada */
-  }
-  
-  .habitacion-card-container[data-estado='mantenimiento'] {
-    background-color: #fffde7;  /* Fondo amarillo claro para mantenimiento */
-  }
-  
-  
-  .habitacion-card-header {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .habitacion-card-body {
-    margin-top: 20px;
-  }
-  
-  .filters {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .button-filters {
-    display: flex;
-    gap: 10px; /* Espaciado entre los botones */
-    margin-left: 10px; /* Alinearlos un poco más a la izquierda */
-  }
-  
-  .filter-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  .filter-button:hover {
-    opacity: 0.8;
-  }
-  
-  .disponible {
-    background-color: #4caf50; /* Verde */
-  }
-  
-  .ocupado {
-    background-color: #f44336; /* Rojo */
-  }
-  
-  .mantenimiento {
-    background-color: #ff9800; /* Amarillo */
-  }
-  
+  background-color: #f5f5f5; /* Fondo gris por defecto */
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para efecto 3D */
+  /* Asegúrate de que el color del fondo se aplica solo aquí, dependiendo del estado */
+}
+
+/* Estilo de cada carta de cabaña */
+.habitacion-card {
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333; /* Color oscuro para el texto */
+  background-color: transparent; /* Fondo transparente */
+  transition: transform 0.3s ease;
+}
+
+.habitacion-card:hover {
+  transform: translateY(-5px); /* Efecto hover para las cartas */
+}
+
+/* Color según el estado de la cabaña */
+.habitacion-card-container[data-estado="disponible"] {
+  background-color: #e8f5e9; /* Fondo verde claro para disponible */
+}
+
+.habitacion-card-container[data-estado="reservada"] {
+  background-color: #ffebee; /* Fondo rojo claro para reservada */
+}
+
+.habitacion-card-container[data-estado="mantenimiento"] {
+  background-color: #fffde7; /* Fondo amarillo claro para mantenimiento */
+}
+
+.habitacion-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.habitacion-card-body {
+  margin-top: 20px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.button-filters {
+  display: flex;
+  gap: 10px; /* Espaciado entre los botones */
+  margin-left: 10px; /* Alinearlos un poco más a la izquierda */
+}
+
+.filter-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+  opacity: 0.8;
+}
+
+.disponible {
+  background-color: #4caf50; /* Verde */
+}
+
+.ocupado {
+  background-color: #f44336; /* Rojo */
+}
+
+.mantenimiento {
+  background-color: #ff9800; /* Amarillo */
+}
