@@ -36,6 +36,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
     logout();
     localStorage.removeItem("rol");
     localStorage.removeItem("idUsuario");
+    localStorage.removeItem("selectedView")
     setRol(null);
     setIdUsuario(null);
     navigate("/");

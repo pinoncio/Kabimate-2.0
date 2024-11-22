@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Aside from "./components/Aside";
@@ -31,8 +31,8 @@ export default function App() {
   const [selectedView, setSelectedView] = useState("home");
 
   return (
+    <BrowserRouter>
     <AuthProvider>
-      <Router>
         <div className="wrapper">
           <Header setSelectedView={setSelectedView} />
           <Aside selectedView={selectedView} />
@@ -123,7 +123,7 @@ export default function App() {
           </div>
           <Footer />
         </div>
-      </Router>
     </AuthProvider>
+    </BrowserRouter>
   );
 }

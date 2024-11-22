@@ -34,7 +34,7 @@ const PrivateRoute = ({ element }) => {
   }
 
   // Si no hay token o el token es inválido, redirigir
-  return isTokenValid ? element : <Navigate to="/home" replace />;
+  return isTokenValid ? element : <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;
