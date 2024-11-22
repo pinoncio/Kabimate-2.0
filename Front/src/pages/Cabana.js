@@ -160,6 +160,7 @@ const CabanaPage = () => {
                         </td>
                         <td>
                           <button
+                          id = "editar"
                             onClick={() =>
                               openModal(
                                 2,
@@ -381,7 +382,37 @@ const CabanaPage = () => {
                 />
               </div>
 
+              {/* Mini Título para Estado de la Cabaña */}
+              <div className="mb-2">
+                <strong>Estado de la Cabaña</strong>
+              </div>
+              {operation === 2 && ( 
+                <>
               
+              <div className="input-group mb-3">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-gift"></i>
+                </span>
+                <select
+                  className="form-control"
+                  name="id_estado_cabania"
+                  value={id_estado_cabania}
+                  onChange={(e) => {
+                    setIdEstadoCabania(e.target.value);
+                  }}
+                  style={{ color: "black" }}
+                >
+                  <option value="">Seleccione un estado</option>
+                  {estados.map((estado) => (
+                    <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
+                      {estado.NOMBRE_ESTADO}
+                    </option>
+                  ))}
+                </select>
+              </div>
+                
+              </>
+              )}
 
               <div className="d-grid col-6 mx-auto">
                 <button onClick={() => validar()} className="btn btn-success">

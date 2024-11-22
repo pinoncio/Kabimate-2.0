@@ -1,12 +1,6 @@
 import request from 'supertest';
-import { Usuario } from '../src/models/usuarioModel';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
-// URL del servidor en ejecución
 const BASE_URL = 'http://localhost:3001';
-
-
 describe('Pruebas para /api/usuarios', () => {
     test('Debería responder con una lista de usuarios y un código de estado 200', async () => {
         const response = await request(BASE_URL).get('/api/usuarios/list');

@@ -1,8 +1,6 @@
 import request from 'supertest';
 
-// URL del servidor que ya está corriendo
-const BASE_URL = 'http://localhost:3001'; // Cambia el puerto si es necesario
-
+const BASE_URL = 'http://localhost:3001';
 describe('Pruebas para /api/cabanas', () => {
     test('Debería devolver las cabañas de un usuario válido', async () => {
         const response = await request(BASE_URL).get('/api/cabanas/list/1');
