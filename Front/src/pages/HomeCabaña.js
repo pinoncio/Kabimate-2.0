@@ -177,7 +177,7 @@ export default function HomeCabana() {
         return "#e8f5e9";
       case "Ocupado":
         return "#ffebee";
-      case "En Mantención":
+      case "Mantenimiento":
         return "#fffde7";
       default:
         return "#f5f5f5";
@@ -190,24 +190,48 @@ export default function HomeCabana() {
       <div className="filters">
         {/* Filtros agrupados */}
         <div className="input-filters">
+        <input
+            type="text"
+            placeholder="Buscar por ubicación o descripción"
+            value={busqueda}
+            onChange={handleBusqueda}
+            className="form-control"
+          />
           <select
             value={precioMin}
             onChange={(e) => setPrecioMin(e.target.value)}
             className="form-control"
           >
             <option value="">Precio mínimo</option>
+            <option value="1000">1,000 CLP</option>
             <option value="5000">5,000 CLP</option>
             <option value="10000">10,000 CLP</option>
+            <option value="15000">15,000 CLP</option>
             <option value="20000">20,000 CLP</option>
+            <option value="25000">25,000 CLP</option>
+            <option value="30000">30,000 CLP</option>
+            <option value="35000">35,000 CLP</option>
+            <option value="40000">40,000 CLP</option>
+            <option value="45000">45,000 CLP</option>
+            <option value="50000">50,000 CLP</option>
           </select>
+
           <select
             value={precioMax}
             onChange={(e) => setPrecioMax(e.target.value)}
             className="form-control"
           >
             <option value="">Precio máximo</option>
+            <option value="1000">1,000 CLP</option>
+            <option value="5000">5,000 CLP</option>
+            <option value="10000">10,000 CLP</option>
+            <option value="20000">20,000 CLP</option>
+            <option value="30000">30,000 CLP</option>
+            <option value="40000">40,000 CLP</option>
             <option value="50000">50,000 CLP</option>
+            <option value="75000">75,000 CLP</option>
             <option value="100000">100,000 CLP</option>
+            <option value="150000">150,000 CLP</option>
             <option value="200000">200,000 CLP</option>
           </select>
 
@@ -219,8 +243,16 @@ export default function HomeCabana() {
             <option value="">Capacidad mínima</option>
             <option value="1">1 persona</option>
             <option value="2">2 personas</option>
+            <option value="3">3 personas</option>
             <option value="4">4 personas</option>
+            <option value="5">5 personas</option>
+            <option value="6">6 personas</option>
+            <option value="7">7 personas</option>
+            <option value="8">8 personas</option>
+            <option value="9">9 personas</option>
+            <option value="10">10 personas</option>
           </select>
+
           <select
             value={capacidadMax}
             onChange={(e) => setCapacidadMax(e.target.value)}
@@ -228,8 +260,15 @@ export default function HomeCabana() {
           >
             <option value="">Capacidad máxima</option>
             <option value="4">4 personas</option>
+            <option value="5">5 personas</option>
             <option value="6">6 personas</option>
+            <option value="7">7 personas</option>
             <option value="8">8 personas</option>
+            <option value="9">9 personas</option>
+            <option value="10">10 personas</option>
+            <option value="12">12 personas</option>
+            <option value="14">14 personas</option>
+            <option value="16">16 personas</option>
           </select>
 
           <select
@@ -240,7 +279,12 @@ export default function HomeCabana() {
             <option value="">Piezas mínimas</option>
             <option value="1">1 pieza</option>
             <option value="2">2 piezas</option>
+            <option value="3">3 piezas</option>
+            <option value="4">4 piezas</option>
+            <option value="5">5 piezas</option>
+            <option value="6">6 piezas</option>
           </select>
+
           <select
             value={cantidadPiezasMax}
             onChange={(e) => setCantidadPiezasMax(e.target.value)}
@@ -248,16 +292,15 @@ export default function HomeCabana() {
           >
             <option value="">Piezas máximas</option>
             <option value="4">4 piezas</option>
+            <option value="5">5 piezas</option>
             <option value="6">6 piezas</option>
+            <option value="7">7 piezas</option>
+            <option value="8">8 piezas</option>
+            <option value="10">10 piezas</option>
+            <option value="12">12 piezas</option>
           </select>
 
-          <input
-            type="text"
-            placeholder="Buscar por ubicación o descripción"
-            value={busqueda}
-            onChange={handleBusqueda}
-            className="form-control"
-          />
+          
         </div>
 
         {/* Botones de estado */}
@@ -275,7 +318,7 @@ export default function HomeCabana() {
             Ocupado
           </button>
           <button
-            onClick={() => handleFiltroEstado("En Mantención")}
+            onClick={() => handleFiltroEstado("Mantenimiento")}
             className="filter-button mantenimiento"
           >
             En Mantención

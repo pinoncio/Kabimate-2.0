@@ -91,25 +91,8 @@ const ProductoPage = () => {
               >
                 <i className="fa fa-plus-circle mt-2"></i> Agregar Producto
               </button>
-              <button
-                onClick={showHelp}
-                className="btn btn-circle btn-danger"
-                style={{
-                  position: "fixed",
-                  bottom: "600px",
-                  right: "180px",
-                  borderRadius: "50%",
-                  width: "60px",
-                  height: "60px",
-                  padding: "0",
-                  fontSize: "30px",
-                  zIndex: "999",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <i className="fa fa-question-circle"></i>
+              <button onClick={showHelp} class="btn-circle btn-danger">
+                <i class="fa fa-question-circle"></i>
               </button>
             </div>
           </div>
