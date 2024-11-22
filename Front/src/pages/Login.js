@@ -150,7 +150,7 @@ const Login = () => {
         )}
 
         <div className="button-wrapper">
-          <button type="submit" className="button">
+          <button id="boton" type="submit" className="button">
             Iniciar sesión
           </button>
         </div>

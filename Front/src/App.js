@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Aside from "./components/Aside";
 import Footer from "./components/Footer";
@@ -32,7 +31,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-    <AuthProvider>
+      <AuthProvider>
         <div className="wrapper">
           <Header setSelectedView={setSelectedView} />
           <Aside selectedView={selectedView} />
@@ -41,89 +40,138 @@ export default function App() {
               {/* Ruta pública */}
               <Route path="/" element={<Login />} />
 
-              {/* Rutas protegidas */}
-              <Route
-                path="/home"
-                element={<PrivateRoute element={<Home />} />}
-              />
+              {/* Rutas Admin */}
               <Route
                 path="/admin"
-                element={<PrivateRoute element={<Admin />} />}
+                element={<PrivateRoute element={<Admin />} requiredRole="1" />}
               />
+
               <Route
                 path="/userA"
-                element={<PrivateRoute element={<UserPageA />} />}
+                element={
+                  <PrivateRoute element={<UserPageA />} requiredRole="1" />
+                }
               />
+
               <Route
                 path="/userU"
-                element={<PrivateRoute element={<UserPageU />} />}
+                element={
+                  <PrivateRoute element={<UserPageU />} requiredRole="1" />
+                }
               />
+
               <Route
                 path="/rol"
-                element={<PrivateRoute element={<RolPage />} />}
+                element={
+                  <PrivateRoute element={<RolPage />} requiredRole="1" />
+                }
               />
+
               <Route
                 path="/institucion"
-                element={<PrivateRoute element={<Insti />} />}
+                element={<PrivateRoute element={<Insti />} requiredRole="1" />}
+              />
+
+              {/* Rutas de Usuarios */}
+              <Route
+                path="/home"
+                element={<PrivateRoute element={<Home />} requiredRole="2" />}
               />
               <Route
                 path="/gcabana"
-                element={<PrivateRoute element={<Cabana />} />}
+                element={<PrivateRoute element={<Cabana />} requiredRole="2" />}
               />
               <Route
                 path="/perfilA/:id"
-                element={<PrivateRoute element={<PerfilA />} />}
+                element={
+                  <PrivateRoute element={<PerfilA />} requiredRole="2" />
+                }
               />
               <Route
                 path="/perfilU/:id"
-                element={<PrivateRoute element={<PerfilU />} />}
+                element={
+                  <PrivateRoute element={<PerfilU />} requiredRole="2" />
+                }
               />
               <Route
                 path="/Hcabana"
-                element={<PrivateRoute element={<HomeCabana />} />}
+                element={
+                  <PrivateRoute element={<HomeCabana />} requiredRole="2" />
+                }
               />
               <Route
                 path="/HHotel"
-                element={<PrivateRoute element={<HomeHabitacion />} />}
+                element={
+                  <PrivateRoute element={<HomeHabitacion />} requiredRole="2" />
+                }
               />
               <Route
                 path="/homeC"
-                element={<PrivateRoute element={<HomeC />} />}
+                element={<PrivateRoute element={<HomeC />} requiredRole="2" />}
               />
               <Route
                 path="/homeH"
-                element={<PrivateRoute element={<HomeH />} />}
+                element={<PrivateRoute element={<HomeH />} requiredRole="2" />}
               />
               <Route
                 path="/pisos"
-                element={<PrivateRoute element={<Pisos />} />}
+                element={<PrivateRoute element={<Pisos />} requiredRole="2" />}
               />
               <Route
                 path="/ghotel"
-                element={<PrivateRoute element={<HabitacionPage />} />}
+                element={
+                  <PrivateRoute element={<HabitacionPage />} requiredRole="2" />
+                }
               />
               <Route
                 path="/contactanos"
-                element={<PrivateRoute element={<ContactPage />} />}
+                element={
+                  <PrivateRoute element={<ContactPage />} requiredRole="2" />
+                }
               />
               <Route
                 path="/ayuda"
-                element={<PrivateRoute element={<Ayuda />} />}
+                element={<PrivateRoute element={<Ayuda />} requiredRole="2" />}
               />
               <Route
                 path="/gCategory"
-                element={<PrivateRoute element={<CategoriaPage />} />}
+                element={
+                  <PrivateRoute element={<CategoriaPage />} requiredRole="2" />
+                }
               />
               <Route
                 path="/gProducto"
-                element={<PrivateRoute element={<ProductoPage />} />}
+                element={
+                  <PrivateRoute element={<ProductoPage />} requiredRole="2" />
+                }
               />
-              <Route path="*" element={<Navigate to="/" replace />} />
+
+              {/* Ruta para rutas no existentes */}
+              <Route
+                path="*"
+                element={
+                  <Navigate
+                    to={() => {
+                      const token = localStorage.getItem("authToken");
+                      const rol = localStorage.getItem("rol");
+
+                      if (token && rol === "1") {
+                        return "/admin"; // Si el token y rol son válidos y rol es 1, redirigir a /admin
+                      } else if (token) {
+                        return "/home"; // Si solo el token es válido, redirigir a /home
+                      } else {
+                        return "/"; // Si no hay token, redirigir a la página de inicio
+                      }
+                    }}
+                    replace
+                  />
+                }
+              />
             </Routes>
           </div>
           <Footer />
         </div>
-    </AuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
