@@ -34,6 +34,7 @@ export default function Header({ setSelectedView, setDataVisible }) {
   // Función para manejar el cierre de sesión
   const handleLogout = () => {
     logout();
+    localStorage.removeItem("authToken");
     localStorage.removeItem("rol");
     localStorage.removeItem("idUsuario");
     localStorage.removeItem("selectedView")
