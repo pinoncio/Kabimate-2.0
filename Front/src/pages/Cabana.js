@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useCabanas from "../Hooks/useCabana";
 import { show_alerta } from "../functions";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import "../Styles/cabana.css";
 
 const CabanaPage = () => {
@@ -30,6 +29,7 @@ const CabanaPage = () => {
     handleToggleCabanaStatus,
     obtenerNombreEstado,
   } = useCabanas();
+  
 
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const itemsPerPage = 4; // Número de cabañas por página
@@ -381,31 +381,7 @@ const CabanaPage = () => {
                 />
               </div>
 
-              {/* Mini Título para Estado de la Cabaña */}
-              <div className="mb-2">
-                <strong>Estado de la Cabaña</strong>
-              </div>
-              <div className="input-group mb-3">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-gift"></i>
-                </span>
-                <select
-                  className="form-control"
-                  name="id_estado_cabania"
-                  value={id_estado_cabania}
-                  onChange={(e) => {
-                    setIdEstadoCabania(e.target.value);
-                  }}
-                  style={{ color: "black" }}
-                >
-                  <option value="">Seleccione un estado</option>
-                  {estados.map((estado) => (
-                    <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
-                      {estado.NOMBRE_ESTADO}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              
 
               <div className="d-grid col-6 mx-auto">
                 <button onClick={() => validar()} className="btn btn-success">
