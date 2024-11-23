@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import usePisos from "../Hooks/usePisos"; // Importando el hook personalizado
 import { show_alerta } from "../functions";
-import "../Styles/Pisos.css"; // Estilos específicos para pisos
+import "../Styles/Crud.css";
 
 const PisoPage = () => {
   const {

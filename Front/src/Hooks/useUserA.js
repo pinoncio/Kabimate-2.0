@@ -9,7 +9,7 @@ import {
 } from "../services/userA";
 import { getRoles } from "../services/rol";
 import { getInstituciones } from "../services/Insti";
-import "../Styles/user.css";
+
 
 const useUserA = () => {
   const [users, setUsers] = useState([]);
