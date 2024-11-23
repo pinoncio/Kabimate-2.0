@@ -1,5 +1,5 @@
 describe('Prueba Inicio de Sesion', () => {
-  it('Inicio de sesíon incorrecta correo',() => {
+  it('MA-0004: Inicio de sesíon incorrecta correo',() => {
     cy.visit('http://localhost:3000/')
       cy.get('input[name="email"]').type('usuarioincorrecto@pruebas.cl')
       cy.get('input[name="contraseña"]').type('pruebas')
@@ -12,7 +12,7 @@ describe('Prueba Inicio de Sesion', () => {
   })
 
 
-  it('Inicio de sesíon incorrecta contraseña',() => {
+  it('MA-0005: Inicio de sesíon incorrecta contraseña',() => {
     cy.visit('http://localhost:3000/')
       cy.get('input[name="email"]').type('usuario@pruebas.cl')
       cy.get('input[name="contraseña"]').type('contraseñaincorrecta')
@@ -25,7 +25,7 @@ describe('Prueba Inicio de Sesion', () => {
   })
 
 
-  it('Inicio de sesíon usuario bloqueado',() => {
+  it('MA-0006: Inicio de sesíon usuario bloqueado',() => {
     cy.visit('http://localhost:3000/')
       cy.get('input[name="email"]').type('usuariobloqueado@pruebas.cl')
       cy.get('input[name="contraseña"]').type('contraseñaincorrecta')
@@ -38,7 +38,7 @@ describe('Prueba Inicio de Sesion', () => {
   })
 
 
-  it('Inicio de sesíon correctamente',() => {
+  it('MA-0007: Inicio de sesíon correctamente',() => {
     cy.visit('http://localhost:3000/')
       cy.get('input[name="email"]').type('usuario@pruebas.cl')
       cy.get('input[name="contraseña"]').type('pruebas')

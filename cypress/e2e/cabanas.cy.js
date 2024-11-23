@@ -1,5 +1,5 @@
-describe('Prueba Inicio de Sesion', () => {
-    it('Creacion exitosa de cabaña',() => {
+describe('Prueba CRUD cabañas', () => {
+    it('GC-0005: Creacion exitosa de cabaña',() => {
         cy.visit('http://localhost:3000/')
         cy.get('input[name="email"]').type('usuario@pruebas.cl')
         cy.get('input[name="contraseña"]').type('pruebas')
@@ -44,7 +44,7 @@ describe('Prueba Inicio de Sesion', () => {
 
         
     })
-    it('Edicion exitosa de cabaña',() => {
+    it('GC-0006: Edicion exitosa de cabaña',() => {
         cy.visit('http://localhost:3000/')
         cy.get('input[name="email"]').type('usuario@pruebas.cl')
         cy.get('input[name="contraseña"]').type('pruebas')
@@ -87,7 +87,7 @@ describe('Prueba Inicio de Sesion', () => {
         
         
     })
-    it('Desactivacion exitosa de cabaña',() => {
+    it('GC-0007: Desactivacion exitosa de cabaña',() => {
         cy.visit('http://localhost:3000/')
         cy.get('input[name="email"]').type('usuario@pruebas.cl')
         cy.get('input[name="contraseña"]').type('pruebas')

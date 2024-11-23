@@ -2,13 +2,13 @@ import request from 'supertest';
 
 const BASE_URL = 'http://localhost:3001';
 describe('Pruebas para /api/usuarios', () => {
-    test('Debería responder con una lista de usuarios y un código de estado 200', async () => {
+    test('GU-0001: Debería responder con una lista de usuarios y un código de estado 200', async () => {
         const response = await request(BASE_URL).get('/api/usuarios/list');
         expect(response.status).toBe(200); 
         expect(response.body).toBeInstanceOf(Object); 
     });
 
-    test('Debería devolver un usuario con ID_USUARIO: 1 en /api/usuarios/1', async () => {
+    test('GU-0002: Debería devolver un usuario con ID_USUARIO: 1 en /api/usuarios/1', async () => {
         const response = await request(BASE_URL).get('/api/usuarios/1');
         expect(response.status).toBe(200); 
         expect(response.body).toBeInstanceOf(Object);
@@ -16,7 +16,7 @@ describe('Pruebas para /api/usuarios', () => {
         expect(response.body.ID_USUARIO).toBe(1); 
     });
 
-    test('Debería devolver un código de estado 404 si el usuario no existe al intentar actualizar', async () => {
+    test('GU-0003: Debería devolver un código de estado 404 si el usuario no existe al intentar actualizar', async () => {
         const response = await request(BASE_URL)
             .put('/api/usuarios/update/9999')
             .send({
