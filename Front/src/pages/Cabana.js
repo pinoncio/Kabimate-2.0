@@ -29,9 +29,17 @@ const CabanaPage = () => {
     handleToggleCabanaStatus,
     obtenerNombreEstado,
   } = useCabanas();
-  
 
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const itemsPerPage = 5; // Número de pisos por página
+  const totalPages = cabanas ? Math.ceil(cabanas.length / itemsPerPage) : 0; // Total de páginas (con verificación de pisos)
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCabanas = cabanas.slice(startIndex, startIndex + itemsPerPage); // Corregido el cálculo de slice
+
+  const changePage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const validarNumero = (value) => {
     // Permite solo números o vacío
@@ -89,7 +97,8 @@ const CabanaPage = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#modalCabanas"
               >
-                <i id = "añadirC" className="fa fa-plus-circle mt-2"></i> Añadir Cabaña
+                <i id="añadirC" className="fa fa-plus-circle mt-2"></i> Añadir
+                Cabaña
               </button>
 
               <button onClick={showHelp} class="btn-circle btn-danger">
@@ -122,9 +131,9 @@ const CabanaPage = () => {
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {cabanas.map((cabana, i) => (
+                    {currentCabanas.map((cabana, i) => (
                       <tr key={cabana.ID_CABANIA}>
-                        <td>{ i + 1}</td>
+                        <td>{startIndex + i + 1}</td>
                         <td>{cabana.CAPACIDAD}</td>
                         <td>{cabana.CANTIDAD_PIEZAS}</td>
                         <td>{cabana.PRECIO_POR_NOCHE}</td>
@@ -149,7 +158,7 @@ const CabanaPage = () => {
                         </td>
                         <td>
                           <button
-                          id = "editar"
+                            id="editar"
                             onClick={() =>
                               openModal(
                                 2,
@@ -177,7 +186,49 @@ const CabanaPage = () => {
               </div>
             </div>
 
-            
+            <nav aria-label="Page navigation">
+              <ul className="pagination justify-content-center">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => changePage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Anterior
+                  </button>
+                </li>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <li
+                    key={index + 1}
+                    className={`page-item ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => changePage(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => changePage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Siguiente
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -332,32 +383,30 @@ const CabanaPage = () => {
               <div className="mb-2">
                 <strong>Estado de la Cabaña</strong>
               </div>
-              {operation === 2 && ( 
+              {operation === 2 && (
                 <>
-              
-              <div className="input-group mb-3">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-gift"></i>
-                </span>
-                <select
-                  className="form-control"
-                  name="id_estado_cabania"
-                  value={id_estado_cabania}
-                  onChange={(e) => {
-                    setIdEstadoCabania(e.target.value);
-                  }}
-                  style={{ color: "black" }}
-                >
-                  <option value="">Seleccione un estado</option>
-                  {estados.map((estado) => (
-                    <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
-                      {estado.NOMBRE_ESTADO}
-                    </option>
-                  ))}
-                </select>
-              </div>
-                
-              </>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-gift"></i>
+                    </span>
+                    <select
+                      className="form-control"
+                      name="id_estado_cabania"
+                      value={id_estado_cabania}
+                      onChange={(e) => {
+                        setIdEstadoCabania(e.target.value);
+                      }}
+                      style={{ color: "black" }}
+                    >
+                      <option value="">Seleccione un estado</option>
+                      {estados.map((estado) => (
+                        <option key={estado.ID_ESTADO} value={estado.ID_ESTADO}>
+                          {estado.NOMBRE_ESTADO}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
               )}
 
               <div className="d-grid col-6 mx-auto">

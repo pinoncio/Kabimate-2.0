@@ -91,14 +91,8 @@ const useCabana = () => {
     const validarCreacion = () => {
       return (
         capacidad === "" ||
-        capacidad == null ||
-        isNaN(capacidad) ||
         cantidad_piezas === "" ||
-        cantidad_piezas == null ||
-        isNaN(cantidad_piezas) ||
         precio_por_noche === "" ||
-        precio_por_noche == null ||
-        isNaN(precio_por_noche) ||
         ubicacion.trim() === "" ||
         servicios_incluidos.trim() === "" ||
         descripcion_cabania.trim() === "" ||
@@ -109,14 +103,8 @@ const useCabana = () => {
     const validarActualizacion = () => {
       return (
         capacidad === "" ||
-        capacidad == null ||
-        isNaN(capacidad) ||
         cantidad_piezas === "" ||
-        cantidad_piezas == null ||
-        isNaN(cantidad_piezas) ||
         precio_por_noche === "" ||
-        precio_por_noche == null ||
-        isNaN(precio_por_noche) ||
         ubicacion.trim() === "" ||
         servicios_incluidos.trim() === "" ||
         descripcion_cabania.trim() === "" ||
@@ -160,11 +148,7 @@ const useCabana = () => {
     try {
       const response = await createCabana(id_usuario_cabania, cabanaData);
       show_alerta(response.msg, "sucess");
-      setCabanas((prevCabanas) => {
-        return [...prevCabanas, response.cabana].sort(
-          (a, b) => a.ID_CABANIA - b.ID_CABANIA
-        );
-      });
+      getAllCabanas(id_usuario_cabania);
       document.getElementById("btnCerrar").click();
     } catch (error) {
       console.error("Error al crear cabaña:", error);
@@ -176,15 +160,7 @@ const useCabana = () => {
     try {
       await updateCabana(id_cabania, cabanaData);
       show_alerta("La cabaña fue editada con éxito.", "success");
-      setCabanas((prevCabanas) => {
-        return prevCabanas
-          .map((cabana) =>
-            cabana.ID_CABANIA === id_cabania
-              ? { ...cabana, ...cabanaData }
-              : cabana
-          )
-          .sort((a, b) => a.ID_CABANIA - b.ID_CABANIA);
-      });
+      getAllCabanas(id_usuario_cabania);
       document.getElementById("btnCerrar").click();
     } catch (error) {
       console.error("Error al actualizar cabaña:", error);
