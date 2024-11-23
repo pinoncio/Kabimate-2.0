@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useInstituciones from "../Hooks/useInstituciones";
-import "../Styles/insti.css";
+import "../Styles/Crud.css";
 
 const InstiPage = () => {
   const {

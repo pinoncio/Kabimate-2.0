@@ -1,7 +1,7 @@
 // pages/RolPage.js
 import React from "react";
 import { Link } from "react-router-dom"; // Importa Link
-import "../Styles/rol.css";
+import "../Styles/Crud.css";
 import { useRol } from "../Hooks/useRol.js";
 
 const RolPage = () => {

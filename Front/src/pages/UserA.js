@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useUserA from "../Hooks/useUserA";
-import "../Styles/user.css";
+import "../Styles/Crud.css";
 
 const UserPageA = () => {
   const {

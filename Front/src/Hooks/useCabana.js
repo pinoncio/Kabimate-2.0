@@ -7,7 +7,6 @@ import {
   activateCabana,
 } from "../services/Cabania";
 import { getEstados } from "../services/Estados";
-import "../Styles/cabana.css";
 
 const useCabana = () => {
   const [cabanas, setCabanas] = useState([]);

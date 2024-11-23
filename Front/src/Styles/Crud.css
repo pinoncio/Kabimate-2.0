@@ -13,9 +13,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-image: url("../Images/email-pattern.png");
-  background-size: 150px;
-  background-color: #f5f5f0;
 }
 
 .card-container {

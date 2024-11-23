@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useUserU from "../Hooks/useUserU";
-import "../Styles/user.css";
+import "../Styles/Crud.css";
 
 const UserPageU = () => {
   const {
@@ -34,7 +34,7 @@ const UserPageU = () => {
 
   return (
     <div className="bg-light">
-      <div className="container-fluid">
+      <div className="container-fluid-a">
         <div className="row">
           <div className="col-md-4 offset-md-4">
             <div

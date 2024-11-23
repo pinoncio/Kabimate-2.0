@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useHabitacion from "../Hooks/useHabitacion";
 import { show_alerta } from "../functions";
-import "../Styles/habitacion.css";
+import "../Styles/Crud.css";
 
 const HabitacionPage = () => {
   const {
@@ -73,6 +73,7 @@ const HabitacionPage = () => {
 
   return (
     <div className="bg-light">
+      <div className="background">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-4 offset-md-4">
@@ -246,7 +247,7 @@ const HabitacionPage = () => {
           </div>
         </div>
       </div>
-
+</div>
       {/* Modal */}
       <div
         id="modalHabitaciones"

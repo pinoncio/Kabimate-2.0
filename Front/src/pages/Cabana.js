@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useCabanas from "../Hooks/useCabana";
 import { show_alerta } from "../functions";
-import "../Styles/cabana.css";
+import "../Styles/Crud.css";
 
 const CabanaPage = () => {
   const {
