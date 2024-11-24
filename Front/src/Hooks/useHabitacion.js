@@ -198,6 +198,7 @@ const useHabitacion = () => {
       const response = await createHabitacion(id_usuario, habitacionData);
       show_alerta(response.msg, "success");
       document.getElementById("btnCerrar").click();
+      getAllHabitaciones(id_usuario);
     } catch (error) {
       console.error("Error al crear habitación:", error);
       show_alerta("Error al crear la habitación", "error");

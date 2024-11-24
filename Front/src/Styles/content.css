@@ -1,0 +1,9 @@
+.content-wrapper {
+    margin-left: 250px; /* Deja espacio para el sidebar */
+    margin-top: 60px; /* Deja espacio para el header */
+    padding: 20px;
+    background-color: #f4f4f4;
+    height: calc(100vh - 60px); /* El contenido debe ocupar el espacio restante */
+    overflow-y: auto; /* Permite el desplazamiento solo en el eje Y */
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+  }

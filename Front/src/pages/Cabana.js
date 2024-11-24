@@ -176,7 +176,7 @@ const CabanaPage = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#modalCabanas"
                           >
-                            <i className="fa-solid fa-edit"></i>
+                            Editar
                           </button>
                         </td>
                       </tr>

@@ -1,5 +1,6 @@
 import React from "react";
+import "../Styles/content.css";
 
 export default function Content() {
-  return <div className="content-wrapper"></div>;
+  return <main className="content-wrapper"></main>;
 }

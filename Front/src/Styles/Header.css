@@ -1,3 +1,9 @@
 .custom-header {
-  background-color: #a47551; /* Color de fondo deseado */
+  background-color: #a47551;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 60px; /* Altura del header */
 }

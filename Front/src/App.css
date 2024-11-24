@@ -13,16 +13,40 @@
   }
 }
 
+/* Asegura que el header esté fijo */
 .App-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 60px; /* Ajusta la altura si es necesario */
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+/* Asegura que el aside también esté fijo en el lado izquierdo */
+.App-sidebar {
+  position: fixed;
+  top: 60px; /* Justo debajo del header */
+  left: 0;
+  width: 250px; /* Puedes ajustarlo a lo que necesites */
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: 20px;
+}
+
+/* Ajusta el contenido para que no quede debajo de los elementos fijos */
+.App-content {
+  margin-left: 250px; /* Alinea el contenido principal a la derecha del aside */
+  margin-top: 60px;  /* Da espacio al contenido debajo del header */
+  padding: 20px;
+}
+
 
 .App-link {
   color: #61dafb;
@@ -54,4 +78,35 @@
 
 .custom-swal-popup .swal2-html-container {
   font-size: 14px !important; /* Cambia el tamaño de la fuente según lo necesites */
+}
+
+
+.nav-treeview {
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.nav-link:hover {
+  background-color: #8b5b48;
+}
+
+/* Estilo para los formularios en el sidebar */
+.form-control-sidebar {
+  color: #ffffff;
+}
+
+.form-control-sidebar::placeholder {
+  color: #ffffff;
+}
+
+/* Estilo para las divisiones en el sidebar */
+.kabimate-divider {
+  border: 1px solid #ffffff;
+  margin: 10px 0;
+  opacity: 0.8;
+}
+
+/* Ajustes al sidebar cuando esté desplazado */
+.main-sidebar.scrolled {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

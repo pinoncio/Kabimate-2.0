@@ -33,9 +33,12 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <div className="wrapper">
+          {/* Header y Aside se muestran siempre */}
           <Header setSelectedView={setSelectedView} />
           <Aside selectedView={selectedView} />
-          <div className="content-wrapper">
+
+          {/* Uso de <main> para envolver el contenido principal */}
+          <main className="content-wrapper">
             <Routes>
               {/* Ruta pública */}
               <Route path="/" element={<Login />} />
@@ -45,28 +48,24 @@ export default function App() {
                 path="/admin"
                 element={<PrivateRoute element={<Admin />} requiredRole="1" />}
               />
-
               <Route
                 path="/userA"
                 element={
                   <PrivateRoute element={<UserPageA />} requiredRole="1" />
                 }
               />
-
               <Route
                 path="/userU"
                 element={
                   <PrivateRoute element={<UserPageU />} requiredRole="1" />
                 }
               />
-
               <Route
                 path="/rol"
                 element={
                   <PrivateRoute element={<RolPage />} requiredRole="1" />
                 }
               />
-
               <Route
                 path="/institucion"
                 element={<PrivateRoute element={<Insti />} requiredRole="1" />}
@@ -168,7 +167,9 @@ export default function App() {
                 }
               />
             </Routes>
-          </div>
+          </main>
+
+          {/* Footer se muestra siempre */}
           <Footer />
         </div>
       </AuthProvider>

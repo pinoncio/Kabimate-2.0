@@ -158,7 +158,7 @@ const ProductoPage = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#modalProductos"
                           >
-                            <i className="fas fa-edit"></i>
+                            Editar
                           </button>
                           <button
                             className="btn btn-danger"
@@ -169,7 +169,7 @@ const ProductoPage = () => {
                               )
                             }
                           >
-                            <i className="fas fa-trash-alt"></i>
+                           Eliminar
                           </button>
                         </td>
                       </tr>

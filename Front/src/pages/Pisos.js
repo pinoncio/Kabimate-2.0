@@ -132,7 +132,7 @@ const PisoPage = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#modalPisos"
                           >
-                            <i className="fa-solid fa-edit"></i>
+                            Editar
                           </button>
                         </td>
                       </tr>

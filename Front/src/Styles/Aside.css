@@ -8,20 +8,19 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra suave */
 }
 
-/* Apartado principal */
 .main-sidebar {
-  background-color: #a47551;
-  transition: transform 0.3s ease;
-}
-
-/* Cuando el aside tiene la clase 'scrolled' */
-.main-sidebar.scrolled {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
-  width: 250px; /* Ajusta según el ancho de tu sidebar */
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agrega una sombra para el efecto de flotar */
+  bottom: 0;
+  width: 250px; /* Ajusta el ancho según tus necesidades */
+  z-index: 1000;
+  overflow-y: auto; /* Para permitir el scroll si el contenido del sidebar es largo */
+}
+
+.main-sidebar.scrolled {
+  background-color: #8c6433; /* Cambiar el color si se necesita */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de flotar */
 }
 
 .nav-link {

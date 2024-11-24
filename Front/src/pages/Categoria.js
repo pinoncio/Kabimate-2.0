@@ -142,7 +142,7 @@ const CategoriaPage = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#modalCategorias"
                           >
-                            <i className="fa-solid fa-edit"></i>
+                            Editar
                           </button>
                           &nbsp;
                           <button
@@ -154,7 +154,7 @@ const CategoriaPage = () => {
                             }
                             className="btn btn-danger"
                           >
-                            <i className="fa-solid fa-trash"></i>
+                           Eliminar
                           </button>
                         </td>
                       </tr>

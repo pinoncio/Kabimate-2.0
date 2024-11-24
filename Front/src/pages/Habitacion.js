@@ -74,180 +74,182 @@ const HabitacionPage = () => {
   return (
     <div className="bg-light">
       <div className="background">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-4 offset-md-4">
-            <div
-              className="d-flex justify-content-between"
-              style={{ marginTop: "50px" }}
-            >
-              <Link
-                to="/homeH"
-                className="btn"
-                style={{
-                  backgroundColor: "#a47551",
-                  borderColor: "#a47551",
-                  color: "white",
-                }}
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-4 offset-md-4">
+              <div
+                className="d-flex justify-content-between"
+                style={{ marginTop: "50px" }}
               >
-                <i className="fa fa-arrow-left"></i> Volver
-              </Link>
-              <button
-                onClick={() => openModal(1)}
-                className="btn"
-                style={{
-                  backgroundColor: "#a47551",
-                  borderColor: "#a47551",
-                  color: "white",
-                }}
-                data-bs-toggle="modal"
-                data-bs-target="#modalHabitaciones"
-              >
-                <i className="fa fa-plus-circle "></i> Añadir Habitación
-              </button>
-              <button onClick={showHelp} class="btn-circle btn-danger">
-                <i class="fa fa-question-circle"></i>
-              </button>
+                <Link
+                  to="/homeH"
+                  className="btn"
+                  style={{
+                    backgroundColor: "#a47551",
+                    borderColor: "#a47551",
+                    color: "white",
+                  }}
+                >
+                  <i className="fa fa-arrow-left"></i> Volver
+                </Link>
+                <button
+                  onClick={() => openModal(1)}
+                  className="btn"
+                  style={{
+                    backgroundColor: "#a47551",
+                    borderColor: "#a47551",
+                    color: "white",
+                  }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalHabitaciones"
+                >
+                  <i className="fa fa-plus-circle "></i> Añadir Habitación
+                </button>
+                <button onClick={showHelp} class="btn-circle btn-danger">
+                  <i class="fa fa-question-circle"></i>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col-12 col-lg-8 offset-0 offset-lg-2">
-            <div className="card-container">
-              <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
-                Lista de Habitaciones
-              </h2>
-              <div className="table-responsive">
-                <table className="table table-bordered table-custom">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>NÚMERO</th>
-                      <th>CAPACIDAD</th>
-                      <th>PRECIO/NOCHE</th>
-                      <th>SERVICIOS INCLUIDOS</th>
-                      <th>DESCRIPCIÓN</th>
-                      <th>TIPO</th>
-                      <th>PISO</th>
-                      <th>ESTADO HABITACION</th>
-                      <th>ESTADO</th>
-                      <th>ACCIONES</th>
-                    </tr>
-                  </thead>
-                  <tbody className="table-group-divider">
-                    {currentHabitaciones.map((habitacion, i) => (
-                      <tr key={habitacion.ID_HABITACION}>
-                        <td>{startIndex + i + 1}</td>
-                        <td>{habitacion.NUMERO_HABITACION}</td>
-                        <td>{habitacion.CAPACIDAD}</td>
-                        <td>{habitacion.PRECIO_POR_NOCHE}</td>
-                        <td>{habitacion.SERVICIOS_INCLUIDOS}</td>
-                        <td>{habitacion.DESCRIPCION_HABITACION}</td>
-                        <td>
-                          {obtenerNombreTipo(
-                            habitacion.ID_TIPO_HABITACION_HABITACION
-                          )}
-                        </td>
-                        <td>
-                          {obtenerNombrePiso(habitacion.ID_PISO_HABITACION)}
-                        </td>
-                        <td>
-                          {obtenerNombreEstado(habitacion.ID_ESTADO_HABITACION)}
-                        </td>
-                        <td>
-                          <label className="switch">
-                            <input
-                              type="checkbox"
-                              checked={habitacion.ESTADO_HABITACION === true}
-                              onChange={() =>
-                                handleToggleHotelStatus(
+          <div className="row mt-3">
+            <div className="col-12 col-lg-8 offset-0 offset-lg-2">
+              <div className="card-container">
+                <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
+                  Lista de Habitaciones
+                </h2>
+                <div className="table-responsive">
+                  <table className="table table-bordered table-custom">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>NÚMERO</th>
+                        <th>CAPACIDAD</th>
+                        <th>PRECIO/NOCHE</th>
+                        <th>SERVICIOS INCLUIDOS</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>TIPO</th>
+                        <th>PISO</th>
+                        <th>ESTADO HABITACION</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                      </tr>
+                    </thead>
+                    <tbody className="table-group-divider">
+                      {currentHabitaciones.map((habitacion, i) => (
+                        <tr key={habitacion.ID_HABITACION}>
+                          <td>{startIndex + i + 1}</td>
+                          <td>{habitacion.NUMERO_HABITACION}</td>
+                          <td>{habitacion.CAPACIDAD}</td>
+                          <td>{habitacion.PRECIO_POR_NOCHE}</td>
+                          <td>{habitacion.SERVICIOS_INCLUIDOS}</td>
+                          <td>{habitacion.DESCRIPCION_HABITACION}</td>
+                          <td>
+                            {obtenerNombreTipo(
+                              habitacion.ID_TIPO_HABITACION_HABITACION
+                            )}
+                          </td>
+                          <td>
+                            {obtenerNombrePiso(habitacion.ID_PISO_HABITACION)}
+                          </td>
+                          <td>
+                            {obtenerNombreEstado(
+                              habitacion.ID_ESTADO_HABITACION
+                            )}
+                          </td>
+                          <td>
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                checked={habitacion.ESTADO_HABITACION === true}
+                                onChange={() =>
+                                  handleToggleHotelStatus(
+                                    habitacion.ID_HABITACION,
+                                    !habitacion.ESTADO_HABITACION
+                                  )
+                                }
+                              />
+                              <span className="slider round"></span>
+                            </label>
+                          </td>
+                          <td>
+                            <button
+                              onClick={() =>
+                                openModal(
+                                  2,
                                   habitacion.ID_HABITACION,
-                                  !habitacion.ESTADO_HABITACION
+                                  habitacion.NUMERO_HABITACION,
+                                  habitacion.CAPACIDAD,
+                                  habitacion.PRECIO_POR_NOCHE,
+                                  habitacion.SERVICIOS_INCLUIDOS,
+                                  habitacion.DESCRIPCION_HABITACION,
+                                  habitacion.ID_TIPO_HABITACION_HABITACION,
+                                  habitacion.ID_PISO_HABITACION,
+                                  habitacion.ID_ESTADO_HABITACION
                                 )
                               }
-                            />
-                            <span className="slider round"></span>
-                          </label>
-                        </td>
-                        <td>
-                          <button
-                            onClick={() =>
-                              openModal(
-                                2,
-                                habitacion.ID_HABITACION,
-                                habitacion.NUMERO_HABITACION,
-                                habitacion.CAPACIDAD,
-                                habitacion.PRECIO_POR_NOCHE,
-                                habitacion.SERVICIOS_INCLUIDOS,
-                                habitacion.DESCRIPCION_HABITACION,
-                                habitacion.ID_TIPO_HABITACION_HABITACION,
-                                habitacion.ID_PISO_HABITACION,
-                                habitacion.ID_ESTADO_HABITACION
-                              )
-                            }
-                            className="btn btn-warning btn-custom"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalHabitaciones"
-                          >
-                            Editar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {/* Paginación */}
-              <nav aria-label="Page navigation">
-                <ul className="pagination justify-content-center">
-                  <li
-                    className={`page-item ${
-                      currentPage === 1 ? "disabled" : ""
-                    }`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => changePage(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      Anterior
-                    </button>
-                  </li>
-                  {Array.from({ length: totalPages }, (_, index) => (
+                              className="btn btn-warning btn-custom"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalHabitaciones"
+                            >
+                              Editar
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {/* Paginación */}
+                <nav aria-label="Page navigation">
+                  <ul className="pagination justify-content-center">
                     <li
-                      key={index + 1}
                       className={`page-item ${
-                        currentPage === index + 1 ? "active" : ""
+                        currentPage === 1 ? "disabled" : ""
                       }`}
                     >
                       <button
                         className="page-link"
-                        onClick={() => changePage(index + 1)}
+                        onClick={() => changePage(currentPage - 1)}
+                        disabled={currentPage === 1}
                       >
-                        {index + 1}
+                        Anterior
                       </button>
                     </li>
-                  ))}
-                  <li
-                    className={`page-item ${
-                      currentPage === totalPages ? "disabled" : ""
-                    }`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => changePage(currentPage + 1)}
-                      disabled={currentPage === totalPages}
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <li
+                        key={index + 1}
+                        className={`page-item ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => changePage(index + 1)}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+                    <li
+                      className={`page-item ${
+                        currentPage === totalPages ? "disabled" : ""
+                      }`}
                     >
-                      Siguiente
-                    </button>
-                  </li>
-                </ul>
-              </nav>
+                      <button
+                        className="page-link"
+                        onClick={() => changePage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Siguiente
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
       </div>
-</div>
       {/* Modal */}
       <div
         id="modalHabitaciones"
@@ -368,9 +370,9 @@ const HabitacionPage = () => {
                     ))}
                   </select>
                 </div>
-
-                <div className="col-md-6">
-                  {operation === 2 && (
+                {operation === 2 && (
+                  <div className="col-md-6">
+                    <label className="form-label">Estado Habitación</label>
                     <select
                       className="form-control"
                       name="id_estado"
@@ -385,8 +387,8 @@ const HabitacionPage = () => {
                         </option>
                       ))}
                     </select>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="d-grid col-4 mx-auto">
