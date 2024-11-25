@@ -6,10 +6,11 @@ import {
   createUserU,
   updateUserU,
   activateUserU,
+  uploadUsersMassively,
 } from "../services/userU";
 import { getRoles } from "../services/rol";
 import { getInstituciones } from "../services/Insti";
-
+import * as XLSX from "xlsx";
 
 const useUserU = () => {
   const [users, setUsers] = useState([]);
@@ -38,12 +39,10 @@ const useUserU = () => {
   const getAllUsers = async () => {
     try {
       const userData = await getUsersU();
-      console.log("Datos recibidos de la API:", userData); // Agrega esta línea para ver los datos
 
       const filteredUsers = userData.filter(
         (user) => user.ID_ROL_USUARIO === 2
       );
-      console.log("Usuarios filtrados:", filteredUsers); // Agrega esta línea para ver los usuarios filtrados
 
       setUsers(filteredUsers);
     } catch (error) {
@@ -145,7 +144,6 @@ const useUserU = () => {
         rol_usuario: rol_usuario.trim(),
       };
       createNewUser(parametros);
-      console.log("Datos del usuario a crear/actualizar:", parametros);
     } else {
       // Actualizar
       if (validarActualizacion()) {
@@ -170,7 +168,7 @@ const useUserU = () => {
       const response = await createUserU(user);
       show_alerta(response.msg, "suaccess");
       document.getElementById("btnCerrar").click();
-      getAllUsers();
+      await getAllUsers();
     } catch (error) {
       console.error("Error al crear usuario:", error);
       show_alerta("Error al crear el usuario", "error");
@@ -178,8 +176,6 @@ const useUserU = () => {
   };
 
   const updateExistingUser = async (id_usuario, user) => {
-    console.log("Actualizando usuario con ID:", id_usuario, "Datos:", user);
-
     try {
       await updateUserU(id_usuario, user);
       show_alerta("El usuario fue editado con éxito.", "success");
@@ -246,6 +242,53 @@ const useUserU = () => {
     return institucion ? institucion.NOMBRE_INSTITUCION : "Sin Institución";
   };
 
+  const handleExcelUpload = async (file) => {
+    if (!file) {
+      console.error("No se ha proporcionado ningún archivo.");
+      show_alerta("Por favor, selecciona un archivo válido", "warning");
+      return;
+    }
+  
+    try {
+      const reader = new FileReader();
+  
+      reader.onload = async (event) => {
+        try {
+          const arrayBuffer = event.target.result;
+          const workbook = XLSX.read(arrayBuffer, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+  
+          console.log("Datos cargados desde Excel:", data);
+  
+          if (data.length > 0) {
+            await uploadUsersMassively(file);
+            show_alerta("Archivo procesado con éxito", "success");
+            document.getElementById("btnCerrar").click();
+  
+            await getAllUsers();
+          } else {
+            show_alerta("El archivo no contiene datos válidos", "warning");
+          }
+        } catch (processingError) {
+          console.error("Error al procesar los datos del archivo:", processingError);
+          show_alerta("Error al procesar los datos del archivo", "error");
+        }
+      };
+  
+      reader.onerror = () => {
+        console.error("Error al leer el archivo.");
+        show_alerta("Error al leer el archivo. Intenta nuevamente.", "error");
+      };
+  
+      reader.readAsArrayBuffer(file);
+    } catch (error) {
+      console.error("Error general al cargar el archivo Excel:", error);
+      show_alerta("Ocurrió un error inesperado al procesar el archivo", "error");
+    }
+  };
+  
+
   return {
     users,
     roles,
@@ -280,6 +323,7 @@ const useUserU = () => {
     getAllInstituciones,
     getRoleName,
     getInstitucionName,
+    handleExcelUpload,
     handleToggleCuenta,
   };
 };

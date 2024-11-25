@@ -123,8 +123,6 @@ const useHabitacion = () => {
     setIdEstadoHabitacion(id_estado);
     setOperation(op);
     setTitle(op === 1 ? "Crear habitación" : "Actualizar habitación");
-
-    console.log(id_usuario_habitacion);
   };
 
   const validar = async () => {
@@ -172,7 +170,6 @@ const useHabitacion = () => {
         id_tipo_habitacion: id_tipo_habitacion,
       };
       createNewHabitacion(id_usuario_habitacion, parametros);
-      console.log("Datos de la habitación a crear/actualizar:", parametros);
     } else {
       if (validarActualizacion()) {
         show_alerta("Completa los campos requeridos", "warning");
@@ -189,7 +186,6 @@ const useHabitacion = () => {
         id_estado: id_estado,
       };
       updateExistingHabitacion(id_habitacion, parametross);
-      console.log("Datos de la habitación a crear/actualizar:", parametross);
     }
   };
 
