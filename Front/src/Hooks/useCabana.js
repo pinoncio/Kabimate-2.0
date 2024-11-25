@@ -147,7 +147,7 @@ const useCabana = () => {
   const createNewCabana = async (id_usuario_cabania, cabanaData) => {
     try {
       await createCabana(id_usuario_cabania, cabanaData);
-      show_alerta("La cabaña fue creada con éxito.", "success");
+      show_alerta("La cabaña se ha creado correctamente", "success");
       getAllCabanas(id_usuario_cabania);
       document.getElementById("btnCerrar").click();
     } catch (error) {

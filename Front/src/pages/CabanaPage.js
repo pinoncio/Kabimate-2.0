@@ -41,11 +41,6 @@ const CabanaPage = () => {
     setCurrentPage(pageNumber);
   };
 
-  const validarNumero = (value) => {
-    // Permite solo números o vacío
-    return value === "" || /^[0-9]+$/.test(value);
-  };
-
   // Función para mostrar la ayuda
   const showHelp = () => {
     show_alerta(
@@ -259,14 +254,12 @@ const CabanaPage = () => {
                   type="number"
                   id="capacidad"
                   className="form-control"
-                  placeholder="Número máximo de personas que puede alojar la cabaña"
                   value={capacidad}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (value > 0) {
-                      setCapacidad(value);
-                    }
+                    setCapacidad(value === "" ? "" : Math.max(0, value)); // Permitir valores vacíos
                   }}
+                  placeholder="Número máximo de personas que puede alojar la cabaña"
                 />
               </div>
 
@@ -282,14 +275,12 @@ const CabanaPage = () => {
                   type="number"
                   id="cantidad_piezas"
                   className="form-control"
-                  placeholder="Número de piezas disponibles en la cabaña"
                   value={cantidad_piezas}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (value > 0) {
-                      setCantidadPiezas(value);
-                    }
+                    setCantidadPiezas(value === "" ? "" : Math.max(0, value));
                   }}
+                  placeholder="Número de piezas disponibles en la cabaña"
                 />
               </div>
 
@@ -305,14 +296,12 @@ const CabanaPage = () => {
                   type="number"
                   id="precio_por_noche"
                   className="form-control"
-                  placeholder="50000 por noche."
                   value={precio_por_noche}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (value > 0) {
-                      setPrecioPorNoche(value);
-                    }
+                    setPrecioPorNoche(value === "" ? "" : Math.max(0, value));
                   }}
+                  placeholder="50000 por noche."
                 />
               </div>
 
@@ -373,14 +362,14 @@ const CabanaPage = () => {
               {/* Mini Título para Estado de la Cabaña */}
               {operation === 2 && (
                 <>
-                <div className="mb-2">
-                <strong>Estado de la Cabaña</strong>
-              </div>
+                  <div className="mb-2">
+                    <strong>Estado de la Cabaña</strong>
+                  </div>
                   <div className="input-group mb-5">
                     <span className="input-group-text">
                       <i className="fa-solid fa-gift"></i>
                     </span>
-                    
+
                     <select
                       className="form-control"
                       name="id_estado_cabania"
