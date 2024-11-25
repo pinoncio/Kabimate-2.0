@@ -6,7 +6,7 @@ export function show_alerta(mensaje, icono, foco = "", ancho = "600px") {
   MySwal.fire({
     title: mensaje,
     icon: icono,
-    width: ancho, // El ancho es dinámico y puede ser personalizado al momento de invocar la función
+    width: ancho, 
     customClass: {
       popup: "custom-swal-popup", 
       title: "custom-swal-title", 

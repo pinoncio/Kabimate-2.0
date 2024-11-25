@@ -263,10 +263,7 @@ const CabanaPage = () => {
                   value={capacidad}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (
-                      validarNumero(value) &&
-                      (value === "" || parseInt(value) > 0)
-                    ) {
+                    if (value > 0) {
                       setCapacidad(value);
                     }
                   }}
@@ -289,10 +286,7 @@ const CabanaPage = () => {
                   value={cantidad_piezas}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (
-                      validarNumero(value) &&
-                      (value === "" || parseInt(value) > 0)
-                    ) {
+                    if (value > 0) {
                       setCantidadPiezas(value);
                     }
                   }}
@@ -315,10 +309,7 @@ const CabanaPage = () => {
                   value={precio_por_noche}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (
-                      validarNumero(value) &&
-                      (value === "" || parseInt(value) > 0)
-                    ) {
+                    if (value > 0) {
                       setPrecioPorNoche(value);
                     }
                   }}
@@ -380,15 +371,16 @@ const CabanaPage = () => {
               </div>
 
               {/* Mini Título para Estado de la Cabaña */}
-              <div className="mb-2">
-                <strong>Estado de la Cabaña</strong>
-              </div>
               {operation === 2 && (
                 <>
-                  <div className="input-group mb-3">
+                <div className="mb-2">
+                <strong>Estado de la Cabaña</strong>
+              </div>
+                  <div className="input-group mb-5">
                     <span className="input-group-text">
                       <i className="fa-solid fa-gift"></i>
                     </span>
+                    
                     <select
                       className="form-control"
                       name="id_estado_cabania"

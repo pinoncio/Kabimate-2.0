@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Importa Link
 import "../Styles/Crud.css";
-import { show_alerta } from "../functions";
+import { show_alerta } from "../functions.js";
 import { useCategoria } from "../Hooks/useCategoria.js";
 
 const CategoriaPage = () => {
