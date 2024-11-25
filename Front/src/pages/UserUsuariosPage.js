@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useUserU from "../Hooks/useUserU";
 import "../Styles/Crud.css";
@@ -30,7 +30,28 @@ const UserPageU = () => {
     getRoleName,
     getInstitucionName,
     handleToggleCuenta,
+    handleExcelUpload,
   } = useUserU();
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleFileDrop = (e) => {
+    e.preventDefault();
+    setFile(e.dataTransfer.files[0]);
+  };
+
+  const handleUpload = () => {
+    if (file) {
+      handleExcelUpload(file);
+      console.log("Archivo enviado a handleExcelUpload:", file.name);
+    } else {
+      console.log("No se seleccionó ningún archivo.");
+    }
+  };
 
   return (
     <div className="bg-light">
@@ -65,15 +86,29 @@ const UserPageU = () => {
               >
                 <i className="fa fa-plus-circle mt-2"></i> Añadir Usuario
               </button>
+              <button
+                className="btn"
+                style={{
+                  backgroundColor: "#a47551",
+                  borderColor: "#a47551",
+                  color: "white",
+                }}
+                data-bs-toggle="modal"
+                data-bs-target="#modalMassUpload"
+              >
+                <i className="fa fa-upload"></i> Subida Masiva
+              </button>
             </div>
           </div>
         </div>
+        {/* Lista de usuarios existente */}
         <div className="row mt-5">
           <div className="col-12 col-lg-8 offset-0 offset-lg-2">
             <div className="card-container">
               <h2 className="text-center mb-4" style={{ color: "#a47551" }}>
                 Lista de Usuarios
               </h2>
+              {/* Tabla de usuarios */}
               <div className="table-responsive">
                 <table className="table table-bordered table-custom">
                   <thead>
@@ -146,129 +181,178 @@ const UserPageU = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div id="modalUser" className="modal fade" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <label className="h5">{title}</label>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <input
-                type="hidden"
-                id="id"
-                value={operation === 2 ? institucion_usuario : ""}
-              ></input>
-              {[
-                {
-                  id: "nombre1_usuario",
-                  label: "Primer nombre",
-                  value: nombre1_usuario,
-                  setValue: setNombre1Usuario,
-                },
-                {
-                  id: "nombre2_usuario",
-                  label: "Segundo nombre",
-                  value: nombre2_usuario,
-                  setValue: setNombre2Usuario,
-                },
-                {
-                  id: "apellido1_usuario",
-                  label: "Primer apellido",
-                  value: apellido1_usuario,
-                  setValue: setApellido1Usuario,
-                },
-                {
-                  id: "apellido2_usuario",
-                  label: "Segundo apellido",
-                  value: apellido2_usuario,
-                  setValue: setApellido2Usuario,
-                },
-                {
-                  id: "rut_usuario",
-                  label: "RUT del usuario",
-                  value: rut_usuario,
-                  setValue: setRutUsuario,
-                },
-                {
-                  id: "email_usuario",
-                  label: "Correo del Usuario",
-                  value: email_usuario,
-                  setValue: setEmailUsuario,
-                },
-                {
-                  id: "contrasenia_usuario",
-                  label: "Contraseña",
-                  type: "password",
-                  value: contrasenia_usuario,
-                  setValue: setContraseniaUsuario,
-                },
-              ].map((input) => (
-                <div className="input-group mb-3" key={input.id}>
-                  <span className="input-group-text">
-                    <i className="fa-solid fa-gift"></i>
-                  </span>
-                  <input
-                    type={input.type || "text"}
-                    id={input.id}
-                    className="form-control"
-                    placeholder={input.label}
-                    value={input.value}
-                    onChange={(e) => input.setValue(e.target.value)}
-                  />
-                </div>
-              ))}
-              {operation === 1 && (
-                <>
-                  <div className="input-group mb-3">
+        <div id="modalUser" className="modal fade" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <label className="h5">{title}</label>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="hidden"
+                  id="id"
+                  value={operation === 2 ? institucion_usuario : ""}
+                ></input>
+                {[
+                  {
+                    id: "nombre1_usuario",
+                    label: "Primer nombre",
+                    value: nombre1_usuario,
+                    setValue: setNombre1Usuario,
+                  },
+                  {
+                    id: "nombre2_usuario",
+                    label: "Segundo nombre",
+                    value: nombre2_usuario,
+                    setValue: setNombre2Usuario,
+                  },
+                  {
+                    id: "apellido1_usuario",
+                    label: "Primer apellido",
+                    value: apellido1_usuario,
+                    setValue: setApellido1Usuario,
+                  },
+                  {
+                    id: "apellido2_usuario",
+                    label: "Segundo apellido",
+                    value: apellido2_usuario,
+                    setValue: setApellido2Usuario,
+                  },
+                  {
+                    id: "rut_usuario",
+                    label: "RUT del usuario",
+                    value: rut_usuario,
+                    setValue: setRutUsuario,
+                  },
+                  {
+                    id: "email_usuario",
+                    label: "Correo del Usuario",
+                    value: email_usuario,
+                    setValue: setEmailUsuario,
+                  },
+                  {
+                    id: "contrasenia_usuario",
+                    label: "Contraseña",
+                    type: "password",
+                    value: contrasenia_usuario,
+                    setValue: setContraseniaUsuario,
+                  },
+                ].map((input) => (
+                  <div className="input-group mb-3" key={input.id}>
                     <span className="input-group-text">
                       <i className="fa-solid fa-gift"></i>
                     </span>
-                    <select
+                    <input
+                      type={input.type || "text"}
+                      id={input.id}
                       className="form-control"
-                      name="id_institucion"
-                      value={institucion_usuario}
-                      onChange={(e) => {
-                        setIdInstitucionUsuario(e.target.value);
-                      }}
-                      style={{ color: "black" }}
-                    >
-                      <option value="">Seleccione una institución</option>
-                      {instituciones.map((institucion) => (
-                        <option
-                          key={institucion.ID_INSTITUCION}
-                          value={institucion.ID_INSTITUCION}
-                        >
-                          {institucion.NOMBRE_INSTITUCION}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder={input.label}
+                      value={input.value}
+                      onChange={(e) => input.setValue(e.target.value)}
+                    />
                   </div>
-                </>
-              )}
+                ))}
+                {operation === 1 && (
+                  <>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text">
+                        <i className="fa-solid fa-gift"></i>
+                      </span>
+                      <select
+                        className="form-control"
+                        name="id_institucion"
+                        value={institucion_usuario}
+                        onChange={(e) => {
+                          setIdInstitucionUsuario(e.target.value);
+                        }}
+                        style={{ color: "black" }}
+                      >
+                        <option value="">Seleccione una institución</option>
+                        {instituciones.map((institucion) => (
+                          <option
+                            key={institucion.ID_INSTITUCION}
+                            value={institucion.ID_INSTITUCION}
+                          >
+                            {institucion.NOMBRE_INSTITUCION}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button
+                  id="btnCerrar"
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={validar}
+                >
+                  {operation === 1 ? "Crear Usuario" : "Actualizar Usuario"}
+                </button>
+              </div>
             </div>
-            <div className="modal-footer">
-              <button
-                id="btnCerrar"
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
+          </div>
+        </div>
+        <div id="modalMassUpload" className="modal fade" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Ingreso Masivo de Usuarios</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="close"
+                ></button>
+              </div>
+              <div
+                className="modal-body"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleFileDrop}
               >
-                Cerrar
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={validar}
-              >
-                {operation === 1 ? "Crear Usuario" : "Actualizar Usuario"}
-              </button>
+                <p>
+                  Arrastra y suelta el archivo aquí o selecciona uno
+                  manualmente:
+                </p>
+                <input
+                  type="file"
+                  accept=".csv,.xlsx"
+                  onChange={handleFileChange}
+                  className="form-control"
+                />
+                {file && <p>Archivo seleccionado: {file.name}</p>}
+              </div>
+              <div className="modal-footer">
+                <button
+                  id="btnCerrar"
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleUpload}
+                >
+                  Subir Archivo
+                </button>
+              </div>
             </div>
           </div>
         </div>

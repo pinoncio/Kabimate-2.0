@@ -56,3 +56,21 @@ export const activateUserU = async (id_usuario, trigger) => {
     throw error;
   }
 };
+
+export const uploadUsersMassively = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file); // Asegúrate de que el nombre coincida con el usado en el backend
+
+    const response = await axios.post(`${url}/registromasivo`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al realizar el registro masivo:", error);
+    throw error;
+  }
+};
