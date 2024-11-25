@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const reservaCabaniaController_1 = require("../controllers/reservaCabaniaController");
+const router = (0, express_1.Router)();
+router.post('/:id_usuario', reservaCabaniaController_1.newReservaCabania);
+// router.put('/update/:id_producto', updateProducto as any);
+// router.put('/activar/:id_producto', activarProducto as any);
+// router.delete('/delete/:id_producto', deleteProducto as any);
+router.get('/list/:id_usuario', reservaCabaniaController_1.getReservasCabania);
+router.get('/:id_reserva', reservaCabaniaController_1.getReservaCabania);
+exports.default = router;

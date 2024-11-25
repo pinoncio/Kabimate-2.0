@@ -25,11 +25,16 @@ const tipoHabitacionModel_1 = require("../models/tipoHabitacionModel");
 const habitacionModel_1 = require("../models/habitacionModel");
 const categoriaModel_1 = require("../models/categoriaModel");
 const productoModel_1 = require("../models/productoModel");
+const metodoPagoModel_1 = require("../models/metodoPagoModel");
+const estadoPagoModel_1 = require("../models/estadoPagoModel");
+const reservaCabaniaModel_1 = require("../models/reservaCabaniaModel");
 //importar seeders
 const estadoSeeder_1 = require("./seeders/estadoSeeder");
 const rolSeeder_1 = require("./seeders/rolSeeder");
 const institucionSeeder_1 = require("./seeders/institucionSeeder");
 const tipoHabitacionSeeder_1 = require("./seeders/tipoHabitacionSeeder");
+const estadoPagoSeeder_1 = require("./seeders/estadoPagoSeeder");
+const metodoPagoSeeder_1 = require("./seeders/metodoPagoSeeder");
 //importar rutas
 const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
 const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
@@ -41,6 +46,8 @@ const tipoHabitacionRoutes_1 = __importDefault(require("../routes/tipoHabitacion
 const habitacionRoutes_1 = __importDefault(require("../routes/habitacionRoutes"));
 const categoriaRoutes_1 = __importDefault(require("../routes/categoriaRoutes"));
 const productoRoutes_1 = __importDefault(require("../routes/productoRoutes"));
+const reservaCabaniaRoutes_1 = __importDefault(require("../routes/reservaCabaniaRoutes"));
+const reservaCabaniaController_1 = require("../controllers/reservaCabaniaController");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -66,6 +73,7 @@ class Server {
         this.app.use('/api/habitaciones', habitacionRoutes_1.default);
         this.app.use('/api/categorias', categoriaRoutes_1.default);
         this.app.use('/api/productos', productoRoutes_1.default);
+        this.app.use('/api/reservascabania', reservaCabaniaRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -84,8 +92,15 @@ class Server {
                 yield habitacionModel_1.Habitacion.sync();
                 yield categoriaModel_1.Categoria.sync();
                 yield productoModel_1.Producto.sync();
+                yield estadoPagoModel_1.EstadoPago.sync();
+                yield metodoPagoModel_1.MetodoPago.sync();
+                yield reservaCabaniaModel_1.ReservaCabania.sync();
                 //correr seeders
                 yield this.runSeeders();
+                setInterval(() => __awaiter(this, void 0, void 0, function* () {
+                    yield (0, reservaCabaniaController_1.verificarEstadosCabania)();
+                    console.log("Verificación de estados de cabañas realizada");
+                }), 8000); // 86400000 ms = 24 horas
             }
             catch (error) {
                 console.log('No se ha podido establecer conexion a la base de datos');
@@ -98,6 +113,8 @@ class Server {
             yield (0, estadoSeeder_1.seedEstados)();
             yield (0, institucionSeeder_1.seedInstituciones)();
             yield (0, tipoHabitacionSeeder_1.seedTipoHabitacion)();
+            yield (0, estadoPagoSeeder_1.seedEstadosPagos)();
+            yield (0, metodoPagoSeeder_1.seedMetodosPagos)();
         });
     }
 }
