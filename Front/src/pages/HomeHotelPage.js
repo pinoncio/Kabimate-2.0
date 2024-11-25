@@ -76,21 +76,18 @@ export default function HomeHabitacion() {
   useEffect(() => {
     let filtered = habitaciones;
 
+    // Filtrar por estado
     if (filtroEstado) {
       filtered = filtered.filter(
         (habitacion) =>
-          habitacion.DESCRIPCION_HABITACION.toLowerCase().includes(
-            busqueda.toLowerCase()
-          ) ||
-          habitacion.ID_PISO_HABITACION.toLowerCase().includes(
-            busqueda.toLowerCase()
-          )
+          estados[habitacion.ID_ESTADO_HABITACION] === filtroEstado
       );
     }
 
+    // Filtrar por precio mínimo y máximo
     if (precioMin) {
       filtered = filtered.filter(
-        (Habitacion) => Habitacion.PRECIO_POR_NOCHE >= precioMin
+        (habitacion) => habitacion.PRECIO_POR_NOCHE >= precioMin
       );
     }
     if (precioMax) {
@@ -99,7 +96,7 @@ export default function HomeHabitacion() {
       );
     }
 
-    // Filtrar por capacidad
+    // Filtrar por capacidad mínima y máxima
     if (capacidadMin) {
       filtered = filtered.filter(
         (habitacion) => habitacion.CAPACIDAD >= capacidadMin
@@ -111,6 +108,7 @@ export default function HomeHabitacion() {
       );
     }
 
+    // Filtrar por búsqueda
     if (busqueda) {
       filtered = filtered.filter(
         (habitacion) =>
@@ -134,7 +132,6 @@ export default function HomeHabitacion() {
 
   const handleFiltroEstado = (estado) => {
     setFiltroEstado(estado);
-    console.log("Estados cargados:", estados);
   };
 
   /*
