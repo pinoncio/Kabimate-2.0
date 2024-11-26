@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verificarEstadosCabania = exports.deleteReserva = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
+exports.verificarEstadosCabania = exports.updateReservaCabania = exports.deleteReservaCabania = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
 const reservaCabaniaModel_1 = require("../models/reservaCabaniaModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
@@ -157,7 +157,7 @@ const getReservasCabania = (req, res) => __awaiter(void 0, void 0, void 0, funct
     ;
 });
 exports.getReservasCabania = getReservasCabania;
-const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_reserva } = req.params;
     const reserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA: id_reserva } });
     if (!reserva) {
@@ -179,7 +179,119 @@ const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     ;
 });
-exports.deleteReserva = deleteReserva;
+exports.deleteReservaCabania = deleteReservaCabania;
+const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_reserva } = req.params;
+    const { fecha_inicio, fecha_final, nombre1_huesped, nombre2_huesped, apellido1_huesped, apellido2_huesped, edad_huesped, rut_huesped, direccion_huesped, telefono_huesped, anticipo } = req.body;
+    const reserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
+    if (!reserva) {
+        return res.status(404).json({
+            msg: "No existe un reserva con el id: " + id_reserva
+        });
+    }
+    ;
+    try {
+        const rutHuesped = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.RUT_HUESPED;
+        const estaraOcupadaInicio = yield reservaCabaniaModel_1.ReservaCabania.findAll({
+            where: {
+                ID_CABANIA_RESERVA_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA, RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
+                [sequelize_1.Op.or]: [
+                    {
+                        FECHA_INICIO: {
+                            [sequelize_1.Op.between]: [fecha_inicio, fecha_final]
+                        }
+                    },
+                    {
+                        [sequelize_1.Op.and]: [
+                            { FECHA_INICIO: { [sequelize_1.Op.lte]: fecha_inicio } },
+                            { FECHA_FINAL: { [sequelize_1.Op.gte]: fecha_inicio } }
+                        ]
+                    }
+                ]
+            }
+        });
+        console.log("1");
+        const estaraOcupadaFinal = yield reservaCabaniaModel_1.ReservaCabania.findAll({
+            where: {
+                ID_CABANIA_RESERVA_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA, RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
+                [sequelize_1.Op.or]: [
+                    {
+                        FECHA_FINAL: {
+                            [sequelize_1.Op.between]: [fecha_inicio, fecha_final]
+                        }
+                    },
+                    {
+                        [sequelize_1.Op.and]: [
+                            { FECHA_INICIO: { [sequelize_1.Op.lte]: fecha_final } },
+                            { FECHA_FINAL: { [sequelize_1.Op.gte]: fecha_final } }
+                        ]
+                    }
+                ]
+            }
+        });
+        console.log("2");
+        if (estaraOcupadaInicio.length > 0 && estaraOcupadaFinal.length > 0) {
+            return res.json({
+                msg: "Debe cambiar la fecha de inicio y final de la reserva, ya que ambas coinciden con reservas de la cabaña " + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA)
+            });
+        }
+        if (estaraOcupadaInicio.length > 0) {
+            return res.json({
+                msg: "La cabaña " + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA) + " ya está ocupada en la fecha de inicio seleccionada"
+            });
+        }
+        if (estaraOcupadaFinal.length > 0) {
+            return res.json({
+                msg: "La cabaña " + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA) + " ya está ocupada en la fecha de finalización seleccionada"
+            });
+        }
+        const cabania = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA } });
+        var fecha_inicio_convertida = new Date(reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.FECHA_INICIO);
+        var fecha_final_convertida = new Date(reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.FECHA_FINAL);
+        if (fecha_inicio) {
+            var fecha_inicio_convertida = new Date(fecha_inicio);
+        }
+        if (fecha_final) {
+            var fecha_final_convertida = new Date(fecha_final);
+        }
+        ;
+        // Restar las marcas de tiempo en milisegundos
+        const diferenciaEnMilisegundos = fecha_final_convertida.getTime() - fecha_inicio_convertida.getTime();
+        // Convertir la diferencia de milisegundos a días
+        const cantidad_dias_reserva = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+        var nuevoanticipo = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ANTICIPO;
+        var nuevoTotal = (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.TOTAL) * 1;
+        if (anticipo) {
+            var nuevoanticipo = (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ANTICIPO) + anticipo;
+            var nuevoTotal = ((cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.PRECIO_POR_NOCHE) * cantidad_dias_reserva) - nuevoanticipo;
+        }
+        // console.log(nuevoanticipo, nuevoTotal)
+        yield reservaCabaniaModel_1.ReservaCabania.update({
+            "FECHA_INICIO": fecha_inicio_convertida,
+            "FECHA_FINAL": fecha_final_convertida,
+            "NOMBRE1_HUESPED": nombre1_huesped,
+            "NOMBRE2_HUESPED": nombre2_huesped,
+            "APELLIDO1_HUESPED": apellido1_huesped,
+            "APELLIDO2_HUESPED": apellido2_huesped,
+            "EDAD_HUESPED": edad_huesped,
+            "RUT_HUESPED": rut_huesped,
+            "DIRECCION_HUESPED": direccion_huesped,
+            "TELEFONO_HUESPED": telefono_huesped,
+            "ANTICIPO": nuevoanticipo,
+            "TOTAL": nuevoTotal
+        }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+        res.json({
+            msg: "Se ha actualizado la reserva correctamente"
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al actualizar la reserva de cabaña: " + id_reserva,
+            error
+        });
+    }
+});
+exports.updateReservaCabania = updateReservaCabania;
 const verificarEstadosCabania = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fechaHoy = new Date();

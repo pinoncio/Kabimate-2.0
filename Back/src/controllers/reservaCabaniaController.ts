@@ -157,7 +157,7 @@ export const getReservasCabania = async(req: Request, res: Response)=>{
 };
 
 
-export const deleteReserva = async(req: Request, res: Response)=> {
+export const deleteReservaCabania = async(req: Request, res: Response)=> {
     const {id_reserva} = req.params;
     const reserva = await ReservaCabania.findOne({where: {ID_RESERVA: id_reserva}});
     if(!reserva){
@@ -180,6 +180,133 @@ export const deleteReserva = async(req: Request, res: Response)=> {
     };
 
 };
+export const updateReservaCabania = async(req: Request, res: Response)=>{
+    const {id_reserva} = req.params;
+    const {
+        fecha_inicio,
+        fecha_final,
+        nombre1_huesped,
+        nombre2_huesped,
+        apellido1_huesped,
+        apellido2_huesped,
+        edad_huesped,
+        rut_huesped,
+        direccion_huesped,
+        telefono_huesped,
+        anticipo} = req.body;
+    const reserva = await ReservaCabania.findOne({where: {ID_RESERVA_CABANIA: id_reserva}});
+    if (!reserva){
+        return res.status(404).json({
+            msg: "No existe un reserva con el id: "+id_reserva
+        });
+    };
+    try{
+        const rutHuesped: number = reserva?.dataValues.RUT_HUESPED
+        
+        const estaraOcupadaInicio = await ReservaCabania.findAll({
+            where: {
+                ID_CABANIA_RESERVA_CABANIA:reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA,RUT_HUESPED: {[Op.ne]: rutHuesped},
+                [Op.or]: [
+                    {
+                        FECHA_INICIO: {
+                            [Op.between]: [fecha_inicio, fecha_final]
+                        }
+                    },
+                    {
+                        [Op.and]: [
+                            { FECHA_INICIO: { [Op.lte]: fecha_inicio } },
+                            { FECHA_FINAL: { [Op.gte]: fecha_inicio } }
+                        ]
+                    }
+                ]
+            }
+        });
+        console.log("1")
+        
+        const estaraOcupadaFinal = await ReservaCabania.findAll({
+            where: {
+                ID_CABANIA_RESERVA_CABANIA: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA,RUT_HUESPED: {[Op.ne]: rutHuesped},
+                [Op.or]: [
+                    {
+                        FECHA_FINAL: {
+                            [Op.between]: [fecha_inicio, fecha_final]
+                        }
+                    },
+                    {
+                        [Op.and]: [
+                            { FECHA_INICIO: { [Op.lte]: fecha_final } },
+                            { FECHA_FINAL: { [Op.gte]: fecha_final } }
+                        ]
+                    }
+                ]
+            }
+        });
+        console.log("2")
+        if (estaraOcupadaInicio.length > 0 && estaraOcupadaFinal.length > 0) {
+            return res.json({
+                msg: "Debe cambiar la fecha de inicio y final de la reserva, ya que ambas coinciden con reservas de la cabaña "+reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA
+            });
+        }
+        
+        if (estaraOcupadaInicio.length > 0) {
+            return res.json({
+                msg: "La cabaña "+reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA+" ya está ocupada en la fecha de inicio seleccionada"
+            });
+        }
+        
+        if (estaraOcupadaFinal.length > 0) {
+            return res.json({
+                msg: "La cabaña "+reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA+ " ya está ocupada en la fecha de finalización seleccionada"
+            });
+        }
+
+        const cabania = await Cabania.findOne({where: {ID_CABANIA: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA}});
+        var fecha_inicio_convertida: Date = new Date(reserva?.dataValues.FECHA_INICIO);
+        var fecha_final_convertida: Date = new Date(reserva?.dataValues.FECHA_FINAL);
+
+        if(fecha_inicio){
+            var fecha_inicio_convertida: Date = new Date(fecha_inicio);
+        }
+        if(fecha_final){
+            var fecha_final_convertida: Date = new Date(fecha_final);
+        };
+        // Restar las marcas de tiempo en milisegundos
+        const diferenciaEnMilisegundos: number = fecha_final_convertida.getTime() - fecha_inicio_convertida.getTime();
+    
+        // Convertir la diferencia de milisegundos a días
+        const cantidad_dias_reserva: number = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+        var nuevoanticipo = reserva?.dataValues.ANTICIPO
+        var nuevoTotal = reserva?.dataValues.TOTAL * 1
+        if(anticipo){
+            var nuevoanticipo = reserva?.dataValues.ANTICIPO + anticipo
+            var nuevoTotal = (cabania?.dataValues.PRECIO_POR_NOCHE * cantidad_dias_reserva) -  nuevoanticipo
+        }
+        // console.log(nuevoanticipo, nuevoTotal)
+        await ReservaCabania.update({
+            "FECHA_INICIO": fecha_inicio_convertida,
+            "FECHA_FINAL": fecha_final_convertida,
+            "NOMBRE1_HUESPED":  nombre1_huesped,
+            "NOMBRE2_HUESPED": nombre2_huesped,
+            "APELLIDO1_HUESPED": apellido1_huesped,
+            "APELLIDO2_HUESPED": apellido2_huesped,
+            "EDAD_HUESPED": edad_huesped,
+            "RUT_HUESPED": rut_huesped,
+            "DIRECCION_HUESPED": direccion_huesped,
+            "TELEFONO_HUESPED": telefono_huesped,
+            "ANTICIPO": nuevoanticipo,
+            "TOTAL": nuevoTotal
+
+        },{where:{ID_RESERVA_CABANIA: id_reserva}});
+        res.json({
+            msg: "Se ha actualizado la reserva correctamente"
+        });
+    }catch(error){
+        res.status(500).json({
+            msg: "Ha ocurrido un error al actualizar la reserva de cabaña: "+id_reserva,
+            error
+        }); 
+    }
+}
 
 export const verificarEstadosCabania = async () => {
     try {
