@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getCabanas } from "../services/Cabania";
 import { getEstado } from "../services/Estados";
+import { useNavigate } from "react-router-dom";
+import { show_alerta } from "../functions";
 import "../Styles/HomeCabana.css";
 
 export default function HomeCabana() {
@@ -17,6 +19,7 @@ export default function HomeCabana() {
   const [filteredCabanas, setFilteredCabanas] = useState([]);
   const [estados, setEstados] = useState({});
   const idUsuario = localStorage.getItem("idUsuario");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCabanas = async () => {
@@ -24,6 +27,8 @@ export default function HomeCabana() {
         const data = await getCabanas(idUsuario);
         setCabanas(data);
         setFilteredCabanas(data);
+        setCabanas(data.sort((a, b) => a.ID_CABANIA - b.ID_CABANIA));
+        setFilteredCabanas(data.sort((a, b) => a.ID_CABANIA - b.ID_CABANIA));
       } catch (error) {
         console.error("Error al obtener las cabañas", error);
       }
@@ -54,7 +59,7 @@ export default function HomeCabana() {
 
   useEffect(() => {
     let filtered = cabanas;
-
+  
     // Filtrar por estado
     if (filtroEstado) {
       filtered = filtered.filter((cabana) => {
@@ -65,7 +70,7 @@ export default function HomeCabana() {
         );
       });
     }
-
+  
     // Filtrar por búsqueda de texto (descripcion o ubicación)
     if (busqueda) {
       filtered = filtered.filter(
@@ -75,7 +80,7 @@ export default function HomeCabana() {
           ) || cabana.UBICACION.toLowerCase().includes(busqueda.toLowerCase())
       );
     }
-
+  
     // Filtrar por precio
     if (precioMin) {
       filtered = filtered.filter(
@@ -87,7 +92,7 @@ export default function HomeCabana() {
         (cabana) => cabana.PRECIO_POR_NOCHE <= precioMax
       );
     }
-
+  
     // Filtrar por capacidad
     if (capacidadMin) {
       filtered = filtered.filter((cabana) => cabana.CAPACIDAD >= capacidadMin);
@@ -95,7 +100,7 @@ export default function HomeCabana() {
     if (capacidadMax) {
       filtered = filtered.filter((cabana) => cabana.CAPACIDAD <= capacidadMax);
     }
-
+  
     // Filtrar por cantidad de piezas
     if (cantidadPiezasMin) {
       filtered = filtered.filter(
@@ -107,14 +112,17 @@ export default function HomeCabana() {
         (cabana) => cabana.CANTIDAD_PIEZAS <= cantidadPiezasMax
       );
     }
-
+  
     // Filtrar por ubicación
     if (ubicacion) {
       filtered = filtered.filter((cabana) =>
         cabana.UBICACION.toLowerCase().includes(ubicacion.toLowerCase())
       );
     }
-
+  
+    // Ordenar las cabañas por id_cabania (de menor a mayor)
+    filtered.sort((a, b) => a.id_cabania - b.id_cabania);
+  
     setFilteredCabanas(filtered);
   }, [
     filtroEstado,
@@ -129,6 +137,7 @@ export default function HomeCabana() {
     cantidadPiezasMax,
     ubicacion,
   ]);
+  
 
   const handleFiltroEstado = (estado) => {
     setFiltroEstado(estado);
@@ -169,6 +178,16 @@ export default function HomeCabana() {
 
   const clearFiltroEstado = () => {
     setFiltroEstado("");
+  };
+
+  const handleCardClick = (estado, id_cabania) => {
+    if (estado === "Disponible") {
+      navigate(`/reservaC/${id_cabania}`);
+    } else if (estado === "Ocupado") {
+      show_alerta("La cabaña ya está reservada.");
+    } else if (estado === "Mantenimiento") {
+      show_alerta("La cabaña está en mantenimiento.");
+    }
   };
 
   const getCardContainerColor = (estado) => {
@@ -338,12 +357,14 @@ export default function HomeCabana() {
               <div
                 key={cabana.ID_CABANIA}
                 className="cabana-card-container"
+                onClick={() => handleCardClick(estadoNombre, cabana.ID_CABANIA)}
                 style={{
                   backgroundColor: getCardContainerColor(estadoNombre),
                   padding: "20px",
                   marginBottom: "15px",
                   borderRadius: "8px",
                 }}
+                
               >
                 <div
                   className="cabana-card"
