@@ -210,7 +210,6 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
                 ]
             }
         });
-        console.log("1");
         const estaraOcupadaFinal = yield reservaCabaniaModel_1.ReservaCabania.findAll({
             where: {
                 ID_CABANIA_RESERVA_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA, RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
@@ -229,7 +228,6 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
                 ]
             }
         });
-        console.log("2");
         if (estaraOcupadaInicio.length > 0 && estaraOcupadaFinal.length > 0) {
             return res.json({
                 msg: "Debe cambiar la fecha de inicio y final de la reserva, ya que ambas coinciden con reservas de la cabaña " + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA)
@@ -265,7 +263,6 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
             var nuevoanticipo = (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ANTICIPO) + anticipo;
             var nuevoTotal = ((cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.PRECIO_POR_NOCHE) * cantidad_dias_reserva) - nuevoanticipo;
         }
-        // console.log(nuevoanticipo, nuevoTotal)
         yield reservaCabaniaModel_1.ReservaCabania.update({
             "FECHA_INICIO": fecha_inicio_convertida,
             "FECHA_FINAL": fecha_final_convertida,
@@ -280,6 +277,25 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
             "ANTICIPO": nuevoanticipo,
             "TOTAL": nuevoTotal
         }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+        const updatedReserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
+        const nuevaFechaInicio = new Date(updatedReserva === null || updatedReserva === void 0 ? void 0 : updatedReserva.dataValues.FECHA_INICIO);
+        const hoy = new Date();
+        if (new Date(updatedReserva === null || updatedReserva === void 0 ? void 0 : updatedReserva.dataValues.FECHA_INICIO).toDateString() === hoy.toDateString()) {
+            yield caba_aModel_1.Cabania.update({
+                ID_ESTADO_CABANIA: 2
+            }, { where: { ID_CABANIA: cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.ID_CABANIA } });
+        }
+        if (nuevaFechaInicio < hoy) {
+            yield caba_aModel_1.Cabania.update({
+                ID_ESTADO_CABANIA: 2
+            }, { where: { ID_CABANIA: cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.ID_CABANIA } });
+        }
+        if (nuevaFechaInicio > hoy) {
+            console.log(cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.ID_CABANIA);
+            yield caba_aModel_1.Cabania.update({
+                ID_ESTADO_CABANIA: 1
+            }, { where: { ID_CABANIA: cabania === null || cabania === void 0 ? void 0 : cabania.dataValues.ID_CABANIA } });
+        }
         res.json({
             msg: "Se ha actualizado la reserva correctamente"
         });

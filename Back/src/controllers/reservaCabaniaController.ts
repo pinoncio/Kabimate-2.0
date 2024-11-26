@@ -221,7 +221,6 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
                 ]
             }
         });
-        console.log("1")
         
         const estaraOcupadaFinal = await ReservaCabania.findAll({
             where: {
@@ -241,7 +240,6 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
                 ]
             }
         });
-        console.log("2")
         if (estaraOcupadaInicio.length > 0 && estaraOcupadaFinal.length > 0) {
             return res.json({
                 msg: "Debe cambiar la fecha de inicio y final de la reserva, ya que ambas coinciden con reservas de la cabaña "+reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA
@@ -281,7 +279,6 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
             var nuevoanticipo = reserva?.dataValues.ANTICIPO + anticipo
             var nuevoTotal = (cabania?.dataValues.PRECIO_POR_NOCHE * cantidad_dias_reserva) -  nuevoanticipo
         }
-        // console.log(nuevoanticipo, nuevoTotal)
         await ReservaCabania.update({
             "FECHA_INICIO": fecha_inicio_convertida,
             "FECHA_FINAL": fecha_final_convertida,
@@ -297,6 +294,29 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
             "TOTAL": nuevoTotal
 
         },{where:{ID_RESERVA_CABANIA: id_reserva}});
+        const updatedReserva = await ReservaCabania.findOne({where:{ID_RESERVA_CABANIA: id_reserva}});
+        const nuevaFechaInicio = new Date(updatedReserva?.dataValues.FECHA_INICIO);
+        const hoy = new Date();
+
+        if (new Date(updatedReserva?.dataValues.FECHA_INICIO).toDateString() === hoy.toDateString()) {
+            await Cabania.update({
+                ID_ESTADO_CABANIA: 2
+    
+            },{where:{ ID_CABANIA: cabania?.dataValues.ID_CABANIA}});
+        }
+        if (nuevaFechaInicio < hoy) {
+            await Cabania.update({
+                ID_ESTADO_CABANIA: 2
+    
+            },{where:{ ID_CABANIA: cabania?.dataValues.ID_CABANIA}});
+        }
+        if (nuevaFechaInicio > hoy) {
+            console.log(cabania?.dataValues.ID_CABANIA)
+            await Cabania.update({
+                ID_ESTADO_CABANIA: 1
+    
+            },{where:{ ID_CABANIA: cabania?.dataValues.ID_CABANIA}});
+        }
         res.json({
             msg: "Se ha actualizado la reserva correctamente"
         });
