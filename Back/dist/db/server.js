@@ -28,6 +28,7 @@ const productoModel_1 = require("../models/productoModel");
 const metodoPagoModel_1 = require("../models/metodoPagoModel");
 const estadoPagoModel_1 = require("../models/estadoPagoModel");
 const reservaCabaniaModel_1 = require("../models/reservaCabaniaModel");
+const detalleReservaCabaniaProductoModel_1 = require("../models/detalleReservaCabaniaProductoModel");
 //importar seeders
 const estadoSeeder_1 = require("./seeders/estadoSeeder");
 const rolSeeder_1 = require("./seeders/rolSeeder");
@@ -95,6 +96,7 @@ class Server {
                 yield estadoPagoModel_1.EstadoPago.sync();
                 yield metodoPagoModel_1.MetodoPago.sync();
                 yield reservaCabaniaModel_1.ReservaCabania.sync();
+                yield detalleReservaCabaniaProductoModel_1.DetalleReservaCabaniaProducto.sync();
                 //correr seeders
                 yield this.runSeeders();
                 setInterval(() => __awaiter(this, void 0, void 0, function* () {
