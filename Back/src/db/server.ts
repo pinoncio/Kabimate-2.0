@@ -15,6 +15,7 @@ import { Producto } from '../models/productoModel';
 import { MetodoPago } from '../models/metodoPagoModel';
 import { EstadoPago } from '../models/estadoPagoModel';
 import { ReservaCabania } from '../models/reservaCabaniaModel';
+import { DetalleReservaCabaniaProducto } from '../models/detalleReservaCabaniaProductoModel';
 //importar seeders
 import { seedEstados } from './seeders/estadoSeeder';
 import { seedRoles } from './seeders/rolSeeder';
@@ -89,6 +90,7 @@ class Server {
             await EstadoPago.sync();
             await MetodoPago.sync();
             await ReservaCabania.sync();
+            await DetalleReservaCabaniaProducto.sync();
 
 
             //correr seeders
