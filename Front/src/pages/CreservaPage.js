@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useReservaCabana from "../Hooks/useReservaCabana";
 import "../Styles/ReservaCabaña.css";
@@ -38,8 +38,8 @@ const ReservaForm = () => {
     setTelefonoHuesped,
     anticipo,
     setAnticipo,
-    nuevoTotal,
-    setNuevoTotal,
+    total,
+    setTotal,
     validar,
     precio_por_noche,
   } = useReservaCabana();
@@ -50,12 +50,11 @@ const ReservaForm = () => {
     setFechaInicio(formatDate(now)); // Establece solo la fecha actual
   }, [setFechaInicio]);
 
-  // Actualizar nuevoTotal con precio_por_noche cada vez que este cambie
   useEffect(() => {
-    if (precio_por_noche && !nuevoTotal) {
-      setNuevoTotal(precio_por_noche);
+    if (precio_por_noche && !total) {
+      setTotal(precio_por_noche);
     }
-  }, [precio_por_noche, nuevoTotal, setNuevoTotal]);
+  }, [precio_por_noche, total, setTotal]);
 
   // Actualizar la hora cada minuto
   useEffect(() => {
@@ -83,6 +82,11 @@ const ReservaForm = () => {
     navigate("/reservasC");
   };
 
+  // Función para ir a la página /hcabana
+  const handleGoBack = () => {
+    navigate("/hcabana");
+  };
+
   return (
     <div className="reserva-form-wrapper">
       <div className="reserva-form">
@@ -90,8 +94,7 @@ const ReservaForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-row">
             <label>
-              Fecha y Hora de Inicio (Puede ser hoy o cualquier día en
-              adelante):
+              Fecha y Hora de Inicio:
               <input
                 type="datetime-local"
                 value={fecha_inicio}
@@ -110,7 +113,6 @@ const ReservaForm = () => {
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>
               Primer Nombre:
@@ -118,6 +120,7 @@ const ReservaForm = () => {
                 type="text"
                 value={nombre1_huesped}
                 onChange={(e) => setNombre1Huesped(e.target.value)}
+                placeholder="Ingresa el primer nombre"
                 required
               />
             </label>
@@ -128,11 +131,11 @@ const ReservaForm = () => {
                 type="text"
                 value={nombre2_huesped}
                 onChange={(e) => setNombre2Huesped(e.target.value)}
+                placeholder="Ingresa el segundo nombre"
                 required
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>
               Primer Apellido:
@@ -140,6 +143,7 @@ const ReservaForm = () => {
                 type="text"
                 value={apellido1_huesped}
                 onChange={(e) => setApellido1Huesped(e.target.value)}
+                placeholder="Ingresa el primer apellido"
                 required
               />
             </label>
@@ -150,11 +154,11 @@ const ReservaForm = () => {
                 type="text"
                 value={apellido2_huesped}
                 onChange={(e) => setApellido2Huesped(e.target.value)}
+                placeholder="Ingresa el segundo apellido"
                 required
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>
               Edad del cliente:
@@ -162,6 +166,7 @@ const ReservaForm = () => {
                 type="number"
                 value={edad_huesped}
                 onChange={(e) => setEdadHuesped(e.target.value)}
+                placeholder="Ingresa la edad"
                 required
               />
             </label>
@@ -172,11 +177,11 @@ const ReservaForm = () => {
                 type="text"
                 value={direccion_huesped}
                 onChange={(e) => setDireccionHuesped(e.target.value)}
+                placeholder="Ingresa la dirección"
                 required
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>
               RUT del cliente:
@@ -184,6 +189,7 @@ const ReservaForm = () => {
                 type="text"
                 value={rut_huesped}
                 onChange={(e) => setRutHuesped(e.target.value)}
+                placeholder="Ingresa el RUT"
                 required
               />
             </label>
@@ -194,18 +200,19 @@ const ReservaForm = () => {
                 type="tel"
                 value={telefono_huesped}
                 onChange={(e) => setTelefonoHuesped(e.target.value)}
+                placeholder="Ingresa el teléfono"
                 required
               />
             </label>
           </div>
-
           <div className="form-row">
             <label>
-              Anticipo:
+              Anticipo (suele ser del 20% al 50%):
               <input
                 type="number"
                 value={anticipo}
                 onChange={(e) => setAnticipo(e.target.value)}
+                placeholder="Ingresa el anticipo"
                 required
               />
             </label>
@@ -214,15 +221,17 @@ const ReservaForm = () => {
               SubTotal (Precio de la cabaña):
               <input
                 type="number"
-                value={nuevoTotal} // El valor de nuevoTotal se establece aquí
-                placeholder=""
-                onChange={(e) => setNuevoTotal(e.target.value)} // Permite editarlo manualmente si es necesario
+                value={total}
+                placeholder="Precio total de la cabaña"
+                onChange={(e) => setTotal(e.target.value)} // Permite editarlo manualmente si es necesario
                 required
               />
             </label>
-          </div>
-
+          </div>{" "}
           <button type="submit">Enviar Reserva</button>
+          <button className="button-Volver" onClick={handleGoBack}>
+            Volver
+          </button>
         </form>
       </div>
     </div>

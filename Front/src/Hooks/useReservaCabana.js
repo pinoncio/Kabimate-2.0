@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { show_alerta } from "../functions";
 import { useParams } from "react-router-dom";
 import MySwal from "sweetalert2";
@@ -24,7 +24,7 @@ const useReservaCabana = () => {
   const [direccion_huesped, setDireccionHuesped] = useState("");
   const [telefono_huesped, setTelefonoHuesped] = useState("");
   const [anticipo, setAnticipo] = useState("");
-  const [nuevoTotal, setNuevoTotal] = useState(0);
+  const [total, setTotal] = useState(0);
   const { id_cabania } = useParams();
   const [precio_por_noche, setPrecioPorNoche] = useState(null);
   const [operation, setOperation] = useState(1);
@@ -85,7 +85,7 @@ const useReservaCabana = () => {
     direccion_huesped = "",
     telefono_huesped = "",
     anticipo = "",
-    nuevoTotal = ""
+    total = ""
   ) => {
     setIdReserva(id_reserva);
     setFechaInicio(fecha_inicio);
@@ -99,7 +99,7 @@ const useReservaCabana = () => {
     setDireccionHuesped(direccion_huesped);
     setTelefonoHuesped(telefono_huesped);
     setAnticipo(anticipo);
-    setNuevoTotal(nuevoTotal);
+    setTotal(total);
     setOperation(op);
     setTitle(op === 1 ? "Crear Reserva" : "Actualizar Reserva");
   };
@@ -117,7 +117,6 @@ const useReservaCabana = () => {
       direccion_huesped,
       telefono_huesped,
       anticipo,
-      nuevoTotal,
     ];
 
     const isEmpty = fields.some((field) => {
@@ -146,7 +145,7 @@ const useReservaCabana = () => {
         direccion_huesped,
         telefono_huesped,
         anticipo,
-        nuevoTotal,
+        total,
         id_cabania,
       };
       createNewReserva(id_usuario, parametros);
@@ -164,7 +163,6 @@ const useReservaCabana = () => {
         direccion_huesped,
         telefono_huesped,
         anticipo,
-        nuevoTotal,
       };
       updateNewReserva(id_reserva, parametros);
     }
@@ -181,17 +179,23 @@ const useReservaCabana = () => {
     }
   };
 
-  const updateNewReserva = async (id_reserva, reservaData) => {
-    try {
-      await updateReserva(id_reserva, reservaData);
-      show_alerta("La reserva fue editada con éxito.", "success");
-      getAllReservas(id_usuario);
-      document.getElementById("btnCerrar").click();
-    } catch (error) {
-      console.error("Error al actualizar la reserva:", error);
-      show_alerta("Error al actualizar la reserva", "error");
+  const closeButtonRef = useRef(null);
+
+const updateNewReserva = async (id_reserva, reservaData) => {
+  try {
+    await updateReserva(id_reserva, reservaData);
+    show_alerta("La reserva fue editada con éxito.", "success");
+    getAllReservas(id_usuario);
+    if (closeButtonRef.current) {
+      closeButtonRef.current.click();  // Usar el ref para hacer clic en el botón
     }
-  };
+  } catch (error) {
+    console.error("Error al actualizar la reserva:", error);
+    show_alerta("Error al actualizar la reserva", "error");
+  }
+};
+
+  
 
   const deleteReservaById = async (id_reserva) => {
     MySwal.fire({
@@ -237,7 +241,7 @@ const useReservaCabana = () => {
     direccion_huesped,
     telefono_huesped,
     anticipo,
-    nuevoTotal,
+    total,
     id_cabania,
     setFechaInicio,
     setFechaFinal,
@@ -250,7 +254,7 @@ const useReservaCabana = () => {
     setDireccionHuesped,
     setTelefonoHuesped,
     setAnticipo,
-    setNuevoTotal,
+    setTotal,
     openModal,
     validar,
     deleteReservaById,
@@ -259,6 +263,7 @@ const useReservaCabana = () => {
     precio_por_noche,
     getAllReservas,
     id_usuario,
+    closeButtonRef,
   };
 };
 

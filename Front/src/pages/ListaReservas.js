@@ -4,9 +4,42 @@ import { show_alerta } from "../functions";
 import "../Styles/ListaC.css";
 
 const ListaReservas = () => {
-  const { 
-    reservas, 
+  const {
+    reservas,
+    fecha_inicio,
+    fecha_final,
+    nombre1_huesped,
+    nombre2_huesped,
+    apellido1_huesped,
+    apellido2_huesped,
+    edad_huesped,
+    rut_huesped,
+    direccion_huesped,
+    telefono_huesped,
+    anticipo,
+    total,
+    id_cabania,
+    setFechaInicio,
+    setFechaFinal,
+    setNombre1Huesped,
+    setNombre2Huesped,
+    setApellido1Huesped,
+    setApellido2Huesped,
+    setEdadHuesped,
+    setRutHuesped,
+    setDireccionHuesped,
+    setTelefonoHuesped,
+    setAnticipo,
+    setTotal,
+    openModal,
+    validar,
     deleteReservaById,
+    setTitle,
+    operation,
+    precio_por_noche,
+    getAllReservas,
+    id_usuario,
+    closeButtonRef,
   } = useReservaCabana();
 
   const formatearFecha = (fecha) => {
@@ -34,7 +67,10 @@ const ListaReservas = () => {
       .includes(busqueda.toLowerCase())
   );
 
-  const currentReservas = reservasFiltradas.slice(startIndex, startIndex + itemsPerPage);
+  const currentReservas = reservasFiltradas.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -99,12 +135,30 @@ const ListaReservas = () => {
                     </button>
                     <button
                       className="btn-editar btn-warning"
-                      onClick={() => reserva.ID_RESERVA_CABANIA}
+                      onClick={() =>
+                        openModal(
+                          2,
+                          reserva.ID_RESERVA_CABANIA,
+                          reserva.FECHA_INICIO,
+                          reserva.FECHA_FINAL,
+                          reserva.NOMBRE1_HUESPED,
+                          reserva.NOMBRE2_HUESPED,
+                          reserva.APELLIDO1_HUESPED,
+                          reserva.APELLIDO2_HUESPED,
+                          reserva.EDAD_HUESPED,
+                          reserva.RUT_HUESPED,
+                          reserva.DIRECCION_HUESPED,
+                          reserva.TELEFONO_HUESPED,
+                          reserva.ANTICIPO,
+                        )
+                      }
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalReservas"
                     >
                       <i className="fas fa-edit"></i>
                     </button>
                     <button
-                      onClick={() => 
+                      onClick={() =>
                         deleteReservaById(reserva.ID_RESERVA_CABANIA)
                       }
                       className="btn-eliminar btn-danger"
@@ -133,7 +187,9 @@ const ListaReservas = () => {
               {Array.from({ length: totalPages }, (_, index) => (
                 <li
                   key={index + 1}
-                  className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                  className={`page-item ${
+                    currentPage === index + 1 ? "active" : ""
+                  }`}
                 >
                   <button
                     className="page-link"
@@ -144,7 +200,9 @@ const ListaReservas = () => {
                 </li>
               ))}
               <li
-                className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
               >
                 <button
                   className="page-link"
@@ -158,6 +216,157 @@ const ListaReservas = () => {
           </nav>
         </div>
       )}
+      <div id="modalReservas" className="modal fade" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Editar Reserva</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="close"
+              ></button>
+            </div>
+            <div className="modal-body">
+            <input type="hidden" id="id"></input>
+              {/* Fecha de Inicio */}
+              <div className="mb-2">
+                <strong>Fecha de Inicio</strong>
+              </div>
+              <input
+                type="date"
+                className="form-control"
+                value={fecha_inicio}
+                onChange={(e) => setFechaInicio(e.target.value)}
+              />
+
+              {/* Fecha de Finalización */}
+              <div className="mb-2">
+                <strong>Fecha de Finalización</strong>
+              </div>
+              <input
+                type="date"
+                className="form-control"
+                value={fecha_final}
+                onChange={(e) => setFechaFinal(e.target.value)}
+              />
+
+              {/* Nombre del Huesped */}
+              <div className="mb-2">
+                <strong>Nombre del Huesped</strong>
+              </div>
+              <div className="d-flex">
+                <input
+                  type="text"
+                  className="form-control mr-2"
+                  placeholder="Nombre 1"
+                  value={nombre1_huesped}
+                  onChange={(e) => setNombre1Huesped(e.target.value)}
+                />
+                <input
+                  type="text"
+                  className="form-control mr-2"
+                  placeholder="Nombre 2"
+                  value={nombre2_huesped}
+                  onChange={(e) => setNombre2Huesped(e.target.value)}
+                />
+              </div>
+
+              {/* Apellido del Huesped */}
+              <div className="mb-2">
+                <strong>Apellido del Huesped</strong>
+              </div>
+              <div className="d-flex">
+                <input
+                  type="text"
+                  className="form-control mr-2"
+                  placeholder="Apellido 1"
+                  value={apellido1_huesped}
+                  onChange={(e) => setApellido1Huesped(e.target.value)}
+                />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Apellido 2"
+                  value={apellido2_huesped}
+                  onChange={(e) => setApellido2Huesped(e.target.value)}
+                />
+              </div>
+
+              {/* Edad del Huesped */}
+              <div className="mb-2">
+                <strong>Edad del Huesped</strong>
+              </div>
+              <input
+                type="number"
+                className="form-control"
+                value={edad_huesped}
+                onChange={(e) => setEdadHuesped(e.target.value)}
+              />
+
+              {/* RUT del Huesped */}
+              <div className="mb-2">
+                <strong>RUT del Huesped</strong>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                value={rut_huesped}
+                onChange={(e) => setRutHuesped(e.target.value)}
+              />
+
+              {/* Dirección del Huesped */}
+              <div className="mb-2">
+                <strong>Dirección del Huesped</strong>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                value={direccion_huesped}
+                onChange={(e) => setDireccionHuesped(e.target.value)}
+              />
+
+              {/* Teléfono del Huesped */}
+              <div className="mb-2">
+                <strong>Teléfono del Huesped</strong>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                value={telefono_huesped}
+                onChange={(e) => setTelefonoHuesped(e.target.value)}
+              />
+
+              {/* Anticipo */}
+              <div className="mb-2">
+                <strong>Anticipo</strong>
+              </div>
+              <input
+                type="number"
+                className="form-control"
+                value={anticipo}
+                onChange={(e) => setAnticipo(e.target.value)}
+              />
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                ref={closeButtonRef}
+              >
+                Cerrar
+              </button>
+              <button onClick={() => validar()} className="btn btn-success">
+                  {operation === 1 ? "Registrar" : "Actualizar"}
+                  <i className="fas fa-save ms-2"></i>
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
