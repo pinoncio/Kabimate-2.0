@@ -25,6 +25,8 @@ import ContactPage from "./pages/ContanctoPage";
 import Ayuda from "./pages/AyudaPage";
 import CategoriaPage from "./pages/CategoriaPage";
 import ProductoPage from "./pages/ProductoPage";
+import Creserva from "./pages/CreservaPage";
+import ListaReservas from "./pages/ListaReservas";
 
 export default function App() {
   const [selectedView, setSelectedView] = useState("home");
@@ -142,6 +144,18 @@ export default function App() {
                 path="/gProducto"
                 element={
                   <PrivateRoute element={<ProductoPage />} requiredRole="2" />
+                }
+              />
+              <Route
+                path="/reservaC/:id_cabania"
+                element={
+                  <PrivateRoute element={<Creserva />} requiredRole="2" />
+                }
+              />
+              <Route
+                path="/reservasC"
+                element={
+                  <PrivateRoute element={<ListaReservas />} requiredRole="2" />
                 }
               />
 

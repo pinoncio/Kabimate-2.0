@@ -63,7 +63,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>Habitaciones</p>
                       </Link>
                     </li>
-                    {/*  
+                     
                     <li className="nav-item">
                       <Link to="/reservations" className="nav-link">
                         <i
@@ -73,6 +73,7 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>Reservas</p>
                       </Link>
                     </li>
+                    {/* 
                     <li className="nav-item">
                       <Link to="/crud-reservations" className="nav-link">
                         <i
@@ -210,16 +211,17 @@ export default function Aside({ selectedView }) {
                         <p style={{ color: "#ffffff" }}>Cabañas</p>
                       </Link>
                     </li>
-                    {/* 
+                    
                     <li className="nav-item">
-                      <Link to="/crud-reservations" className="nav-link">
+                      <Link to="/reservasC" className="nav-link">
                         <i
                           className="nav-icon fas fa-edit"
                           style={{ color: "#ffffff" }}
                         />
-                        <p style={{ color: "#ffffff" }}>Gestionar Reservas</p>
+                        <p style={{ color: "#ffffff" }}>Reservas</p>
                       </Link>
                     </li>
+                    {/* 
                     <li className="nav-item">
                       <Link to="/reservations" className="nav-link">
                         <i

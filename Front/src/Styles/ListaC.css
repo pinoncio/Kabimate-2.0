@@ -1,0 +1,185 @@
+/* Contenedor principal de la lista de reservas */
+.lista-reservas-container {
+  position: relative;
+  top: 100px;
+  padding: 30px 10px;
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1700px;
+  margin:  0 auto;
+}
+
+/* Título de la lista de reservas */
+.titulo-reservas {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #a47451;
+  margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 1px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Mensaje cuando no hay reservas disponibles */
+.sin-reservas {
+  font-size: 1.4rem;
+  color: #888;
+  text-align: center;
+}
+
+/* Contenedor de la tabla de reservas */
+.tabla-reservas-container {
+  overflow-x: auto;
+  margin-top: 30px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla de reservas */
+.tabla-reservas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-reservas th,
+.tabla-reservas td {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.tabla-reservas th {
+  background-color: #a47451;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla-reservas td {
+  background-color: #fafafa;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tabla-reservas tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+/* Botón Visualizar */
+.btn-visualizar {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px; /* Borde redondeado */
+}
+
+.btn-visualizar:hover {
+  background-color: #45a049; /* Verde más oscuro */
+}
+
+/* Botón Editar */
+.btn-editar {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+  border-radius: 5px; /* Borde redondeado */
+}
+
+.btn-editar:hover {
+  background-color: #e68a00; /* Naranja más oscuro */
+}
+
+/* Botón Eliminar */
+.btn-eliminar {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+  border-radius: 5px; /* Borde redondeado */
+}
+
+.btn-eliminar:hover {
+  background-color: #d32f2f; /* Rojo más oscuro */
+}
+
+
+
+
+/* Indicador de carga */
+.loading-indicator {
+  font-size: 1.2rem;
+  color: #777;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Estilo para el campo de búsqueda */
+.campo-busqueda {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.input-busqueda {
+  padding: 12px;
+  font-size: 1.2rem;
+  width: 80%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.input-busqueda:focus {
+  border-color: #a47451;
+  outline: none;
+}
+
+/* Paginación */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.paginacion button {
+  padding: 12px 20px;
+  background-color: #a47451;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 0 8px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.paginacion button:hover {
+  background-color: #8e5a3c;
+}
+
+.paginacion button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilo de las fechas */
+.fecha-reserva {
+  background-color: #fafafa;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  border-radius: 6px;
+}

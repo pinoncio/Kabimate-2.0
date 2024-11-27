@@ -1,0 +1,143 @@
+/* Centrado del formulario */
+.reserva-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Contenedor principal */
+.reserva-form {
+  width: 100%;
+  max-width: 1000px;
+  background: #f7f4f1; /* Fondo cálido */
+  border: 2px solid #a47551;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+.reserva-form h2 {
+  text-align: center;
+  color: #222;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 25px;
+  font-size: 30px;
+}
+
+/* Estructura del formulario */
+.reserva-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Filas del formulario */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Etiquetas */
+.form-row label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Inputs */
+.reserva-form input {
+  font-size: 14px;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efectos en inputs */
+.reserva-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Botón para enviar */
+.reserva-form button[type="submit"] {
+  background-color: #a47551;
+  color: #fff;
+  padding: 12px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  align-self: center;
+  width: 180px;
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  -ms-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
+}
+
+/* Hover del botón enviar */
+.reserva-form button[type="submit"]:hover {
+  background-color: #8a5a43;
+}
+
+/* Botón Volver */
+.reserva-form .button-Volver {
+  background-color: #6c757d; /* Gris suave */
+  color: #fff;
+  padding: 12px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  align-self: center;
+  width: 180px;
+  margin-top: 15px;
+}
+
+/* Hover del botón Volver */
+.reserva-form .button-Volver:hover {
+  background-color: #5a6268;
+}
+
+/* Indicador de fecha ocupada */
+.fecha-ocupada {
+  background-color: #888;
+  color: #fff;
+  pointer-events: none;
+}
+
+/* Mejora del diseño responsivo */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .reserva-form {
+    padding: 20px;
+  }
+}
+
+.form-section {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.form-row label {
+  flex: 1;
+  min-width: 48%;
+}
