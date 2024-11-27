@@ -8,5 +8,6 @@ router.put('/update/:id_reserva', reservaCabaniaController_1.updateReservaCabani
 router.delete('/delete/:id_reserva', reservaCabaniaController_1.deleteReservaCabania);
 router.get('/list/:id_usuario', reservaCabaniaController_1.getReservasCabania);
 router.get('/:id_reserva', reservaCabaniaController_1.getReservaCabania);
-router.get('/agregarproducto/:id_reserva', reservaCabaniaController_1.agregarProductoReservaCabania);
+router.put('/agregarproducto/:id_reserva', reservaCabaniaController_1.agregarProductoReservaCabania);
+router.put('/updateproducto/:id_reserva', reservaCabaniaController_1.updateProductoReservaCabania);
 exports.default = router;

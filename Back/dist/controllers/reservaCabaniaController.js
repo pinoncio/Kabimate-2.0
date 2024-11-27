@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verificarEstadosCabania = exports.quitarProductoReservaCabania = exports.agregarProductoReservaCabania = exports.updateReservaCabania = exports.deleteReservaCabania = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
+exports.verificarEstadosCabania = exports.updateProductoReservaCabania = exports.agregarProductoReservaCabania = exports.updateReservaCabania = exports.deleteReservaCabania = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
 const reservaCabaniaModel_1 = require("../models/reservaCabaniaModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
@@ -344,6 +344,9 @@ const agregarProductoReservaCabania = (req, res) => __awaiter(void 0, void 0, vo
             "TOTAL": totalProductos + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.TOTAL)
         }, { where: { ID_RESERVA_CABANIA: id_reserva } });
         yield t.commit(); // si no hay errores en la transaccion commiteamos
+        res.json({
+            msg: "Se ha agregado correctamente el producto " + id_producto + " a la reserva " + id_reserva
+        });
     }
     catch (error) {
         yield t.rollback(); // si hay errores rollback
@@ -354,7 +357,7 @@ const agregarProductoReservaCabania = (req, res) => __awaiter(void 0, void 0, vo
     }
 });
 exports.agregarProductoReservaCabania = agregarProductoReservaCabania;
-const quitarProductoReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateProductoReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_reserva } = req.params;
     const { id_producto, cantidad } = req.body;
     const t = yield dbConnection_1.default.transaction(); //para el rollback
@@ -372,28 +375,53 @@ const quitarProductoReservaCabania = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     ;
-    try {
-        const totalProductos = (producto === null || producto === void 0 ? void 0 : producto.dataValues.PRECIO_PRODUCTO) * cantidad;
-        yield detalleReservaCabaniaProductoModel_1.DetalleReservaCabaniaProducto.create({
-            "CANTIDAD": cantidad,
-            "TOTAL": totalProductos,
-            "ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO": id_producto,
-            "ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO": id_reserva
+    const detalleReservaProducto = yield detalleReservaCabaniaProductoModel_1.DetalleReservaCabaniaProducto.findOne({ where: { ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva } });
+    if (!detalleReservaProducto) {
+        return res.status(404).json({
+            msg: "Aun no se agregado ningun producto con id: " + id_producto + ' a la reserva con id ' + id_reserva
         });
+    }
+    ;
+    try {
+        if (cantidad == 0) {
+            const totalReservaborrar = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.TOTAL;
+            const totalProductosBorrar = detalleReservaProducto === null || detalleReservaProducto === void 0 ? void 0 : detalleReservaProducto.dataValues.TOTAL;
+            yield reservaCabaniaModel_1.ReservaCabania.update({
+                "TOTAL": totalReservaborrar - totalProductosBorrar
+            }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+            yield detalleReservaCabaniaProductoModel_1.DetalleReservaCabaniaProducto.destroy({ where: { ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva } });
+            yield t.commit();
+            return res.json({
+                msg: "Se han quitado todos los productos con id " + id_producto + " de la reserva " + id_reserva
+            });
+        }
+        const totaldReservaActual = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.TOTAL;
+        const totalProductosActual = detalleReservaProducto === null || detalleReservaProducto === void 0 ? void 0 : detalleReservaProducto.dataValues.TOTAL;
         yield reservaCabaniaModel_1.ReservaCabania.update({
-            "TOTAL": totalProductos + (reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.TOTAL)
+            "TOTAL": totaldReservaActual - totalProductosActual
+        }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+        yield detalleReservaCabaniaProductoModel_1.DetalleReservaCabaniaProducto.update({
+            "CANTIDAD": cantidad,
+            "TOTAL": +(producto === null || producto === void 0 ? void 0 : producto.dataValues.PRECIO_PRODUCTO) * cantidad
+        }, { where: { ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva } });
+        const reservaActual = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
+        yield reservaCabaniaModel_1.ReservaCabania.update({
+            "TOTAL": (reservaActual === null || reservaActual === void 0 ? void 0 : reservaActual.dataValues.TOTAL) + (producto === null || producto === void 0 ? void 0 : producto.dataValues.PRECIO_PRODUCTO) * cantidad
         }, { where: { ID_RESERVA_CABANIA: id_reserva } });
         yield t.commit(); // si no hay errores en la transaccion commiteamos
+        res.json({
+            msg: "Se ha actualizado correctamente el numero de productos con id " + id_producto + " a la reserva " + id_reserva
+        });
     }
     catch (error) {
         yield t.rollback(); // si hay errores rollback
         res.status(500).json({
-            msg: "Ha ocurrido un error al añadir el producto con id: " + id_producto + " a la reserva " + id_reserva,
+            msg: "Ha ocurrido un error al actualizar el numero de productos con id: " + id_producto + " a la reserva " + id_reserva,
             error
         });
     }
 });
-exports.quitarProductoReservaCabania = quitarProductoReservaCabania;
+exports.updateProductoReservaCabania = updateProductoReservaCabania;
 const verificarEstadosCabania = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fechaHoy = new Date();

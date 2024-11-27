@@ -363,6 +363,9 @@ export const agregarProductoReservaCabania = async(req: Request, res: Response) 
         },{where:{ID_RESERVA_CABANIA: id_reserva}});
         
         await t.commit(); // si no hay errores en la transaccion commiteamos
+        res.json({
+            msg: "Se ha agregado correctamente el producto "+id_producto+" a la reserva "+id_reserva
+        })
     }catch(error){
         await t.rollback(); // si hay errores rollback
         res.status(500).json({
@@ -372,7 +375,7 @@ export const agregarProductoReservaCabania = async(req: Request, res: Response) 
     }
 };
 
-export const quitarProductoReservaCabania = async(req: Request, res: Response) =>{
+export const updateProductoReservaCabania = async(req: Request, res: Response) =>{
     const {id_reserva} = req.params;
     const {id_producto, cantidad}= req.body;
     const t = await sequelize.transaction(); //para el rollback
@@ -389,25 +392,54 @@ export const quitarProductoReservaCabania = async(req: Request, res: Response) =
             msg: "No existe un producto con el id: "+id_producto
         });
     };
-    try{
-        const totalProductos = producto?.dataValues.PRECIO_PRODUCTO * cantidad
-
-        await DetalleReservaCabaniaProducto.create({
-            "CANTIDAD": cantidad,
-            "TOTAL": totalProductos,
-            "ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO": id_producto,
-            "ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO": id_reserva
+    const detalleReservaProducto = await DetalleReservaCabaniaProducto.findOne({where:{ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva}});
+    if (!detalleReservaProducto){
+        return res.status(404).json({
+            msg: "Aun no se agregado ningun producto con id: "+id_producto+' a la reserva con id '+id_reserva
         });
+    };
+    try{
+        if(cantidad == 0){
+            const totalReservaborrar = reserva?.dataValues.TOTAL
+            const totalProductosBorrar = detalleReservaProducto?.dataValues.TOTAL
+    
+            await ReservaCabania.update({
+                "TOTAL": totalReservaborrar - totalProductosBorrar
+            },{where:{ID_RESERVA_CABANIA: id_reserva}});
+            await DetalleReservaCabaniaProducto.destroy({where: {ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva}});
+            await t.commit();
+            return res.json({
+                msg: "Se han quitado todos los productos con id "+id_producto+" de la reserva "+id_reserva
+            })
+        }
+        const totaldReservaActual = reserva?.dataValues.TOTAL
+        const totalProductosActual = detalleReservaProducto?.dataValues.TOTAL
 
         await ReservaCabania.update({
-            "TOTAL": totalProductos + reserva?.dataValues.TOTAL
+            "TOTAL": totaldReservaActual - totalProductosActual
+        },{where:{ID_RESERVA_CABANIA: id_reserva}});
+        
+
+        await DetalleReservaCabaniaProducto.update({
+            "CANTIDAD": cantidad,
+            "TOTAL":  + producto?.dataValues.PRECIO_PRODUCTO * cantidad
+        },{where: {ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO: id_producto, ID_RESERVA_CABANIA_DETALLE_RESERVA_CABANIA_PRODUCTO: id_reserva}});
+
+        
+        const reservaActual =  await ReservaCabania.findOne({where: {ID_RESERVA_CABANIA: id_reserva}});
+
+        await ReservaCabania.update({
+            "TOTAL": reservaActual?.dataValues.TOTAL + producto?.dataValues.PRECIO_PRODUCTO * cantidad
         },{where:{ID_RESERVA_CABANIA: id_reserva}});
         
         await t.commit(); // si no hay errores en la transaccion commiteamos
+        res.json({
+            msg: "Se ha actualizado correctamente el numero de productos con id "+id_producto+" a la reserva "+id_reserva
+        })
     }catch(error){
         await t.rollback(); // si hay errores rollback
         res.status(500).json({
-            msg: "Ha ocurrido un error al añadir el producto con id: "+id_producto+" a la reserva "+id_reserva,
+            msg: "Ha ocurrido un error al actualizar el numero de productos con id: "+id_producto+" a la reserva "+id_reserva,
             error
         });
     }
