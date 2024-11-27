@@ -165,14 +165,14 @@ const getReservasCabania = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getReservasCabania = getReservasCabania;
 const deleteReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_reserva } = req.params;
-    const reserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA: id_reserva } });
+    const reserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
     if (!reserva) {
         return res.status(404).json({
             msg: "La reserva ingresada no existe"
         });
     }
     try {
-        yield reservaCabaniaModel_1.ReservaCabania.destroy({ where: { ID_RESERVA: id_reserva } });
+        yield reservaCabaniaModel_1.ReservaCabania.destroy({ where: { ID_RESERVA_CABANIA: id_reserva } });
         return res.json({
             msg: "Se ha eliminado la reserva " + id_reserva
         });

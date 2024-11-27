@@ -162,14 +162,14 @@ export const getReservasCabania = async(req: Request, res: Response)=>{
 
 export const deleteReservaCabania = async(req: Request, res: Response)=> {
     const {id_reserva} = req.params;
-    const reserva = await ReservaCabania.findOne({where: {ID_RESERVA: id_reserva}});
+    const reserva = await ReservaCabania.findOne({where: {ID_RESERVA_CABANIA: id_reserva}});
     if(!reserva){
         return res.status(404).json({
             msg: "La reserva ingresada no existe"
         });
         }
     try{
-        await ReservaCabania.destroy({where:{ID_RESERVA: id_reserva}});
+        await ReservaCabania.destroy({where:{ID_RESERVA_CABANIA: id_reserva}});
         return res.json({
             msg: "Se ha eliminado la reserva "+id_reserva
         })
