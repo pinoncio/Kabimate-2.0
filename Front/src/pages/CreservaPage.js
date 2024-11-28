@@ -66,21 +66,19 @@ const ReservaForm = () => {
     return () => clearInterval(interval);
   }, [setFechaInicio]);
 
-  // Maneja el cambio de las fechas
-  const handleDateChange = (setter) => (e) => {
-    setter(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Botón Enviar Reserva presionado");
-
+  
     // Llama a la función de validación
     validar(1);
-
-    // Redirigir a /reservasC después de validar
-    navigate("/reservasC");
+  
+    // Espera 3 segundos antes de redirigir
+    setTimeout(() => {
+      navigate("/reservasC");
+    }, 3000);
   };
+  
 
   // Función para ir a la página /hcabana
   const handleGoBack = () => {

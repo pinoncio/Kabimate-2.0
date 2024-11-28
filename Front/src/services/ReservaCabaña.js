@@ -56,3 +56,37 @@ export const deleteReserva = async (id_reserva) => {
     throw error;
   }
 };
+
+// Función para agregar un producto a una reserva
+export const agregarProductoReservaCabania = async (id_reserva, productoData) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/agregarproducto/${id_reserva}`,
+      productoData
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error al agregar el producto a la reserva con ID ${id_reserva}:`,
+      error
+    );
+    throw error;
+  }
+};
+
+// Función para actualizar un producto en una reserva
+export const updateProductoReservaCabania = async (id_reserva, productoData) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/updateproducto/${id_reserva}`,
+      productoData
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error al actualizar el producto en la reserva con ID ${id_reserva}:`,
+      error
+    );
+    throw error;
+  }
+};

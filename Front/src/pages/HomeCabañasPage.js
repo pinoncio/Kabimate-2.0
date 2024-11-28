@@ -59,7 +59,7 @@ export default function HomeCabana() {
 
   useEffect(() => {
     let filtered = cabanas;
-  
+
     // Filtrar por estado
     if (filtroEstado) {
       filtered = filtered.filter((cabana) => {
@@ -70,7 +70,7 @@ export default function HomeCabana() {
         );
       });
     }
-  
+
     // Filtrar por búsqueda de texto (descripcion o ubicación)
     if (busqueda) {
       filtered = filtered.filter(
@@ -80,7 +80,7 @@ export default function HomeCabana() {
           ) || cabana.UBICACION.toLowerCase().includes(busqueda.toLowerCase())
       );
     }
-  
+
     // Filtrar por precio
     if (precioMin) {
       filtered = filtered.filter(
@@ -92,7 +92,7 @@ export default function HomeCabana() {
         (cabana) => cabana.PRECIO_POR_NOCHE <= precioMax
       );
     }
-  
+
     // Filtrar por capacidad
     if (capacidadMin) {
       filtered = filtered.filter((cabana) => cabana.CAPACIDAD >= capacidadMin);
@@ -100,7 +100,7 @@ export default function HomeCabana() {
     if (capacidadMax) {
       filtered = filtered.filter((cabana) => cabana.CAPACIDAD <= capacidadMax);
     }
-  
+
     // Filtrar por cantidad de piezas
     if (cantidadPiezasMin) {
       filtered = filtered.filter(
@@ -112,17 +112,30 @@ export default function HomeCabana() {
         (cabana) => cabana.CANTIDAD_PIEZAS <= cantidadPiezasMax
       );
     }
-  
+
     // Filtrar por ubicación
     if (ubicacion) {
       filtered = filtered.filter((cabana) =>
         cabana.UBICACION.toLowerCase().includes(ubicacion.toLowerCase())
       );
     }
-  
-    // Ordenar las cabañas por id_cabania (de menor a mayor)
-    filtered.sort((a, b) => a.id_cabania - b.id_cabania);
-  
+
+    // Ordenar las cabañas: las ocupadas al final
+    filtered.sort((a, b) => {
+      const estadoA = estados[a.ID_ESTADO_CABANIA]?.toLowerCase();
+      const estadoB = estados[b.ID_ESTADO_CABANIA]?.toLowerCase();
+
+      if (estadoA === "ocupado" && estadoB !== "ocupado") {
+        return 1;
+      }
+      if (estadoA !== "ocupado" && estadoB === "ocupado") {
+        return -1;
+      }
+
+      // Si tienen el mismo estado o no están "ocupado", ordenar por id_cabania
+      return a.ID_CABANIA - b.ID_CABANIA;
+    });
+
     setFilteredCabanas(filtered);
   }, [
     filtroEstado,
@@ -137,7 +150,6 @@ export default function HomeCabana() {
     cantidadPiezasMax,
     ubicacion,
   ]);
-  
 
   const handleFiltroEstado = (estado) => {
     setFiltroEstado(estado);
@@ -209,7 +221,7 @@ export default function HomeCabana() {
       <div className="filters">
         {/* Filtros agrupados */}
         <div className="input-filters">
-        <input
+          <input
             type="text"
             placeholder="Buscar por ubicación o descripción"
             value={busqueda}
@@ -318,8 +330,6 @@ export default function HomeCabana() {
             <option value="10">10 piezas</option>
             <option value="12">12 piezas</option>
           </select>
-
-          
         </div>
 
         {/* Botones de estado */}
@@ -364,7 +374,6 @@ export default function HomeCabana() {
                   marginBottom: "15px",
                   borderRadius: "8px",
                 }}
-                
               >
                 <div
                   className="cabana-card"

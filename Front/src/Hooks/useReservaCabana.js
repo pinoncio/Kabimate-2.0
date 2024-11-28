@@ -51,7 +51,9 @@ const useReservaCabana = () => {
   const getAllReservas = async (id_usuario) => {
     try {
       const reservasData = await getReservasByUsuario(id_usuario);
-      setReservas(reservasData.sort((a, b) => a.ID_RESERVA_CABANIA- b.ID_RESERVA_CABANIA));
+      setReservas(
+        reservasData.sort((a, b) => a.ID_RESERVA_CABANIA - b.ID_RESERVA_CABANIA)
+      );
     } catch (error) {
       console.error("Error al obtener las reservas:", error);
     }
@@ -88,8 +90,8 @@ const useReservaCabana = () => {
     total = ""
   ) => {
     setIdReserva(id_reserva);
-    setFechaInicio(fecha_inicio);
-    setFechaFinal(fecha_final);
+    setFechaInicio(new Date(fecha_inicio).toISOString().split("T")[0]);
+    setFechaFinal(new Date(fecha_final).toISOString().split("T")[0]);
     setNombre1Huesped(nombre1_huesped);
     setNombre2Huesped(nombre2_huesped);
     setApellido1Huesped(apellido1_huesped);
@@ -172,7 +174,7 @@ const useReservaCabana = () => {
     try {
       await createReserva(id_usuario, reservaData);
       show_alerta("La reserva se ha creado correctamente", "success");
-      getAllReservas(id_usuario);
+      await getAllReservas(id_usuario);
     } catch (error) {
       console.error("Error al crear la reserva:", error);
       show_alerta("Error al crear la reserva", "error");
@@ -181,21 +183,19 @@ const useReservaCabana = () => {
 
   const closeButtonRef = useRef(null);
 
-const updateNewReserva = async (id_reserva, reservaData) => {
-  try {
-    await updateReserva(id_reserva, reservaData);
-    show_alerta("La reserva fue editada con éxito.", "success");
-    getAllReservas(id_usuario);
-    if (closeButtonRef.current) {
-      closeButtonRef.current.click();  // Usar el ref para hacer clic en el botón
+  const updateNewReserva = async (id_reserva, reservaData) => {
+    try {
+      await updateReserva(id_reserva, reservaData);
+      show_alerta("La reserva fue editada con éxito.", "success");
+      await getAllReservas(id_usuario);
+      if (closeButtonRef.current) {
+        closeButtonRef.current.click(); // Usar el ref para hacer clic en el botón
+      }
+    } catch (error) {
+      console.error("Error al actualizar la reserva:", error);
+      show_alerta("Error al actualizar la reserva", "error");
     }
-  } catch (error) {
-    console.error("Error al actualizar la reserva:", error);
-    show_alerta("Error al actualizar la reserva", "error");
-  }
-};
-
-  
+  };
 
   const deleteReservaById = async (id_reserva) => {
     MySwal.fire({
@@ -215,6 +215,7 @@ const updateNewReserva = async (id_reserva, reservaData) => {
             icon: "success",
             confirmButtonText: "Aceptar",
           });
+          getAllReservas(id_usuario);
         } catch (error) {
           console.error("Error al eliminar reserva:", error);
           await MySwal.fire({
