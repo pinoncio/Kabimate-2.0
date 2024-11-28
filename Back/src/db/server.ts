@@ -16,6 +16,8 @@ import { MetodoPago } from '../models/metodoPagoModel';
 import { EstadoPago } from '../models/estadoPagoModel';
 import { ReservaCabania } from '../models/reservaCabaniaModel';
 import { DetalleReservaCabaniaProducto } from '../models/detalleReservaCabaniaProductoModel';
+import { ReservaHabitacion } from '../models/reservaHabitacionModel';
+import { DetalleReservaHabitacionProducto } from '../models/detalleReservaHabitacionProductoModel';
 //importar seeders
 import { seedEstados } from './seeders/estadoSeeder';
 import { seedRoles } from './seeders/rolSeeder';
@@ -36,9 +38,11 @@ import routesCategoria from '../routes/categoriaRoutes';
 import routesProducto from '../routes/productoRoutes';
 import routesReservaCabania from '../routes/reservaCabaniaRoutes';
 import routesDetalleReservaCabaniaProducto from '../routes/detalleReservaCabaniaProductoRoutes';
-
+import routesRerservaHabitacion from '../routes/reservaHabitacionRoutes';
+import routesDetalleReservaHabitacionProducto from '../routes/detalleReservaHabitacionProductoRoutes';
 //import de otros
 import { verificarEstadosCabania } from '../controllers/reservaCabaniaController';
+import { verificarEstadosHabitacion } from '../controllers/reservaHabitacionController';
 
 
 class Server {
@@ -74,6 +78,8 @@ class Server {
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/reservascabania', routesReservaCabania);
         this.app.use('/api/detallereservacabanaproducto', routesDetalleReservaCabaniaProducto);
+        this.app.use('/api/reservashabitacion', routesRerservaHabitacion);
+        this.app.use('/api/detallereservahabitacionproducto', routesDetalleReservaHabitacionProducto);
     }
     midlewares() {
         this.app.use(express.json());
@@ -96,6 +102,8 @@ class Server {
             await MetodoPago.sync();
             await ReservaCabania.sync();
             await DetalleReservaCabaniaProducto.sync();
+            await ReservaHabitacion.sync();
+            await DetalleReservaHabitacionProducto.sync();
 
 
             //correr seeders
@@ -103,11 +111,16 @@ class Server {
             setInterval(async () => {
                 await verificarEstadosCabania();
                 console.log("Verificación de estados de cabañas realizada");
-            }, 8000); // 86400000 ms = 24 horas
+            }, 60000); // 86400000 ms = 24 horas
+            setInterval(async () => {
+                await verificarEstadosHabitacion();
+                console.log("Verificación de estados de habitaciones realizada");
+            }, 60000); // 86400000 ms = 24 horas
+            
 
-        } catch (error) {
+            } catch (error) {
             console.log('No se ha podido establecer conexion a la base de datos')
-        }
+            }
     }
 
     async runSeeders() {

@@ -30,7 +30,7 @@ export const ReservaHabitacion = sequelize.define('reservaHabitacion',{
 });
 
 ReservaHabitacion.belongsTo(EstadoPago, { foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION', targetKey: 'ID_ESTADO_PAGO', onDelete: 'SET NULL' });
-MetodoPago.hasMany(ReservaHabitacion, {foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION',sourceKey: 'ID_ESTADO_PAGO'});
+EstadoPago.hasMany(ReservaHabitacion, {foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION',sourceKey: 'ID_ESTADO_PAGO'});
 
 ReservaHabitacion.belongsTo(MetodoPago, { foreignKey: 'ID_METODO_PAGO_RESERVA_HABITACION', targetKey: 'ID_METODO_PAGO', onDelete: 'SET NULL' });
 MetodoPago.hasMany(ReservaHabitacion, {foreignKey: 'ID_METODO_PAGO_RESERVA_HABITACION',sourceKey: 'ID_METODO_PAGO'});

@@ -33,7 +33,7 @@ exports.ReservaHabitacion = dbConnection_1.default.define('reservaHabitacion', {
     timestamps: false
 });
 exports.ReservaHabitacion.belongsTo(estadoPagoModel_1.EstadoPago, { foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION', targetKey: 'ID_ESTADO_PAGO', onDelete: 'SET NULL' });
-metodoPagoModel_1.MetodoPago.hasMany(exports.ReservaHabitacion, { foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION', sourceKey: 'ID_ESTADO_PAGO' });
+estadoPagoModel_1.EstadoPago.hasMany(exports.ReservaHabitacion, { foreignKey: 'ID_ESTADO_PAGO_RESERVA_HABITACION', sourceKey: 'ID_ESTADO_PAGO' });
 exports.ReservaHabitacion.belongsTo(metodoPagoModel_1.MetodoPago, { foreignKey: 'ID_METODO_PAGO_RESERVA_HABITACION', targetKey: 'ID_METODO_PAGO', onDelete: 'SET NULL' });
 metodoPagoModel_1.MetodoPago.hasMany(exports.ReservaHabitacion, { foreignKey: 'ID_METODO_PAGO_RESERVA_HABITACION', sourceKey: 'ID_METODO_PAGO' });
 exports.ReservaHabitacion.belongsTo(habitacionModel_1.Habitacion, { foreignKey: 'ID_HABITACION_RESERVA_HABITACION', targetKey: 'ID_HABITACION', onDelete: 'SET NULL' });
