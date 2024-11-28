@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import useReservaCabana from "../Hooks/useReservaCabana";
-import { show_alerta } from "../functions";
 import "../Styles/ListaC.css";
 
 const ListaReservas = () => {
@@ -17,8 +17,6 @@ const ListaReservas = () => {
     direccion_huesped,
     telefono_huesped,
     anticipo,
-    total,
-    id_cabania,
     setFechaInicio,
     setFechaFinal,
     setNombre1Huesped,
@@ -30,17 +28,16 @@ const ListaReservas = () => {
     setDireccionHuesped,
     setTelefonoHuesped,
     setAnticipo,
-    setTotal,
     openModal,
     validar,
     deleteReservaById,
-    setTitle,
     operation,
-    precio_por_noche,
-    getAllReservas,
-    id_usuario,
     closeButtonRef,
   } = useReservaCabana();
+
+
+
+  const navigate = useNavigate(); // Crea una instancia de useNavigate
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
@@ -52,7 +49,7 @@ const ListaReservas = () => {
 
   const [busqueda, setBusqueda] = useState(""); // Estado para la búsqueda
   const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 5; // Número de reservas por página
+  const itemsPerPage = 3; // Número de reservas por página
   const totalPages = reservas ? Math.ceil(reservas.length / itemsPerPage) : 0; // Total de páginas
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -129,12 +126,14 @@ const ListaReservas = () => {
                   <td>
                     <button
                       className="btn-visualizar btn-success"
-                      onClick={() => reserva.ID_RESERVA_CABANIA}
+                      onClick={() =>
+                        navigate(`/reserva/${reserva.ID_RESERVA_CABANIA}`)
+                      } // Navegar a la ruta con el ID de reserva
                     >
                       <i className="fas fa-eye"></i>
                     </button>
                     <button
-                      className="btn-editar btn-warning"
+                      className="btn-actualizar btn-warning"
                       onClick={() =>
                         openModal(
                           2,
@@ -149,7 +148,7 @@ const ListaReservas = () => {
                           reserva.RUT_HUESPED,
                           reserva.DIRECCION_HUESPED,
                           reserva.TELEFONO_HUESPED,
-                          reserva.ANTICIPO,
+                          reserva.ANTICIPO
                         )
                       }
                       data-bs-toggle="modal"
@@ -229,7 +228,7 @@ const ListaReservas = () => {
               ></button>
             </div>
             <div className="modal-body">
-            <input type="hidden" id="id"></input>
+              <input type="hidden" id="id"></input>
               {/* Fecha de Inicio */}
               <div className="mb-2">
                 <strong>Fecha de Inicio</strong>
@@ -360,9 +359,9 @@ const ListaReservas = () => {
                 Cerrar
               </button>
               <button onClick={() => validar()} className="btn btn-success">
-                  {operation === 1 ? "Registrar" : "Actualizar"}
-                  <i className="fas fa-save ms-2"></i>
-                </button>
+                {operation === 1 ? "Registrar" : "Actualizar"}
+                <i className="fas fa-save ms-2"></i>
+              </button>
             </div>
           </div>
         </div>
