@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect} from "react";
 import { getProductos } from "../services/producto";
 import {
   agregarProductoReservaCabania,
@@ -120,6 +120,7 @@ const useReservaProductos = () => {
     productos,
     reserva,
     detalleReservas,
+    setDetalleReservas,
     cantidad,
     setCantidad,
     id_producto,

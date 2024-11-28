@@ -298,7 +298,7 @@ const HabitacionPage = () => {
                     className="form-control"
                     value={numero_habitacion}
                     onChange={(e) => setNumeroHabitacion(e.target.value)}
-                    placeholder="Ejemplo: 101, 102A."
+                    placeholder="Ejemplo: 101, 102."
                   />
                 </div>
                 <div className="col-md-6">

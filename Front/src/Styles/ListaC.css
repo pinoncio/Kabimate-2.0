@@ -1,13 +1,13 @@
 /* Contenedor principal de la lista de reservas */
 .lista-reservas-container {
   position: relative;
-  top: 110px;
+  top: 40px;
   padding: 20px 10px;
   background-color: #f4f6f8;
   border-radius: 10px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   max-width: 1500px;
-  margin:  0 auto;
+  margin: 0 auto;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -22,7 +22,7 @@
   margin-bottom: 20px;
   text-align: center;
   letter-spacing: 1px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 /* Mensaje cuando no hay reservas disponibles */
@@ -116,9 +116,6 @@
   background-color: #d32f2f; /* Rojo más oscuro */
 }
 
-
-
-
 /* Indicador de carga */
 .loading-indicator {
   font-size: 1.2rem;
@@ -130,7 +127,7 @@
 /* Estilo para el campo de búsqueda */
 .campo-busqueda {
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .input-busqueda {
@@ -185,4 +182,31 @@
   font-size: 1rem;
   color: #333;
   border-radius: 6px;
+}
+
+.descripcion-reservas {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.descripcion-reservas p {
+  margin: 0 0 10px;
+}
+
+.descripcion-reservas ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.descripcion-reservas li {
+  margin-bottom: 5px;
+  list-style: none;
+}
+
+.descripcion-reservas li i {
+
+  margin-right: 5px;
 }

@@ -46,9 +46,15 @@ const ReservaForm = () => {
 
   // Establecer la fecha de inicio con la hora actual (solo fecha, sin hora)
   useEffect(() => {
-    const now = new Date();
-    setFechaInicio(formatDate(now)); // Establece solo la fecha actual
+    const interval = setInterval(() => {
+      const now = new Date();
+      setFechaInicio(formatDate(now)); // Actualiza la fecha y hora en tiempo real
+    }, 1000); // Actualiza cada segundo
+  
+    return () => clearInterval(interval); // Limpia el intervalo al desmontar
   }, [setFechaInicio]);
+  
+  
 
   useEffect(() => {
     if (precio_por_noche && !total) {
@@ -205,7 +211,7 @@ const ReservaForm = () => {
           </div>
           <div className="form-row">
             <label>
-              Anticipo (suele ser del 20% al 50%):
+              Anticipo ( Debe ser del 20% al 50% del total del arriendo ):
               <input
                 type="number"
                 value={anticipo}
@@ -216,7 +222,7 @@ const ReservaForm = () => {
             </label>
 
             <label>
-              SubTotal (Precio de la cabaña):
+              SubTotal ( Precio de la cabaña ):
               <input
                 type="number"
                 value={total}

@@ -35,8 +35,6 @@ const ListaReservas = () => {
     closeButtonRef,
   } = useReservaCabana();
 
-
-
   const navigate = useNavigate(); // Crea una instancia de useNavigate
 
   const formatearFecha = (fecha) => {
@@ -45,6 +43,22 @@ const ListaReservas = () => {
     const mes = String(date.getMonth() + 1).padStart(2, "0");
     const anio = date.getFullYear();
     return `${dia}/${mes}/${anio}`;
+  };
+
+  const formatearRut = (rut) => {
+    if (!rut) return "";
+
+    // Elimina los puntos y guiones del RUT
+    const soloNumeros = rut.replace(/[^\d]/g, "");
+
+    // Separa el cuerpo del RUT y el dígito verificador
+    const cuerpo = soloNumeros.slice(0, -1);
+    const dv = soloNumeros.slice(-1);
+
+    // Formatea el cuerpo del RUT con puntos
+    const cuerpoFormateado = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    return `${cuerpoFormateado}-${dv}`;
   };
 
   const [busqueda, setBusqueda] = useState(""); // Estado para la búsqueda
@@ -76,6 +90,32 @@ const ListaReservas = () => {
   return (
     <div className="lista-reservas-container">
       <h1 className="titulo-reservas">Lista de Reservas</h1>
+
+      <div className="descripcion-reservas">
+        <p>
+          En esta sección puedes gestionar todas las reservas registradas.
+          Puedes buscar reservas específicas usando el campo de búsqueda,
+          visualizar los detalles completos de una reserva, actualizar su
+          información, o eliminarla si ya no es necesaria.
+        </p>
+        <ul>
+          <li>
+            <i className="fas fa-eye "></i> <strong>Visualizar:</strong> Muestra
+            los detalles completos de una reserva y agregar productos adicional
+            que el cliente quiera añadir.
+          </li>
+          <li>
+            <i className="fas fa-edit"></i> <strong>Editar:</strong> Permite
+            actualizar la información de la reserva si el cliente decide cambiar
+            su desición.
+          </li>
+          <li>
+            <i className="fas fa-trash"></i> <strong>Eliminar:</strong> Borra
+            permanentemente la reserva en el caso que el cliente quiera cancelar
+            su reserva
+          </li>
+        </ul>
+      </div>
 
       <div className="campo-busqueda">
         <input
@@ -118,7 +158,7 @@ const ListaReservas = () => {
                     {reserva.APELLIDO1_HUESPED} {reserva.APELLIDO2_HUESPED}
                   </td>
                   <td>{reserva.EDAD_HUESPED} años</td>
-                  <td>{reserva.RUT_HUESPED}</td>
+                  <td>{formatearRut(reserva.RUT_HUESPED)}</td>
                   <td>{reserva.DIRECCION_HUESPED}</td>
                   <td>{reserva.TELEFONO_HUESPED}</td>
                   <td>${reserva.ANTICIPO}</td>

@@ -18,15 +18,18 @@ export default function ReservaPage() {
     setIdProducto,
     agregarProducto,
     actualizarProducto,
+    detalleReservas,
+    obtenerNombreProducto,
   } = useReservaProductos();
 
   const [isModalOpen, setModalOpen] = useState(false); // Control del modal
   const [modalAction, setModalAction] = useState(""); // Acción actual (agregar o actualizar)
-  
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  const toggleModal = (action) => {
-    console.log("Modal toggling with action:", action); // Verifica qué acción se está pasando
+  const toggleModal = (action, producto = null) => {
+    console.log("Modal toggling with action:", action);
     setModalAction(action);
+    setProductoSeleccionado(producto); // Guarda el producto que se quiere editar
     setModalOpen(!isModalOpen);
   };
 
@@ -57,6 +60,15 @@ export default function ReservaPage() {
 
     fetchReserva();
   }, [id_reserva]);
+
+  useEffect(() => {
+    if (modalAction === "actualizar" && productoSeleccionado) {
+      setIdProducto(
+        productoSeleccionado.ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO
+      );
+      setCantidad(productoSeleccionado.CANTIDAD);
+    }
+  }, [modalAction, productoSeleccionado, setIdProducto, setCantidad]);
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;
@@ -190,7 +202,39 @@ export default function ReservaPage() {
             />
           </div>
         </div>
-
+        <h3>Productos en la Reserva</h3>
+        <table className="reserva-table-detalle-producto">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {detalleReservas.map((detalle) => (
+              <tr key={detalle.ID_DETALLE_RESERVA_CABANIA_PRODUCTO}>
+                <td>
+                  {obtenerNombreProducto(
+                    detalle.ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO
+                  )}
+                </td>
+                <td>{detalle.CANTIDAD}</td>
+                <td>{`$ ${detalle.TOTAL.toLocaleString()}`}</td>
+                <td>
+                  <button
+                    type="button"
+                    className="reserva-button"
+                    onClick={() => toggleModal("actualizar", detalle)}
+                  >
+                    Actualizar Producto Adicional
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <div className="reserva-actions">
           <Link to="/reservasC">
             <button type="button" className="reserva-button volver-button">
@@ -204,25 +248,17 @@ export default function ReservaPage() {
           >
             Agregar Producto Adicional
           </button>
-          <button
-            type="button"
-            className="reserva-button"
-            onClick={() => toggleModal("actualizar")}
-          >
-            Actualizar Producto Adicional
-          </button>
         </div>
       </form>
-
       {isModalOpen && (
-        <div className={`modal ${isModalOpen ? "show" : ""}`}>
-          <div className="modal-content">
+        <div className={`modal-producto ${isModalOpen ? "show" : ""}`}>
+          <div className="modal-content-producto">
             <h3>
               {modalAction === "agregar"
                 ? "Agregar Producto"
                 : "Actualizar Producto"}
             </h3>
-            <div className="modal-field">
+            <div className="modal-field-producto">
               <label htmlFor="producto">Producto</label>
               <select
                 id="producto"
@@ -240,7 +276,7 @@ export default function ReservaPage() {
                 ))}
               </select>
             </div>
-            <div className="modal-field">
+            <div className="modal-field-producto">
               <label htmlFor="cantidad">Cantidad</label>
               <input
                 type="number"
@@ -250,10 +286,10 @@ export default function ReservaPage() {
                 min="1"
               />
             </div>
-            <div className="modal-actions">
+            <div className="modal-actions-producto">
               <button
                 type="button"
-                className="modal-button"
+                className="modal-button-producto"
                 onClick={() => {
                   modalAction === "agregar"
                     ? agregarProducto()
@@ -265,7 +301,7 @@ export default function ReservaPage() {
               </button>
               <button
                 type="button"
-                className="modal-button modal-button-cancel"
+                className="modal-button-producto modal-button-cancel-producto"
                 onClick={toggleModal}
               >
                 Cancelar

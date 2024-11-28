@@ -4,8 +4,9 @@
 }
 
 .reserva-form {
-  width: 80%;
-  margin-top: 60px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .reserva-field-container {
@@ -16,7 +17,7 @@
 }
 
 .reserva-field {
-  width: calc(33% - 11px);
+  width: calc(25% - 11px);
 }
 
 .reserva-field label {
@@ -47,7 +48,7 @@ input[readonly] {
 }
 
 /* Estilo general del modal */
-.modal {
+.modal-producto {
   display: none; /* Inicialmente oculto */
   position: fixed;
   top: 0;
@@ -62,7 +63,7 @@ input[readonly] {
 }
 
 /* Estilo para el contenido del modal */
-.modal-content {
+.modal-content-producto {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -75,7 +76,7 @@ input[readonly] {
 }
 
 /* Títulos del modal */
-.modal-content h3 {
+.modal-content-producto h3 {
   margin: 0;
   font-size: 1.5rem;
   color: #333;
@@ -83,36 +84,36 @@ input[readonly] {
 }
 
 /* Estilo de los campos dentro del modal */
-.modal-field {
+.modal-field-producto {
   display: flex;
   flex-direction: column;
 }
 
-.modal-field label {
+.modal-field-producto label {
   font-weight: bold;
   margin-bottom: 5px;
   color: #333;
 }
 
-.modal-field select,
-.modal-field input {
+.modal-field-producto select,
+.modal-field-producto input {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.modal-field input[type="number"] {
+.modal-field-producto input[type="number"] {
   -moz-appearance: textfield;
 }
 
 /* Estilo para los botones del modal */
-.modal-actions {
+.modal-actions-producto {
   display: flex;
   justify-content: space-between;
 }
 
-.modal-button {
+.modal-button-producto {
   padding: 10px 20px;
   font-size: 1rem;
   border: none;
@@ -121,22 +122,22 @@ input[readonly] {
   transition: background-color 0.3s;
 }
 
-.modal-button:hover {
+.modal-button-producto:hover {
   background-color: #a47551;
   color: white;
 }
 
-.modal-button-cancel {
+.modal-button-cancel-producto {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.modal-button-cancel:hover {
+.modal-button-cancel-producto:hover {
   background-color: #e0e0e0;
 }
 
 /* Modal cuando está visible */
-.modal.show {
+.modal-producto.show {
   display: flex; /* Usamos flex para centrar el contenido */
 }
 
@@ -163,4 +164,63 @@ input[readonly] {
 .reserva-button:hover {
   background-color: #a47551;
   color: white;
+}
+
+/* Estilo general para la tabla */
+.reserva-table-detalle-producto {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilo para los encabezados de la tabla */
+.reserva-table-detalle-producto thead th {
+  background-color: #a47551;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Estilo para las filas del cuerpo */
+.reserva-table-detalle-producto tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.reserva-table-detalle-producto tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Color de fondo alternativo */
+}
+
+.reserva-table-detalle-producto tbody tr:hover {
+  background-color: #e0f7fa; /* Efecto hover */
+}
+
+/* Estilo para las celdas */
+.reserva-table-detalle-producto td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 13px;
+  color: #333;
+}
+
+/* Estilo para los botones dentro de la tabla */
+.reserva-table-detalle-producto .reserva-button {
+  background-color: #a47551;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.reserva-table-detalle-producto .reserva-button:hover {
+  background-color: #a47551;
 }
