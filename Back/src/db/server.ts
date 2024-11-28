@@ -35,7 +35,11 @@ import routesHabitacion from '../routes/habitacionRoutes';
 import routesCategoria from '../routes/categoriaRoutes';
 import routesProducto from '../routes/productoRoutes';
 import routesReservaCabania from '../routes/reservaCabaniaRoutes';
+import routesDetalleReservaCabaniaProducto from '../routes/detalleReservaCabaniaProductoRoutes';
+
+//import de otros
 import { verificarEstadosCabania } from '../controllers/reservaCabaniaController';
+
 
 class Server {
     private app: Application;
@@ -69,6 +73,7 @@ class Server {
         this.app.use('/api/categorias', routesCategoria);
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/reservascabania', routesReservaCabania);
+        this.app.use('/api/detallereservacabanaproducto', routesDetalleReservaCabaniaProducto);
     }
     midlewares() {
         this.app.use(express.json());
