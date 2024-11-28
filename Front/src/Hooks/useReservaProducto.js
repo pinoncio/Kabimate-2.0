@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect} from "react";
 import { getProductos } from "../services/producto";
 import {
   agregarProductoReservaCabania,
   updateProductoReservaCabania, // Cambié de eliminar a actualizar
   getReservaById, // Asegúrate de que esta función está disponible en el servicio
 } from "../services/ReservaCabaña";
+import { getDetalleReservasByReserva } from "../services/DetalleReservaCabaña";
 import { show_alerta } from "../functions";
 import withReactContent from "sweetalert2-react-content";
 import { useParams } from "react-router-dom";
@@ -12,6 +13,7 @@ import { useParams } from "react-router-dom";
 const useReservaProductos = () => {
   const [productos, setProductos] = useState([]);
   const [reserva, setReserva] = useState(null);
+  const [detalleReservas, setDetalleReservas] = useState([]);
   const { id_reserva } = useParams();
   const [cantidad, setCantidad] = useState(0);
   const [id_producto, setIdProducto] = useState(null);
@@ -23,6 +25,7 @@ const useReservaProductos = () => {
   useEffect(() => {
       fetchReserva(id_reserva);
       fetchAllProductos(id_usuario);
+      fetchDetalleReserva(id_reserva)
   }, );
 
   // Cargar productos
@@ -41,6 +44,15 @@ const useReservaProductos = () => {
     try {
       const reservaData = await getReservaById(id_reserva);
       setReserva(reservaData);
+    } catch (error) {
+      console.error("Error al obtener reserva:", error);
+    }
+  };
+
+  const fetchDetalleReserva = async (id_reserva) => {
+    try {
+      const DetalleReservaData = await getDetalleReservasByReserva(id_reserva);
+      setDetalleReservas(Array.isArray(DetalleReservaData) ? DetalleReservaData : []);
     } catch (error) {
       console.error("Error al obtener reserva:", error);
     }
@@ -103,9 +115,12 @@ const useReservaProductos = () => {
     return producto ? producto.NOMBRE_PRODUCTO : "Sin categoría";
   };
 
+
   return {
     productos,
     reserva,
+    detalleReservas,
+    setDetalleReservas,
     cantidad,
     setCantidad,
     id_producto,
@@ -115,6 +130,8 @@ const useReservaProductos = () => {
     obtenerNombreProducto,
     loading,
     error,
+    setError,
+    setLoading
   };
 };
 
