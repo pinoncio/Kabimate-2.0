@@ -25,9 +25,13 @@ import ContactPage from "./pages/ContanctoPage";
 import Ayuda from "./pages/AyudaPage";
 import CategoriaPage from "./pages/CategoriaPage";
 import ProductoPage from "./pages/ProductoPage";
-import Creserva from "./pages/CreservaPage";
-import ListaReservas from "./pages/ListaReservasPage";
-import ReservaPage from "./pages/ReservaPage";
+import ReservaCabanaForm from "./pages/CreservaPage";
+import ListaCabanaReservas from "./pages/ListaReservasCabanaPage";
+import ReservaCabanaPage from "./pages/ReservaCabanaPage";
+import ReservaHabitacionForm from "./pages/HreservaPage";
+import ListaHabitacionReservas from "./pages/ListaReservasHabitacionPage";
+import ReservaHabitacionPage from "./pages/ReservaHabitacionPage";
+
 
 export default function App() {
   const [selectedView, setSelectedView] = useState("home");
@@ -150,19 +154,37 @@ export default function App() {
               <Route
                 path="/reservaC/:id_cabania"
                 element={
-                  <PrivateRoute element={<Creserva />} requiredRole="2" />
+                  <PrivateRoute element={<ReservaCabanaForm />} requiredRole="2" />
                 }
               />
               <Route
                 path="/reservasC"
                 element={
-                  <PrivateRoute element={<ListaReservas />} requiredRole="2" />
+                  <PrivateRoute element={<ListaCabanaReservas />} requiredRole="2" />
                 }
               />
               <Route
-                path="/reserva/:id_reserva"
+                path="/Creserva/:id_reserva"
                 element={
-                  <PrivateRoute element={<ReservaPage />} requiredRole="2" />
+                  <PrivateRoute element={<ReservaCabanaPage />} requiredRole="2" />
+                }
+              />
+              <Route
+              path="/reservaH/:id_habitacion"
+              element={
+                <PrivateRoute element={<ReservaHabitacionForm/>} requiredRole="2" />
+              }
+              />
+              <Route
+                path="/reservasH"
+                element={
+                  <PrivateRoute element={<ListaHabitacionReservas />} requiredRole="2" />
+                }
+              />
+              <Route
+                path="/Hreserva/:id_reserva"
+                element={
+                  <PrivateRoute element={<ReservaHabitacionPage />} requiredRole="2" />
                 }
               />
 

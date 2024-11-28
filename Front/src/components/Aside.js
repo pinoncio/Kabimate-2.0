@@ -65,7 +65,7 @@ export default function Aside({ selectedView }) {
                     </li>
                      
                     <li className="nav-item">
-                      <Link to="/reservations" className="nav-link">
+                      <Link to="/reservasH" className="nav-link">
                         <i
                           className="nav-icon fas fa-calendar-check"
                           style={{ color: "#ffffff" }}

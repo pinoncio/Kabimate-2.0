@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getReservaById } from "../services/ReservaCabaña";
-import useReservaProductos from "../Hooks/useReservaProducto";
+import { getReservaById } from "../services/ReservaHabitacion"; // Cambiado para reflejar la nueva entidad
+import useReservaProductos from "../Hooks/useReservaProductoHabitacion";
 import "../Styles/ReservaProducto.css";
 
-export default function ReservaPage() {
+export default function ReservaHabitacionPage() {
   const [reserva, setReserva] = useState(null); // Estado para almacenar los datos de la reserva
   const [loading, setLoading] = useState(true); // Para manejar el estado de carga
   const [error, setError] = useState(null); // Para manejar errores
@@ -64,7 +64,7 @@ export default function ReservaPage() {
   useEffect(() => {
     if (modalAction === "actualizar" && productoSeleccionado) {
       setIdProducto(
-        productoSeleccionado.ID_PRODUCTO_DETALLE_RESERVA_CABANIA_PRODUCTO
+        productoSeleccionado.ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO
       );
       setCantidad(productoSeleccionado.CANTIDAD);
     }

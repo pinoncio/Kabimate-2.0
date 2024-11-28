@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import useReservaCabana from "../Hooks/useReservaCabana";
 import "../Styles/ListaC.css";
 
-const ListaReservas = () => {
+const ListaCabanaReservas = () => {
   const {
     reservas,
     fecha_inicio,
@@ -167,7 +167,7 @@ const ListaReservas = () => {
                     <button
                       className="btn-visualizar btn-success"
                       onClick={() =>
-                        navigate(`/reserva/${reserva.ID_RESERVA_CABANIA}`)
+                        navigate(`/Creserva/${reserva.ID_RESERVA_CABANIA}`)
                       } // Navegar a la ruta con el ID de reserva
                     >
                       <i className="fas fa-eye"></i>
@@ -410,4 +410,4 @@ const ListaReservas = () => {
   );
 };
 
-export default ListaReservas;
+export default ListaCabanaReservas;

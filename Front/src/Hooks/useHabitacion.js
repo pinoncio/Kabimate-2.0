@@ -31,18 +31,11 @@ const useHabitacion = () => {
   const id_usuario_habitacion = localStorage.getItem("idUsuario");
 
   useEffect(() => {
-    if (id_usuario_habitacion) {
       getAllHabitaciones(id_usuario_habitacion);
       getAllTipos();
       getAllPisos(id_usuario_habitacion);
       getAllEstados();
-    } else {
-      show_alerta(
-        "No se encontró el ID de usuario. Por favor, inicie sesión.",
-        "error"
-      );
-    }
-  }, [id_usuario_habitacion]);
+  }, []);
 
   const getAllHabitaciones = async (id_usuario) => {
     try {

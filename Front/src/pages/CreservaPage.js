@@ -13,7 +13,7 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-const ReservaForm = () => {
+const ReservaCabanaForm = () => {
   const navigate = useNavigate();
   const {
     fecha_inicio,
@@ -242,4 +242,4 @@ const ReservaForm = () => {
   );
 };
 
-export default ReservaForm;
+export default ReservaCabanaForm;

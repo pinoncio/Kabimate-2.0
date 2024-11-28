@@ -3,6 +3,8 @@ import { getHabitaciones } from "../services/Habitacion";
 import { getEstado } from "../services/Estados";
 import { getPiso } from "../services/Pisos";
 import { getTipo } from "../services/TipoHabitacion";
+import { useNavigate } from "react-router-dom";
+import { show_alerta } from "../functions";
 import "../Styles/HomeHabitacion.css";
 
 export default function HomeHabitacion() {
@@ -18,6 +20,7 @@ export default function HomeHabitacion() {
   const [pisos, setPisos] = useState({});
   const [tipos, setTipos] = useState({});
   const idUsuario = localStorage.getItem("idUsuario");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHabitaciones = async () => {
@@ -25,6 +28,8 @@ export default function HomeHabitacion() {
         const data = await getHabitaciones(idUsuario);
         setHabitaciones(data);
         setFilteredHabitaciones(data);
+        setHabitaciones(data.sort((a, b) => a.ID_HABITACION - b.ID_HABITACION));
+        setFilteredHabitaciones(data.sort((a, b) => a.ID_HABITACION - b.ID_HABITACION));
       } catch (error) {
         console.error("Error al obtener las habitaciones", error);
       }
@@ -118,6 +123,22 @@ export default function HomeHabitacion() {
       );
     }
 
+
+    filtered.sort((a, b) => {
+      const estadoA = estados[a.ID_ESTADO_HABITACION]?.toLowerCase();
+      const estadoB = estados[b.ID_ESTADO_HABITACION]?.toLowerCase();
+
+      if (estadoA === "ocupado" && estadoB !== "ocupado") {
+        return 1;
+      }
+      if (estadoA !== "ocupado" && estadoB === "ocupado") {
+        return -1;
+      }
+
+      // Si tienen el mismo estado o no están "ocupado", ordenar por id_cabania
+      return a.ID_HABITACION - b.ID_HABITACION;
+    });
+
     setFilteredHabitaciones(filtered);
   }, [
     filtroEstado,
@@ -132,6 +153,10 @@ export default function HomeHabitacion() {
 
   const handleFiltroEstado = (estado) => {
     setFiltroEstado(estado);
+  };
+
+  const handleBusqueda = (e) => {
+    setBusqueda(e.target.value);
   };
 
   /*
@@ -160,6 +185,16 @@ export default function HomeHabitacion() {
     setFiltroEstado("");
   };
 
+  const handleCardClick = (estado, id_habitacion) => {
+    if (estado === "Disponible") {
+      navigate(`/reservaH/${id_habitacion}`);
+    } else if (estado === "Ocupado") {
+      show_alerta("La habitacion ya está reservada.");
+    } else if (estado === "Mantenimiento") {
+      show_alerta("La habitacion está en mantenimiento.");
+    }
+  };
+
   const getCardContainerColor = (estado) => {
     switch (estado) {
       case "Disponible":
@@ -177,6 +212,13 @@ export default function HomeHabitacion() {
     <div className="home-habitacion-container">
       <div className="filters">
         <div className="input-filters">
+        <input
+            type="text"
+            placeholder="Buscar por ubicación o descripción"
+            value={busqueda}
+            onChange={handleBusqueda}
+            className="form-control"
+          />
           <select
             value={precioMin}
             onChange={(e) => setPrecioMin(e.target.value)}
@@ -287,6 +329,7 @@ export default function HomeHabitacion() {
               <div
                 key={habitacion.ID_HABITACION}
                 className="habitacion-card-container"
+                onClick={() => handleCardClick(estadoNombre, habitacion.ID_HABITACION)}
                 style={{
                   backgroundColor: getCardContainerColor(estadoNombre),
                   padding: "20px",

@@ -11,7 +11,6 @@ import { getEstados } from "../services/Estados";
 const useCabana = () => {
   const [cabanas, setCabanas] = useState([]);
   const [estados, setEstados] = useState([]);
-
   const [id_cabania, setIdCabana] = useState("");
   const [capacidad, setCapacidad] = useState("");
   const [cantidad_piezas, setCantidadPiezas] = useState("");
