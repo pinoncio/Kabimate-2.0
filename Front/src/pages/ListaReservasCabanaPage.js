@@ -187,8 +187,7 @@ const ListaCabanaReservas = () => {
                           reserva.EDAD_HUESPED,
                           reserva.RUT_HUESPED,
                           reserva.DIRECCION_HUESPED,
-                          reserva.TELEFONO_HUESPED,
-                          reserva.ANTICIPO
+                          reserva.TELEFONO_HUESPED
                         )
                       }
                       data-bs-toggle="modal"
@@ -375,17 +374,6 @@ const ListaCabanaReservas = () => {
                 className="form-control"
                 value={telefono_huesped}
                 onChange={(e) => setTelefonoHuesped(e.target.value)}
-              />
-
-              {/* Anticipo */}
-              <div className="mb-2">
-                <strong>Anticipo</strong>
-              </div>
-              <input
-                type="number"
-                className="form-control"
-                value={anticipo}
-                onChange={(e) => setAnticipo(e.target.value)}
               />
             </div>
 

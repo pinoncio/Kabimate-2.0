@@ -107,7 +107,7 @@ const useReservaHabitacion = () => {
   };
 
   const validar = async () => {
-    const fields = [
+    const commonFields = [
       fecha_inicio,
       fecha_final,
       nombre1_huesped,
@@ -118,21 +118,23 @@ const useReservaHabitacion = () => {
       rut_huesped,
       direccion_huesped,
       telefono_huesped,
-      anticipo,
     ];
-
+  
+    // Incluir anticipo solo si es una operación de creación
+    const fields = operation === 1 ? [...commonFields, anticipo] : commonFields;
+  
     const isEmpty = fields.some((field) => {
       if (typeof field === "string") {
         return field.trim() === ""; // Para campos de texto
       }
       return field === "" || field === 0; // Para otros campos como números
     });
-
+  
     if (isEmpty) {
       show_alerta("Completa los campos requeridos", "warning");
       return;
     }
-
+  
     if (operation === 1) {
       const parametros = {
         fecha_inicio,
@@ -162,11 +164,11 @@ const useReservaHabitacion = () => {
         rut_huesped,
         direccion_huesped,
         telefono_huesped,
-        anticipo,
       };
       updateNewReserva(id_reserva, parametros);
     }
   };
+  
 
   const createNewReserva = async (id_usuario, reservaData) => {
     try {

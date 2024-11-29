@@ -107,7 +107,7 @@ const useReservaCabana = () => {
   };
 
   const validar = async () => {
-    const fields = [
+    const commonFields = [
       fecha_inicio,
       fecha_final,
       nombre1_huesped,
@@ -118,8 +118,9 @@ const useReservaCabana = () => {
       rut_huesped,
       direccion_huesped,
       telefono_huesped,
-      anticipo,
     ];
+
+    const fields = operation === 1 ? [...commonFields, anticipo] : commonFields;
 
     const isEmpty = fields.some((field) => {
       if (typeof field === "string") {
@@ -164,7 +165,6 @@ const useReservaCabana = () => {
         rut_huesped,
         direccion_huesped,
         telefono_huesped,
-        anticipo,
       };
       updateNewReserva(id_reserva, parametros);
     }
