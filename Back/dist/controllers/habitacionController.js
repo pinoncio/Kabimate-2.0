@@ -140,12 +140,6 @@ const updateHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     ;
-    if (habitacion.dataValues.ID_ESTADO_HABITACION == 2) {
-        return res.status(404).json({
-            msg: 'La habitacion se encuentra ocupada, porfavor pruebe mas tarde'
-        });
-    }
-    ;
     if (habitacion.dataValues.ESTADO_HABITACION == false) {
         return res.status(404).json({
             msg: 'La habitacion se encuentra desactivada, porfavor vuelva a activarla antes de proceder'

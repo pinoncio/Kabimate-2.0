@@ -139,11 +139,6 @@ export const updateHabitacion = async(req: Request, res: Response)=> {
             msg: 'No existe un habitacion con id: '+id_habitacion
         });
     };
-    if(habitacion.dataValues.ID_ESTADO_HABITACION == 2){
-        return res.status(404).json({
-            msg: 'La habitacion se encuentra ocupada, porfavor pruebe mas tarde'
-        });
-    };
     if(habitacion.dataValues.ESTADO_HABITACION == false){
         return res.status(404).json({
             msg: 'La habitacion se encuentra desactivada, porfavor vuelva a activarla antes de proceder'

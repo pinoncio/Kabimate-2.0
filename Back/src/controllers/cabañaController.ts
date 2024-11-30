@@ -109,6 +109,13 @@ export const updateCabaña = async(req: Request, res: Response) =>{
     const {id_cabania} = req.params;
     const {capacidad, cantidad_piezas, precio_por_noche,ubicacion, servicios_incluidos,descripcion_cabania, id_estado_cabania} = req.body;
 
+    const cabaña = await Cabania.findOne({where:{ID_CABANIA: id_cabania}});
+    if(!cabaña){
+        return res.json({
+            msg: 'No existe un cabaña con id: '+id_cabania
+        });
+    };
+
     try{
         const cabaña = await Cabania.findOne({where:{ID_CABANIA:id_cabania}});
 

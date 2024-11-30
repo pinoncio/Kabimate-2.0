@@ -117,6 +117,13 @@ exports.activarCabaña = activarCabaña;
 const updateCabaña = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id_cabania } = req.params;
     const { capacidad, cantidad_piezas, precio_por_noche, ubicacion, servicios_incluidos, descripcion_cabania, id_estado_cabania } = req.body;
+    const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
+    if (!cabaña) {
+        return res.json({
+            msg: 'No existe un cabaña con id: ' + id_cabania
+        });
+    }
+    ;
     try {
         const cabaña = yield caba_aModel_1.Cabania.findOne({ where: { ID_CABANIA: id_cabania } });
         if (!cabaña) {
