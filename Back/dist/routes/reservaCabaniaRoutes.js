@@ -10,4 +10,5 @@ router.get('/list/:id_usuario', reservaCabaniaController_1.getReservasCabania);
 router.get('/:id_reserva', reservaCabaniaController_1.getReservaCabania);
 router.put('/agregarproducto/:id_reserva', reservaCabaniaController_1.agregarProductoReservaCabania);
 router.put('/updateproducto/:id_reserva', reservaCabaniaController_1.updateProductoReservaCabania);
+router.put('/estadoreservacabana/:id_reserva', reservaCabaniaController_1.finalizarReservaCabania);
 exports.default = router;

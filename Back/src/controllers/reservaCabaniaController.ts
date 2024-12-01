@@ -468,3 +468,56 @@ export const verificarEstadosCabania = async () => {
         console.error("Error verificando estados de cabañas:",error);
     }
 };
+
+export const finalizarReservaCabania = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    const { trigger } = req.body;
+    const reserva = await ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
+    if (!reserva) {
+        return res.status(404).json({
+            msg: "No existe una reserva con el id: " + id_reserva
+        });
+    };
+
+    try {
+        if (trigger == 1) {
+            
+            await ReservaCabania.update({
+                "ID_ESTADO_PAGO_RESERVA_CABANIA": 3
+    
+            }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+
+            await Cabania.update({
+                "ID_ESTADO_CABANIA": 1
+
+            },{where:{ID_HABITACION: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA}});
+            return res.json({
+                msg: "La reserva de cabaña "+id_reserva+" ha sido finalizada correctamente"
+            })
+    
+        }
+        if (trigger == 0) {
+            
+            await ReservaCabania.update({
+                "ID_ESTADO_PAGO_RESERVA_CABANIA": 2
+    
+            }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+            await Cabania.update({
+                "ID_ESTADO_CABANIA": 1
+
+            },{where:{ID_CABANIA: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA}});
+            return res.json({
+                msg: "La reserva de cabaña "+id_reserva+" ha sido cancelada correctamente"
+            })
+    
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de cabaña",
+            error
+        });
+    }
+        
+    }
+
+

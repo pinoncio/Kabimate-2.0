@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verificarEstadosCabania = exports.updateProductoReservaCabania = exports.agregarProductoReservaCabania = exports.updateReservaCabania = exports.deleteReservaCabania = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
+exports.finalizarReservaCabania = exports.verificarEstadosCabania = exports.updateProductoReservaCabania = exports.agregarProductoReservaCabania = exports.updateReservaCabania = exports.deleteReservaCabania = exports.getReservasCabania = exports.getReservaCabania = exports.newReservaCabania = void 0;
 const reservaCabaniaModel_1 = require("../models/reservaCabaniaModel");
 const usuarioModel_1 = require("../models/usuarioModel");
 const caba_aModel_1 = require("../models/caba\u00F1aModel");
@@ -443,3 +443,45 @@ const verificarEstadosCabania = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.verificarEstadosCabania = verificarEstadosCabania;
+const finalizarReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_reserva } = req.params;
+    const { trigger } = req.body;
+    const reserva = yield reservaCabaniaModel_1.ReservaCabania.findOne({ where: { ID_RESERVA_CABANIA: id_reserva } });
+    if (!reserva) {
+        return res.status(404).json({
+            msg: "No existe una reserva con el id: " + id_reserva
+        });
+    }
+    ;
+    try {
+        if (trigger == 1) {
+            yield reservaCabaniaModel_1.ReservaCabania.update({
+                "ID_ESTADO_PAGO_RESERVA_CABANIA": 3
+            }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+            yield caba_aModel_1.Cabania.update({
+                "ID_ESTADO_CABANIA": 1
+            }, { where: { ID_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA } });
+            return res.json({
+                msg: "La reserva de cabaña " + id_reserva + " ha sido finalizada correctamente"
+            });
+        }
+        if (trigger == 0) {
+            yield reservaCabaniaModel_1.ReservaCabania.update({
+                "ID_ESTADO_PAGO_RESERVA_CABANIA": 2
+            }, { where: { ID_RESERVA_CABANIA: id_reserva } });
+            yield caba_aModel_1.Cabania.update({
+                "ID_ESTADO_CABANIA": 1
+            }, { where: { ID_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA } });
+            return res.json({
+                msg: "La reserva de cabaña " + id_reserva + " ha sido cancelada correctamente"
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de cabaña",
+            error
+        });
+    }
+});
+exports.finalizarReservaCabania = finalizarReservaCabania;
