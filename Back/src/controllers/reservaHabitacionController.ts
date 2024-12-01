@@ -47,6 +47,7 @@ export const newReservaHabitacion = async (req: Request, res: Response) => {
 
     const estaraOcupada = await ReservaHabitacion.findAll({
         where: {
+            ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
             ID_HABITACION_RESERVA_HABITACION: id_habitacion,
             [Op.or]: [
                 {
@@ -210,6 +211,7 @@ export const updateReservaHabitacion = async (req: Request, res: Response) => {
 
         const estaraOcupadaInicio = await ReservaHabitacion.findAll({
             where: {
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
                 ID_HABITACION_RESERVA_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION,
                 RUT_HUESPED: { [Op.ne]: rutHuesped },
                 [Op.or]: [
@@ -230,6 +232,7 @@ export const updateReservaHabitacion = async (req: Request, res: Response) => {
 
         const estaraOcupadaFinal = await ReservaHabitacion.findAll({
             where: {
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
                 ID_HABITACION_RESERVA_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION,
                 RUT_HUESPED: { [Op.ne]: rutHuesped },
                 [Op.or]: [

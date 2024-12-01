@@ -50,7 +50,7 @@ const newReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
     ;
     const estaraOcupada = yield reservaCabaniaModel_1.ReservaCabania.findAll({
-        where: {
+        where: { ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
             ID_CABANIA_RESERVA_CABANIA: id_cabania,
             [sequelize_1.Op.or]: [
                 {
@@ -200,7 +200,7 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const rutHuesped = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.RUT_HUESPED;
         const estaraOcupadaInicio = yield reservaCabaniaModel_1.ReservaCabania.findAll({
-            where: {
+            where: { ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
                 ID_CABANIA_RESERVA_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA, RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
                 [sequelize_1.Op.or]: [
                     {
@@ -214,11 +214,10 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
                             { FECHA_FINAL: { [sequelize_1.Op.gte]: fecha_inicio } }
                         ]
                     }
-                ]
-            }
+                ] }
         });
         const estaraOcupadaFinal = yield reservaCabaniaModel_1.ReservaCabania.findAll({
-            where: {
+            where: { ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
                 ID_CABANIA_RESERVA_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA, RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
                 [sequelize_1.Op.or]: [
                     {
@@ -232,8 +231,7 @@ const updateReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, fun
                             { FECHA_FINAL: { [sequelize_1.Op.gte]: fecha_final } }
                         ]
                     }
-                ]
-            }
+                ] }
         });
         if (estaraOcupadaInicio.length > 0 && estaraOcupadaFinal.length > 0) {
             return res.json({

@@ -51,6 +51,7 @@ const newReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, fun
     ;
     const estaraOcupada = yield reservaHabitacionModel_1.ReservaHabitacion.findAll({
         where: {
+            ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
             ID_HABITACION_RESERVA_HABITACION: id_habitacion,
             [sequelize_1.Op.or]: [
                 {
@@ -200,6 +201,7 @@ const updateReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, 
         const rutHuesped = reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.RUT_HUESPED;
         const estaraOcupadaInicio = yield reservaHabitacionModel_1.ReservaHabitacion.findAll({
             where: {
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
                 ID_HABITACION_RESERVA_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_HABITACION_RESERVA_HABITACION,
                 RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
                 [sequelize_1.Op.or]: [
@@ -219,6 +221,7 @@ const updateReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
         const estaraOcupadaFinal = yield reservaHabitacionModel_1.ReservaHabitacion.findAll({
             where: {
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1,
                 ID_HABITACION_RESERVA_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_HABITACION_RESERVA_HABITACION,
                 RUT_HUESPED: { [sequelize_1.Op.ne]: rutHuesped },
                 [sequelize_1.Op.or]: [

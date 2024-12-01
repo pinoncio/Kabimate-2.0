@@ -46,7 +46,7 @@ export const newReservaCabania = async(req: Request, res: Response) =>{
     };
 
     const estaraOcupada = await ReservaCabania.findAll({
-        where: {
+        where: {ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
             ID_CABANIA_RESERVA_CABANIA: id_cabania,
             [Op.or]: [
                 {
@@ -208,7 +208,7 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
         const rutHuesped: number = reserva?.dataValues.RUT_HUESPED
         
         const estaraOcupadaInicio = await ReservaCabania.findAll({
-            where: {
+            where: {ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
                 ID_CABANIA_RESERVA_CABANIA:reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA,RUT_HUESPED: {[Op.ne]: rutHuesped},
                 [Op.or]: [
                     {
@@ -227,7 +227,7 @@ export const updateReservaCabania = async(req: Request, res: Response)=>{
         });
         
         const estaraOcupadaFinal = await ReservaCabania.findAll({
-            where: {
+            where: {ID_ESTADO_PAGO_RESERVA_CABANIA: 1,
                 ID_CABANIA_RESERVA_CABANIA: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA,RUT_HUESPED: {[Op.ne]: rutHuesped},
                 [Op.or]: [
                     {
