@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getReservaById } from "../services/ReservaCabaña";
+import { getReservaById } from "../services/ReservaHabitacion";
 import "../Styles/Pago.css";
 import { show_alerta } from "../functions"; // Importa la función show_alerta
-import useReservaCabana from "../Hooks/useReservaCabana";
+import useReservaHabitacion from "../Hooks/useReservaHabitacion";
 
-const PasarelaPago = () => {
+const PasarelaPagoH = () => {
   const { id_reserva } = useParams();
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const PasarelaPago = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { finalizarReserva } = useReservaCabana();
+  const { finalizarReserva } = useReservaHabitacion();
 
   useEffect(() => {
     const fetchReserva = async () => {
@@ -87,7 +87,7 @@ const PasarelaPago = () => {
       );
 
       // Redirigir a la página de inicio o donde desees
-      navigate("/reservasC");
+      navigate("/reservasH");
 
     } catch (error) {
       console.error("Error en el proceso de pago:", error);
@@ -181,4 +181,4 @@ const PasarelaPago = () => {
   );
 };
 
-export default PasarelaPago;
+export default PasarelaPagoH;
