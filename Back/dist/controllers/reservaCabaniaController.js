@@ -99,7 +99,8 @@ const newReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, functi
             "ANTICIPO": anticipo,
             "TOTAL": nuevoTotal,
             "ID_CABANIA_RESERVA_CABANIA": id_cabania,
-            "ID_USUARIO_RESERVA_CABANIA": id_usuario
+            "ID_USUARIO_RESERVA_CABANIA": id_usuario,
+            "ID_ESTADO_PAGO_RESERVA_CABANIA": 1
         });
         const hoy = new Date();
         if (new Date(fecha_inicio).toDateString() === hoy.toDateString()) {
