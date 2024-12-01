@@ -28,9 +28,10 @@ const ListaCabanaReservas = () => {
     setTelefonoHuesped,
     openModal,
     validar,
-    deleteReservaById,
+    cancelarReserva,
     operation,
     closeButtonRef,
+    obtenerNombreEstado,
   } = useReservaCabana();
 
   const navigate = useNavigate(); // Crea una instancia de useNavigate
@@ -108,14 +109,12 @@ const ListaCabanaReservas = () => {
             su desición.
           </li>
           <li>
-            <i className="fas fa-trash"></i> <strong>Eliminar:</strong> Borra
-            permanentemente la reserva en el caso que el cliente quiera cancelar
-            su reserva
+            <i className="fas fa-times"></i> <strong>Cancelar:</strong> Cancelara la reserva si el cliente se retracta de su reservación o no termino de realizar el pago correspondiente.
           </li>
           <li>
             <i className="fas fa-check"></i> <strong>Finalizar:</strong> Te
             llevara al apartado de finalizacion de reserva en donde te
-            encontraras con la pasarela de pago simulada
+            encontraras con la pasarela de pago simulada.
           </li>
         </ul>
       </div>
@@ -147,7 +146,7 @@ const ListaCabanaReservas = () => {
                 <th>Teléfono del Huesped</th>
                 <th>Anticipo</th>
                 <th>Total Nuevo</th>
-                <th>Estado</th> 
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -167,7 +166,11 @@ const ListaCabanaReservas = () => {
                   <td>{reserva.TELEFONO_HUESPED}</td>
                   <td>${reserva.ANTICIPO}</td>
                   <td>${reserva.TOTAL}</td>
-                  <td>{reserva.ESTADO_RESERVA}</td>
+                  <td>
+                    {obtenerNombreEstado(
+                      reserva.ID_ESTADO_PAGO_RESERVA_CABANIA
+                    )}
+                  </td>
                   <td>
                     <div className="btn-container">
                       <button
@@ -202,13 +205,14 @@ const ListaCabanaReservas = () => {
                         <i className="fas fa-edit"></i>
                       </button>
                       <button
-                        onClick={() =>
-                          deleteReservaById(reserva.ID_RESERVA_CABANIA)
+                        onClick={
+                          () => cancelarReserva(reserva.ID_RESERVA_CABANIA) // Llama a la función de cancelar
                         }
-                        className="btn-eliminar btn-danger"
+                        className="btn-cancelar btn-danger" // Estilo para cancelar
                       >
-                        <i className="fas fa-trash"></i>
+                        <i className="fas fa-times"></i>
                       </button>
+
                       <button
                         className="btn-finalizar btn-primary"
                         onClick={() =>

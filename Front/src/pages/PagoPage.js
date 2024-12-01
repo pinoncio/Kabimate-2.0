@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getReservaById, deleteReserva } from "../services/ReservaCabaña";
+import { getReservaById } from "../services/ReservaCabaña";
 import "../Styles/Pago.css";
 import { show_alerta } from "../functions"; // Importa la función show_alerta
-import { updateCabana } from "../services/Cabania";
+import useReservaCabana from "../Hooks/useReservaCabana";
 
 const PasarelaPago = () => {
   const { id_reserva } = useParams();
@@ -19,6 +19,8 @@ const PasarelaPago = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { finalizarReserva } = useReservaCabana();
 
   useEffect(() => {
     const fetchReserva = async () => {
@@ -73,17 +75,8 @@ const PasarelaPago = () => {
     }
 
     try {
-      // Eliminar la reserva
-      await deleteReserva(id_reserva);
-
-      // Verificar el ID de la cabaña antes de actualizar
-      const reserva = await getReservaById(id_reserva);
-      const idCabania = reserva.ID_CABANIA_RESERVA_CABANIA;
-      console.log("ID de la cabaña para actualización:", idCabania); // Verificar que se obtiene correctamente
-
-      // Actualizar el estado de la cabaña
-      await updateCabana(idCabania, { ID_ESTADO_CABANIA: 2 }); // Cambiar el estado a "2" (reservada)
-      console.log("Estado de la cabaña actualizado exitosamente.");
+      // Llamar a la función finalizarReserva para finalizar la reserva
+      await finalizarReserva(id_reserva, 1); // 1 para indicar que se finaliza la reserva
 
       // Mostrar mensaje de éxito usando SweetAlert2
       show_alerta(
@@ -94,7 +87,7 @@ const PasarelaPago = () => {
       );
 
       // Redirigir a la página de inicio o donde desees
-      navigate("/Hcabana");
+      navigate("/reservasC");
 
     } catch (error) {
       console.error("Error en el proceso de pago:", error);
