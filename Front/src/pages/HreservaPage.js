@@ -76,7 +76,7 @@ const ReservaHabitacionForm = () => {
   };
 
   const handleGoBack = () => {
-    navigate("/hhabitacion");
+    navigate("/Hhotel");
   };
 
   return (
@@ -217,6 +217,7 @@ const ReservaHabitacionForm = () => {
                 placeholder="Precio total de la habitación"
                 onChange={(e) => setTotal(e.target.value)}
                 required
+                readOnly
               />
             </label>
           </div>{" "}

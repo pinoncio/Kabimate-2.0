@@ -201,7 +201,7 @@ const ReservaCabanaForm = () => {
             <label>
               Teléfono del cliente:
               <input
-                type="tel"
+                type="text"
                 value={telefono_huesped}
                 onChange={(e) => setTelefonoHuesped(e.target.value)}
                 placeholder="Ingresa el teléfono"
@@ -227,8 +227,9 @@ const ReservaCabanaForm = () => {
                 type="number"
                 value={total}
                 placeholder="Precio total de la cabaña"
-                onChange={(e) => setTotal(e.target.value)} // Permite editarlo manualmente si es necesario
+                onChange={(e) => setTotal(e.target.value)} 
                 required
+                readOnly
               />
             </label>
           </div>{" "}
