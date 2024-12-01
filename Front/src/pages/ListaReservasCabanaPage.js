@@ -147,6 +147,7 @@ const ListaCabanaReservas = () => {
                 <th>Teléfono del Huesped</th>
                 <th>Anticipo</th>
                 <th>Total Nuevo</th>
+                <th>Estado</th> 
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -166,6 +167,7 @@ const ListaCabanaReservas = () => {
                   <td>{reserva.TELEFONO_HUESPED}</td>
                   <td>${reserva.ANTICIPO}</td>
                   <td>${reserva.TOTAL}</td>
+                  <td>{reserva.ESTADO_RESERVA}</td>
                   <td>
                     <div className="btn-container">
                       <button
