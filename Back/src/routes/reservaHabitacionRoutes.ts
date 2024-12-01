@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { newReservaHabitacion, updateReservaHabitacion, deleteReservaHabitacion, getReservasHabitacion, getReservaHabitacion, agregarProductoReservaHabitacion, updateProductoReservaHabitacion } from '../controllers/reservaHabitacionController';
+import { newReservaHabitacion, updateReservaHabitacion, deleteReservaHabitacion, getReservasHabitacion, getReservaHabitacion, agregarProductoReservaHabitacion, updateProductoReservaHabitacion, finalizarReservaHabitacion } from '../controllers/reservaHabitacionController';
 
 const router = Router();
 
@@ -10,6 +10,7 @@ router.get('/list/:id_usuario', getReservasHabitacion as any);
 router.get('/:id_reserva', getReservaHabitacion as any);
 router.put('/agregarproducto/:id_reserva', agregarProductoReservaHabitacion as any);
 router.put('/updateproducto/:id_reserva', updateProductoReservaHabitacion as any);
+router.put('/estadoreservahabitacion/:id_reserva', finalizarReservaHabitacion as any);
 
 
 export default router;
