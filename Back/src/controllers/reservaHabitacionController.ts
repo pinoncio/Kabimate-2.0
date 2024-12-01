@@ -530,7 +530,11 @@ export const finalizarReservaHabitacion = async (req: Request, res: Response) =>
     
         }
     } catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de habitacion",
+            error
+        });
+    }
         
     }
 
-}

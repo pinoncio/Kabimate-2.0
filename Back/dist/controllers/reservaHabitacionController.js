@@ -494,6 +494,10 @@ const finalizarReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 
         }
     }
     catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de habitacion",
+            error
+        });
     }
 });
 exports.finalizarReservaHabitacion = finalizarReservaHabitacion;
