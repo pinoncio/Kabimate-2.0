@@ -460,7 +460,7 @@ const finalizarReservaCabania = (req, res) => __awaiter(void 0, void 0, void 0, 
             }, { where: { ID_RESERVA_CABANIA: id_reserva } });
             yield caba_aModel_1.Cabania.update({
                 "ID_ESTADO_CABANIA": 1
-            }, { where: { ID_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA } });
+            }, { where: { ID_CABANIA: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_CABANIA_RESERVA_CABANIA } });
             return res.json({
                 msg: "La reserva de cabaña " + id_reserva + " ha sido finalizada correctamente"
             });

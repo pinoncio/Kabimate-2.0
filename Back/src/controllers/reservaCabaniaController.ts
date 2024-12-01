@@ -490,7 +490,7 @@ export const finalizarReservaCabania = async (req: Request, res: Response) => {
             await Cabania.update({
                 "ID_ESTADO_CABANIA": 1
 
-            },{where:{ID_HABITACION: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA}});
+            },{where:{ID_CABANIA: reserva?.dataValues.ID_CABANIA_RESERVA_CABANIA}});
             return res.json({
                 msg: "La reserva de cabaña "+id_reserva+" ha sido finalizada correctamente"
             })
