@@ -94,7 +94,7 @@ const PasarelaPagoH = () => {
 
       // Mostrar mensaje de éxito usando SweetAlert2
       show_alerta(
-        `Pago realizado con éxito.\nReserva ID: ${id_reserva}\nMonto: $${pago.monto}`,
+        `Pago realizado con éxito.\nMonto: $${pago.monto}`,
         "success",
         "",
         "600px"
