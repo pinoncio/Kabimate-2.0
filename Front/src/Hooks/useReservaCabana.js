@@ -137,22 +137,24 @@ const useReservaCabana = () => {
       direccion_huesped,
       telefono_huesped,
     ];
-
+  
     const fields = operation === 1 ? [...commonFields, anticipo] : commonFields;
-
+  
     const isEmpty = fields.some((field) => {
       if (typeof field === "string") {
         return field.trim() === ""; // Para campos de texto
       }
       return field === "" || field === 0; // Para otros campos como números
     });
-
+  
     if (isEmpty) {
+      console.log("Campos requeridos incompletos:", fields);
       show_alerta("Completa los campos requeridos", "warning");
       return;
     }
-
+  
     if (operation === 1) {
+      console.log("Preparando datos para crear reserva...");
       // Crear reserva
       const parametros = {
         fecha_inicio,
@@ -169,8 +171,10 @@ const useReservaCabana = () => {
         total,
         id_cabania,
       };
+      console.log("Datos de la reserva a crear:", parametros);
       createNewReserva(id_usuario, parametros);
     } else if (operation === 2) {
+      console.log("Preparando datos para actualizar reserva...");
       // Actualizar reserva
       const parametros = {
         fecha_inicio,
@@ -184,13 +188,16 @@ const useReservaCabana = () => {
         direccion_huesped,
         telefono_huesped,
       };
+      console.log("Datos de la reserva a actualizar:", parametros);
       updateNewReserva(id_reserva, parametros);
     }
   };
-
+  
   const createNewReserva = async (id_usuario, reservaData) => {
     try {
-      await createReserva(id_usuario, reservaData);
+      console.log("Datos enviados al backend:", reservaData); // Imprime los datos enviados
+      const response = await createReserva(id_usuario, reservaData);
+      console.log("Respuesta del backend al crear reserva:", response); // Imprime la respuesta del backend
       show_alerta("La reserva se ha creado correctamente", "success");
       await getAllReservas(id_usuario);
     } catch (error) {
@@ -198,6 +205,8 @@ const useReservaCabana = () => {
       show_alerta("Error al crear la reserva", "error");
     }
   };
+  
+  
 
   const closeButtonRef = useRef(null);
 

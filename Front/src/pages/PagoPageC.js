@@ -33,28 +33,42 @@ const PasarelaPagoC = () => {
         setLoading(false);
       }
     };
-  
+
     fetchReserva();
   }, [id_reserva]);
 
   const formatCardNumber = (value) => {
     // Eliminar todo lo que no sea un número
     const cleaned = value.replace(/\D/g, "");
-    
+
     // Formatear en bloques de 4 dígitos
     const formatted = cleaned.replace(/(\d{4})(?=\d)/g, "$1 ");
-    
+
     return formatted;
+  };
+
+  const formatExpirationDate = (value) => {
+    // Eliminar todo lo que no sea un número
+    const cleaned = value.replace(/\D/g, "");
+
+    // Formatear como "XX/XXXX"
+    if (cleaned.length <= 2) {
+      return cleaned; // Retorna los primeros 2 dígitos
+    } else if (cleaned.length <= 6) {
+      return `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`; // Inserta la barra
+    }
+
+    return `${cleaned.slice(0, 2)}/${cleaned.slice(2, 6)}`; // Limitar a "XX/XXXX"
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "numeroTarjeta") {
-      // Si el campo es 'numeroTarjeta', formateamos el valor antes de guardarlo
       setPago({ ...pago, [name]: formatCardNumber(value) });
+    } else if (name === "fechaExpiracion") {
+      setPago({ ...pago, [name]: formatExpirationDate(value) });
     } else {
-      // Si no es el campo 'numeroTarjeta', solo actualizamos el estado normalmente
       setPago({ ...pago, [name]: value });
     }
   };
@@ -88,7 +102,6 @@ const PasarelaPagoC = () => {
 
       // Redirigir a la página de inicio o donde desees
       navigate("/reservasC");
-
     } catch (error) {
       console.error("Error en el proceso de pago:", error);
       show_alerta("Hubo un error al procesar el pago", "error", "", "600px");
@@ -153,12 +166,15 @@ const PasarelaPagoC = () => {
             <label>
               Fecha de Expiración:
               <input
-                type="month"
+                type="text"
                 name="fechaExpiracion"
                 value={pago.fechaExpiracion}
                 onChange={handleInputChange}
+                placeholder="MM/YYYY"
+                maxLength="7" // 2 dígitos + 1 barra + 4 dígitos
               />
             </label>
+
             <label>
               CVV:
               <input
