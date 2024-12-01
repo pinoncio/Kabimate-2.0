@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getReservaById } from "../services/ReservaCabaña";
+import { getReservaById } from "../services/ReservaHabitacion";
 import "../Styles/Pago.css";
 import { show_alerta } from "../functions"; // Importa la función show_alerta
-import useReservaCabana from "../Hooks/useReservaCabana";
+import useReservaHabitacion from "../Hooks/useReservaHabitacion";
 
-const PasarelaPago = () => {
+const PasarelaPagoH = () => {
   const { id_reserva } = useParams();
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const PasarelaPago = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { finalizarReserva } = useReservaCabana();
+  const { finalizarReserva } = useReservaHabitacion();
 
   useEffect(() => {
     const fetchReserva = async () => {
@@ -33,28 +33,42 @@ const PasarelaPago = () => {
         setLoading(false);
       }
     };
-  
+
     fetchReserva();
   }, [id_reserva]);
 
   const formatCardNumber = (value) => {
     // Eliminar todo lo que no sea un número
     const cleaned = value.replace(/\D/g, "");
-    
+
     // Formatear en bloques de 4 dígitos
     const formatted = cleaned.replace(/(\d{4})(?=\d)/g, "$1 ");
-    
+
     return formatted;
+  };
+
+  const formatExpirationDate = (value) => {
+    // Eliminar todo lo que no sea un número
+    const cleaned = value.replace(/\D/g, "");
+
+    // Formatear como "XX/XXXX"
+    if (cleaned.length <= 2) {
+      return cleaned; // Retorna los primeros 2 dígitos
+    } else if (cleaned.length <= 6) {
+      return `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`; // Inserta la barra
+    }
+
+    return `${cleaned.slice(0, 2)}/${cleaned.slice(2, 6)}`; // Limitar a "XX/XXXX"
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "numeroTarjeta") {
-      // Si el campo es 'numeroTarjeta', formateamos el valor antes de guardarlo
       setPago({ ...pago, [name]: formatCardNumber(value) });
+    } else if (name === "fechaExpiracion") {
+      setPago({ ...pago, [name]: formatExpirationDate(value) });
     } else {
-      // Si no es el campo 'numeroTarjeta', solo actualizamos el estado normalmente
       setPago({ ...pago, [name]: value });
     }
   };
@@ -87,8 +101,7 @@ const PasarelaPago = () => {
       );
 
       // Redirigir a la página de inicio o donde desees
-      navigate("/reservasC");
-
+      navigate("/reservasH");
     } catch (error) {
       console.error("Error en el proceso de pago:", error);
       show_alerta("Hubo un error al procesar el pago", "error", "", "600px");
@@ -153,10 +166,12 @@ const PasarelaPago = () => {
             <label>
               Fecha de Expiración:
               <input
-                type="month"
+                type="text"
                 name="fechaExpiracion"
                 value={pago.fechaExpiracion}
                 onChange={handleInputChange}
+                placeholder="MM/YYYY"
+                maxLength="7" // 2 dígitos + 1 barra + 4 dígitos
               />
             </label>
             <label>
@@ -181,4 +196,4 @@ const PasarelaPago = () => {
   );
 };
 
-export default PasarelaPago;
+export default PasarelaPagoH;

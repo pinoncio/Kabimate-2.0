@@ -6,12 +6,14 @@ import {
   getReservasByUsuario,
   createReserva,
   updateReserva,
-  deleteReserva,
+  finalizarReservaHabitacion,
 } from "../services/ReservaHabitacion";
 import { getHabitacion } from "../services/Habitacion";
+import { getEstadosPago } from "../services/EstadoPago";
 
 const useReservaHabitacion = () => {
   const [reservas, setReservas] = useState([]);
+  const [estados, setEstados] = useState([]);
   const [id_reserva, setIdReserva] = useState("");
   const [fecha_inicio, setFechaInicio] = useState("");
   const [fecha_final, setFechaFinal] = useState("");
@@ -32,6 +34,7 @@ const useReservaHabitacion = () => {
   const id_usuario = localStorage.getItem("idUsuario");
 
   useEffect(() => {
+    getAllEstadosPago();
     if (id_usuario) {
       getAllReservas(id_usuario);
     } else {
@@ -57,6 +60,20 @@ const useReservaHabitacion = () => {
     } catch (error) {
       console.error("Error al obtener las reservas:", error);
     }
+  };
+
+  const getAllEstadosPago = async () => {
+    try {
+      const estadosData = await getEstadosPago();
+      setEstados(estadosData);
+    } catch (error) {
+      console.error("Error al obtener los estados:", error);
+    }
+  };
+
+  const obtenerNombreEstado = (id_estado_pago) => {
+    const estado = estados.find((e) => e.ID_ESTADO_PAGO === id_estado_pago);
+    return estado ? estado.NOMBRE_ESTADO_PAGO : "Sin Estado";
   };
 
   const fetchHabitacionData = async (id_habitacion) => {
@@ -197,38 +214,62 @@ const useReservaHabitacion = () => {
     }
   };
 
-  const deleteReservaById = async (id_reserva) => {
+
+  const cancelarReserva = async (id_reserva) => {
+    const estadoPago = 0; // Estado para cancelada (0)
+    
+    // Mostrar alerta para confirmar la acción
     MySwal.fire({
-      title: `¿Está seguro/a de cancelar la reserva?`,
+      title: "¿Está seguro/a de cancelar la reserva?",
       icon: "question",
-      text: "No se podrá dar marcha atrás",
+      text: "No se podrá dar marcha atrás.",
       showCancelButton: true,
-      confirmButtonText: "Sí, Cancelar",
+      confirmButtonText: "Sí, Confirmar",
       cancelButtonText: "No",
     }).then(async (result) => {
+      console.log("Resultado de la confirmación:", result); // Agregar depuración
       if (result.isConfirmed) {
         try {
-          await deleteReserva(id_reserva);
+          console.log("Cancelando la reserva..."); // Depuración antes de la llamada
+          // Llamada a la función de finalizar reserva con el estado de cancelación
+          await finalizarReservaHabitacion(id_reserva, estadoPago);
+    
+          // Mostrar mensaje de éxito
           await MySwal.fire({
-            title: "Reserva eliminada",
-            text: `La reserva ha sido eliminada con éxito.`,
+            title: "Éxito",
+            text: "La reserva ha sido cancelada",
             icon: "success",
             confirmButtonText: "Aceptar",
           });
-          getAllReservas(id_usuario);
+    
+          // Actualizar las reservas
+          await getAllReservas(id_usuario);
         } catch (error) {
-          console.error("Error al eliminar reserva:", error);
-          await MySwal.fire({
-            title: "Error",
-            text: "Hubo un problema al eliminar la reserva. Inténtalo de nuevo.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          });
+          console.error("Error al cancelar la reserva:", error);
+          show_alerta("Error al cancelar la reserva", "error");
         }
+      } else {
+        console.log("Cancelación no confirmada"); // Depuración si no se confirma
       }
     });
   };
+  
+  const finalizarReserva = async (id_reserva) => {
+    const estadoPago = 1; // Estado para finalizada (1)
+  
+    try {
+      // Llamada a la función de finalizar reserva con el estado de finalización
+      await finalizarReservaHabitacion(id_reserva, estadoPago);
+  
+      // Actualizar las reservas
+      await getAllReservas(id_usuario);
+    } catch (error) {
+      console.error("Error al finalizar la reserva:", error);
+      show_alerta("Error al finalizar la reserva", "error");
+    }
+  };
 
+  
   return {
     reservas,
     fecha_inicio,
@@ -258,13 +299,15 @@ const useReservaHabitacion = () => {
     setTotal,
     openModal,
     validar,
-    deleteReservaById,
     setTitle,
     operation,
     precio_por_noche,
     getAllReservas,
     id_usuario,
     closeButtonRef,
+    cancelarReserva,
+    finalizarReserva, 
+    obtenerNombreEstado
   };
 };
 

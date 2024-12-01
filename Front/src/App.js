@@ -31,7 +31,8 @@ import ReservaCabanaPage from "./pages/ReservaCabanaPage";
 import ReservaHabitacionForm from "./pages/HreservaPage";
 import ListaHabitacionReservas from "./pages/ListaReservasHabitacionPage";
 import ReservaHabitacionPage from "./pages/ReservaHabitacionPage";
-import PasarelaPago from "./pages/PagoPage";
+import PasarelaPagoC from "./pages/PagoPageC";
+import PasarelaPagoH from "./pages/PagoPageH";
 
 
 export default function App() {
@@ -189,9 +190,15 @@ export default function App() {
                 }
               />
               <Route
-                path="/Pago/:id_reserva"
+                path="/PagoC/:id_reserva"
                 element={
-                  <PrivateRoute element={<PasarelaPago />} requiredRole="2" />
+                  <PrivateRoute element={<PasarelaPagoC />} requiredRole="2" />
+                }
+              />
+              <Route
+                path="/PagoH/:id_reserva"
+                element={
+                  <PrivateRoute element={<PasarelaPagoH />} requiredRole="2" />
                 }
               />
               {/* Ruta para rutas no existentes */}

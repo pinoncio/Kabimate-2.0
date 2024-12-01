@@ -109,7 +109,9 @@ const ListaCabanaReservas = () => {
             su desición.
           </li>
           <li>
-            <i className="fas fa-times"></i> <strong>Cancelar:</strong> Cancelara la reserva si el cliente se retracta de su reservación o no termino de realizar el pago correspondiente.
+            <i className="fas fa-times"></i> <strong>Cancelar:</strong>{" "}
+            Cancelara la reserva si el cliente se retracta de su reservación o
+            no termino de realizar el pago correspondiente.
           </li>
           <li>
             <i className="fas fa-check"></i> <strong>Finalizar:</strong> Te
@@ -173,54 +175,61 @@ const ListaCabanaReservas = () => {
                   </td>
                   <td>
                     <div className="btn-container">
-                      <button
-                        className="btn-visualizar btn-success"
-                        onClick={() =>
-                          navigate(`/Creserva/${reserva.ID_RESERVA_CABANIA}`)
-                        }
-                      >
-                        <i className="fas fa-eye"></i>
-                      </button>
-                      <button
-                        className="btn-actualizar btn-warning"
-                        onClick={() =>
-                          openModal(
-                            2,
-                            reserva.ID_RESERVA_CABANIA,
-                            reserva.FECHA_INICIO,
-                            reserva.FECHA_FINAL,
-                            reserva.NOMBRE1_HUESPED,
-                            reserva.NOMBRE2_HUESPED,
-                            reserva.APELLIDO1_HUESPED,
-                            reserva.APELLIDO2_HUESPED,
-                            reserva.EDAD_HUESPED,
-                            reserva.RUT_HUESPED,
-                            reserva.DIRECCION_HUESPED,
-                            reserva.TELEFONO_HUESPED
-                          )
-                        }
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalReservas"
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
-                      <button
-                        onClick={
-                          () => cancelarReserva(reserva.ID_RESERVA_CABANIA) // Llama a la función de cancelar
-                        }
-                        className="btn-cancelar btn-danger" // Estilo para cancelar
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
+                      {reserva.ID_ESTADO_PAGO_RESERVA_CABANIA === 1 && (
+                        <>
+                          <button
+                            className="btn-visualizar btn-success"
+                            onClick={() =>
+                              navigate(
+                                `/Creserva/${reserva.ID_RESERVA_CABANIA}`
+                              )
+                            }
+                          >
+                            <i className="fas fa-eye"></i>
+                          </button>
+                          <button
+                            className="btn-actualizar btn-warning"
+                            onClick={() =>
+                              openModal(
+                                2,
+                                reserva.ID_RESERVA_CABANIA,
+                                reserva.FECHA_INICIO,
+                                reserva.FECHA_FINAL,
+                                reserva.NOMBRE1_HUESPED,
+                                reserva.NOMBRE2_HUESPED,
+                                reserva.APELLIDO1_HUESPED,
+                                reserva.APELLIDO2_HUESPED,
+                                reserva.EDAD_HUESPED,
+                                reserva.RUT_HUESPED,
+                                reserva.DIRECCION_HUESPED,
+                                reserva.TELEFONO_HUESPED
+                              )
+                            }
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalReservas"
+                          >
+                            <i className="fas fa-edit"></i>
+                          </button>
 
-                      <button
-                        className="btn-finalizar btn-primary"
-                        onClick={() =>
-                          navigate(`/Pago/${reserva.ID_RESERVA_CABANIA}`)
-                        }
-                      >
-                        <i className="fas fa-check"></i>
-                      </button>
+                          <button
+                            onClick={() =>
+                              cancelarReserva(reserva.ID_RESERVA_CABANIA)
+                            }
+                            className="btn-cancelar btn-danger"
+                          >
+                            <i className="fas fa-times"></i>
+                          </button>
+
+                          <button
+                            className="btn-finalizar btn-primary"
+                            onClick={() =>
+                              navigate(`/PagoC/${reserva.ID_RESERVA_CABANIA}`)
+                            }
+                          >
+                            <i className="fas fa-check"></i>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

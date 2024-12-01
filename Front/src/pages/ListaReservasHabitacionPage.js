@@ -33,6 +33,8 @@ const ListaHabitacionReservas = () => {
     deleteReservaById,
     operation,
     closeButtonRef,
+    cancelarReserva,
+    obtenerNombreEstado,
   } = useReservaHabitacion();
 
   const navigate = useNavigate(); // Crea una instancia de useNavigate
@@ -97,17 +99,23 @@ const ListaHabitacionReservas = () => {
         <ul>
           <li>
             <i className="fas fa-eye "></i> <strong>Visualizar:</strong> Muestra
-            los detalles completos de una reserva y agrega productos adicionales
+            los detalles completos de una reserva y agregar productos adicional
             que el cliente quiera añadir.
           </li>
           <li>
             <i className="fas fa-edit"></i> <strong>Editar:</strong> Permite
             actualizar la información de la reserva si el cliente decide cambiar
-            su decisión.
+            su desición.
           </li>
           <li>
-            <i className="fas fa-trash"></i> <strong>Eliminar:</strong> Borra
-            permanentemente la reserva en caso de cancelación.
+            <i className="fas fa-times"></i> <strong>Cancelar:</strong>{" "}
+            Cancelara la reserva si el cliente se retracta de su reservación o
+            no termino de realizar el pago correspondiente.
+          </li>
+          <li>
+            <i className="fas fa-check"></i> <strong>Finalizar:</strong> Te
+            llevara al apartado de finalizacion de reserva en donde te
+            encontraras con la pasarela de pago simulada.
           </li>
         </ul>
       </div>
@@ -139,6 +147,7 @@ const ListaHabitacionReservas = () => {
                 <th>Teléfono del Huesped</th>
                 <th>Anticipo</th>
                 <th>Total Nuevo</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -159,46 +168,70 @@ const ListaHabitacionReservas = () => {
                   <td>${reserva.ANTICIPO}</td>
                   <td>${reserva.TOTAL}</td>
                   <td>
-                    <button
-                      className="btn-visualizar btn-success"
-                      onClick={() =>
-                        navigate(`/Hreserva/${reserva.ID_RESERVA_HABITACION}`)
-                      }
-                    >
-                      <i className="fas fa-eye"></i>
-                    </button>
-                    <button
-                      className="btn-actualizar btn-warning"
-                      onClick={() =>
-                        openModal(
-                          2,
-                          reserva.ID_RESERVA_HABITACION,
-                          reserva.FECHA_INICIO,
-                          reserva.FECHA_FINAL,
-                          reserva.NOMBRE1_HUESPED,
-                          reserva.NOMBRE2_HUESPED,
-                          reserva.APELLIDO1_HUESPED,
-                          reserva.APELLIDO2_HUESPED,
-                          reserva.EDAD_HUESPED,
-                          reserva.RUT_HUESPED,
-                          reserva.DIRECCION_HUESPED,
-                          reserva.TELEFONO_HUESPED,
-                          reserva.ANTICIPO
-                        )
-                      }
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalReservas"
-                    >
-                      <i className="fas fa-edit"></i>
-                    </button>
-                    <button
-                      onClick={() =>
-                        deleteReservaById(reserva.ID_RESERVA_HABITACION)
-                      }
-                      className="btn-eliminar btn-danger"
-                    >
-                      <i className="fas fa-trash"></i>
-                    </button>
+                    {obtenerNombreEstado(
+                      reserva.ID_ESTADO_PAGO_RESERVA_HABITACION
+                    )}
+                  </td>
+                  <td>
+                    <div className="btn-container">
+                      {reserva.ID_ESTADO_PAGO_RESERVA_HABITACION === 1 && (
+                        <>
+                          <button
+                            className="btn-visualizar btn-success"
+                            onClick={() =>
+                              navigate(
+                                `/Hreserva/${reserva.ID_RESERVA_HABITACION}`
+                              )
+                            }
+                          >
+                            <i className="fas fa-eye"></i>
+                          </button>
+                          <button
+                            className="btn-actualizar btn-warning"
+                            onClick={() =>
+                              openModal(
+                                2,
+                                reserva.ID_RESERVA_HABITACION,
+                                reserva.FECHA_INICIO,
+                                reserva.FECHA_FINAL,
+                                reserva.NOMBRE1_HUESPED,
+                                reserva.NOMBRE2_HUESPED,
+                                reserva.APELLIDO1_HUESPED,
+                                reserva.APELLIDO2_HUESPED,
+                                reserva.EDAD_HUESPED,
+                                reserva.RUT_HUESPED,
+                                reserva.DIRECCION_HUESPED,
+                                reserva.TELEFONO_HUESPED,
+                                reserva.ANTICIPO
+                              )
+                            }
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalReservas"
+                          >
+                            <i className="fas fa-edit"></i>
+                          </button>
+                          <button
+                            onClick={
+                              () =>
+                                cancelarReserva(reserva.ID_RESERVA_HABITACION) // Llama a la función de cancelar
+                            }
+                            className="btn-cancelar btn-danger" // Estilo para cancelar
+                          >
+                            <i className="fas fa-times"></i>
+                          </button>
+                          <button
+                            className="btn-finalizar btn-primary"
+                            onClick={() =>
+                              navigate(
+                                `/PagoH/${reserva.ID_RESERVA_HABITACION}`
+                              )
+                            }
+                          >
+                            <i className="fas fa-check"></i>
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

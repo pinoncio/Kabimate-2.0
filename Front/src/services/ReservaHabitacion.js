@@ -90,3 +90,20 @@ export const updateProductoReservaHabitacion = async (id_reserva, productoData) 
     throw error;
   }
 };
+
+
+export const finalizarReservaHabitacion = async (id_reserva, estadoPago) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/estadoreservahabitacion/${id_reserva}`,
+      { trigger: estadoPago } // Enviar el valor de trigger en el cuerpo de la solicitud
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error al finalizar la reserva de cabaña con ID ${id_reserva}:`,
+      error
+    );
+    throw error;
+  }
+};
