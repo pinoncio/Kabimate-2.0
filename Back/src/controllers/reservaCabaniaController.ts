@@ -97,7 +97,8 @@ export const newReservaCabania = async(req: Request, res: Response) =>{
             "ANTICIPO": anticipo,
             "TOTAL": nuevoTotal,
             "ID_CABANIA_RESERVA_CABANIA": id_cabania, 
-            "ID_USUARIO_RESERVA_CABANIA": id_usuario
+            "ID_USUARIO_RESERVA_CABANIA": id_usuario,
+            "ID_ESTADO_PAGO_RESERVA_CABANIA": 1
         });
 
         const hoy = new Date();
