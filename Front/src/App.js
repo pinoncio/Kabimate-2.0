@@ -31,6 +31,7 @@ import ReservaCabanaPage from "./pages/ReservaCabanaPage";
 import ReservaHabitacionForm from "./pages/HreservaPage";
 import ListaHabitacionReservas from "./pages/ListaReservasHabitacionPage";
 import ReservaHabitacionPage from "./pages/ReservaHabitacionPage";
+import PasarelaPago from "./pages/PagoPage";
 
 
 export default function App() {
@@ -187,7 +188,12 @@ export default function App() {
                   <PrivateRoute element={<ReservaHabitacionPage />} requiredRole="2" />
                 }
               />
-
+              <Route
+                path="/Pago/:id_reserva"
+                element={
+                  <PrivateRoute element={<PasarelaPago />} requiredRole="2" />
+                }
+              />
               {/* Ruta para rutas no existentes */}
               <Route
                 path="*"

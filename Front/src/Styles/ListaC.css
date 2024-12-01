@@ -85,7 +85,7 @@
 }
 
 .btn-visualizar:hover {
-  background-color: #45a049; /* Verde más oscuro */
+  background-color: #2f5e31; 
 }
 
 /* Botón Editar */
@@ -113,8 +113,42 @@
 }
 
 .btn-eliminar:hover {
-  background-color: #d32f2f; /* Rojo más oscuro */
+  background-color: #852525; /* Rojo más oscuro */
 }
+
+/* Botón Eliminar */
+.btn-finalizar {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+  border-radius: 5px; /* Borde redondeado */
+}
+
+.btn-finalizar:hover {
+  background-color: #2a2f92; /* Rojo más oscuro */
+}
+
+/* Contenedor para organizar los botones */
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 8px; /* Espacio entre botones */
+  justify-items: center; /* Centrar botones horizontalmente */
+  align-items: center; /* Centrar botones verticalmente */
+}
+
+/* Botón común */
+.btn-container button {
+  width: 40px; /* Ajusta el tamaño según sea necesario */
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
 
 /* Indicador de carga */
 .loading-indicator {
