@@ -53,6 +53,7 @@ const reservaCabaniaRoutes_1 = __importDefault(require("../routes/reservaCabania
 const detalleReservaCabaniaProductoRoutes_1 = __importDefault(require("../routes/detalleReservaCabaniaProductoRoutes"));
 const reservaHabitacionRoutes_1 = __importDefault(require("../routes/reservaHabitacionRoutes"));
 const detalleReservaHabitacionProductoRoutes_1 = __importDefault(require("../routes/detalleReservaHabitacionProductoRoutes"));
+const estadoReservaRoutes_1 = __importDefault(require("../routes/estadoReservaRoutes"));
 //import de otros
 const reservaCabaniaController_1 = require("../controllers/reservaCabaniaController");
 const reservaHabitacionController_1 = require("../controllers/reservaHabitacionController");
@@ -85,6 +86,7 @@ class Server {
         this.app.use('/api/detallereservacabanaproducto', detalleReservaCabaniaProductoRoutes_1.default);
         this.app.use('/api/reservashabitacion', reservaHabitacionRoutes_1.default);
         this.app.use('/api/detallereservahabitacionproducto', detalleReservaHabitacionProductoRoutes_1.default);
+        this.app.use('/api/estadoreservas', estadoReservaRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());

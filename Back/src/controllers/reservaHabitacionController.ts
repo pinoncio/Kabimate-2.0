@@ -7,39 +7,39 @@ import { ReservaHabitacion } from "../models/reservaHabitacionModel";
 import { Producto } from "../models/productoModel";
 import { DetalleReservaHabitacionProducto } from "../models/detalleReservaHabitacionProductoModel";
 
-export const newReservaHabitacion = async(req: Request, res: Response) =>{
+export const newReservaHabitacion = async (req: Request, res: Response) => {
     const { id_usuario } = req.params;
     const { fecha_inicio,
-            fecha_final,
-            nombre1_huesped,
-            nombre2_huesped,
-            apellido1_huesped,
-            apellido2_huesped,
-            edad_huesped,
-            rut_huesped,
-            direccion_huesped,
-            telefono_huesped,
-            anticipo,
-            id_habitacion
+        fecha_final,
+        nombre1_huesped,
+        nombre2_huesped,
+        apellido1_huesped,
+        apellido2_huesped,
+        edad_huesped,
+        rut_huesped,
+        direccion_huesped,
+        telefono_huesped,
+        anticipo,
+        id_habitacion
     } = req.body;
-    const usuario = await Usuario.findOne({where: {ID_USUARIO: id_usuario}});
-    if(!usuario){
+    const usuario = await Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
+    if (!usuario) {
         return res.status(400).json({
             msg: "El usuario ingresado no existe"
         });
     };
-    if(!fecha_inicio || !fecha_final || !nombre1_huesped || !nombre2_huesped || !apellido1_huesped || !apellido2_huesped || !edad_huesped || !rut_huesped || !direccion_huesped || !telefono_huesped || !id_habitacion){
+    if (!fecha_inicio || !fecha_final || !nombre1_huesped || !nombre2_huesped || !apellido1_huesped || !apellido2_huesped || !edad_huesped || !rut_huesped || !direccion_huesped || !telefono_huesped || !id_habitacion) {
         return res.json({
             msg: "Todos los campos deben ser llenados"
         });
     };
-    const habitacion = await Habitacion.findOne({where: {ID_HABITACION: id_habitacion}});
-    if (habitacion?.dataValues.ID_ESTADO_HABITACION == 2){
+    const habitacion = await Habitacion.findOne({ where: { ID_HABITACION: id_habitacion } });
+    if (habitacion?.dataValues.ID_ESTADO_HABITACION == 2) {
         return res.json({
             msg: "No puede reservar la habitacion porque actualmente se encuentra ocupada"
         });
     };
-    if (habitacion?.dataValues.ID_ESTADO_HABITACION == 3){
+    if (habitacion?.dataValues.ID_ESTADO_HABITACION == 3) {
         return res.json({
             msg: "No puede reservar la habitacion porque actualmente se encuentra en mantencion"
         });
@@ -69,7 +69,7 @@ export const newReservaHabitacion = async(req: Request, res: Response) =>{
         }
     });
 
-    if(estaraOcupada.length > 0){
+    if (estaraOcupada.length > 0) {
         return res.json({
             msg: "La habitacion ya tiene reservas en ese rango de fechas"
         })
@@ -81,12 +81,12 @@ export const newReservaHabitacion = async(req: Request, res: Response) =>{
 
     // Convertir la diferencia de milisegundos a días
     const cantidad_dias_reserva: number = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
-    const nuevoTotal = (habitacion?.dataValues.PRECIO_POR_NOCHE * cantidad_dias_reserva) -  anticipo
-    try{
+    const nuevoTotal = (habitacion?.dataValues.PRECIO_POR_NOCHE * cantidad_dias_reserva) - anticipo
+    try {
         await ReservaHabitacion.create({
             "FECHA_INICIO": fecha_inicio,
             "FECHA_FINAL": fecha_final,
-            "NOMBRE1_HUESPED":  nombre1_huesped,
+            "NOMBRE1_HUESPED": nombre1_huesped,
             "NOMBRE2_HUESPED": nombre2_huesped,
             "APELLIDO1_HUESPED": apellido1_huesped,
             "APELLIDO2_HUESPED": apellido2_huesped,
@@ -96,62 +96,63 @@ export const newReservaHabitacion = async(req: Request, res: Response) =>{
             "TELEFONO_HUESPED": telefono_huesped,
             "ANTICIPO": anticipo,
             "TOTAL": nuevoTotal,
-            "ID_HABITACION_RESERVA_HABITACION": id_habitacion, 
-            "ID_USUARIO_RESERVA_HABITACION": id_usuario
+            "ID_HABITACION_RESERVA_HABITACION": id_habitacion,
+            "ID_USUARIO_RESERVA_HABITACION": id_usuario,
+            "ID_ESTADO_PAGO_RESERVA_HABITACION": 1
         });
 
         const hoy = new Date();
         if (new Date(fecha_inicio).toDateString() === hoy.toDateString()) {
             await Habitacion.update({
                 ID_ESTADO_HABITACION: 2
-    
-            },{where:{ ID_HABITACION: id_habitacion}});
+
+            }, { where: { ID_HABITACION: id_habitacion } });
         }
 
         return res.status(201).json({
-            msg: 'La reserva de la habitacion '+id_habitacion+" ha sido exitosa"       
+            msg: 'La reserva de la habitacion ' + id_habitacion + " ha sido exitosa"
         })
 
-    }catch(error){
+    } catch (error) {
         res.status(400).json({
-            msg: "Ha ocurrido un error al crear la reserva de la habitacion con id: "+id_habitacion,
+            msg: "Ha ocurrido un error al crear la reserva de la habitacion con id: " + id_habitacion,
             error
         });
     };
 };
 
-export const getReservaHabitacion = async(req: Request, res: Response) =>{
-    const {id_reserva} = req.params;
-    try{
-        const reserva = await ReservaHabitacion.findOne({where: {ID_RESERVA_HABITACION: id_reserva}});
-        if (!reserva){
+export const getReservaHabitacion = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    try {
+        const reserva = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+        if (!reserva) {
             return res.status(404).json({
-                msg: "No existe un reserva con el id: "+id_reserva
+                msg: "No existe un reserva con el id: " + id_reserva
             });
         };
         res.json(reserva);
-        }catch(error){
-            res.status(400).json({
-                msg: "Ha ocurrido un error al obtener la reserva de habitacion con id: "+id_reserva,
-                error
-            });
-        };
+    } catch (error) {
+        res.status(400).json({
+            msg: "Ha ocurrido un error al obtener la reserva de habitacion con id: " + id_reserva,
+            error
+        });
+    };
 };
 
-export const getReservasHabitacion = async(req: Request, res: Response)=>{
-    const {id_usuario} = req.params;
-    const usuario = await Usuario.findOne({where: {ID_USUARIO: id_usuario}});
-    if(!usuario){
+export const getReservasHabitacion = async (req: Request, res: Response) => {
+    const { id_usuario } = req.params;
+    const usuario = await Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
+    if (!usuario) {
         return res.status(404).json({
             msg: "El usuario ingresado no existe"
         });
     };
-    try{
-        const reservas = await ReservaHabitacion.findAll({where: {ID_USUARIO_RESERVA_HABITACION: id_usuario}});
+    try {
+        const reservas = await ReservaHabitacion.findAll({ where: { ID_USUARIO_RESERVA_HABITACION: id_usuario } });
         res.json(reservas);
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            msg: "Ha ocurrido un error al obtener las reservas de habitacion del usuario: :"+ id_usuario,
+            msg: "Ha ocurrido un error al obtener las reservas de habitacion del usuario: :" + id_usuario,
             error
         });
 
@@ -159,23 +160,23 @@ export const getReservasHabitacion = async(req: Request, res: Response)=>{
 
 };
 
-export const deleteReservaHabitacion = async(req: Request, res: Response)=> {
-    const {id_reserva} = req.params;
-    const reserva = await ReservaHabitacion.findOne({where: {ID_RESERVA_HABITACION: id_reserva}});
-    if(!reserva){
+export const deleteReservaHabitacion = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    const reserva = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+    if (!reserva) {
         return res.status(404).json({
             msg: "La reserva de habitacion ingresada no existe"
         });
-        }
-    try{
-        await ReservaHabitacion.destroy({where:{ID_RESERVA_HABITACION: id_reserva}});
+    }
+    try {
+        await ReservaHabitacion.destroy({ where: { ID_RESERVA_HABITACION: id_reserva } });
         return res.json({
-            msg: "Se ha eliminado la reserva de habitacion "+id_reserva
+            msg: "Se ha eliminado la reserva de habitacion " + id_reserva
         })
 
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            msg: "Ha ocurrido un error al eliminar la reserva de habitacion: "+ id_reserva,
+            msg: "Ha ocurrido un error al eliminar la reserva de habitacion: " + id_reserva,
             error
         });
 
@@ -334,24 +335,24 @@ export const updateReservaHabitacion = async (req: Request, res: Response) => {
     }
 };
 
-export const agregarProductoReservaHabitacion = async(req: Request, res: Response) =>{
-    const {id_reserva} = req.params;
-    const {id_producto, cantidad}= req.body;
+export const agregarProductoReservaHabitacion = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    const { id_producto, cantidad } = req.body;
     const t = await sequelize.transaction(); //para el rollback
 
-    const reserva = await ReservaHabitacion.findOne({where: {ID_RESERVA_HABITACION: id_reserva}});
-    if (!reserva){
+    const reserva = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+    if (!reserva) {
         return res.status(404).json({
-            msg: "No existe una reserva de habitacion con el id: "+id_reserva
+            msg: "No existe una reserva de habitacion con el id: " + id_reserva
         });
     };
-    const producto = await Producto.findOne({where: {ID_PRODUCTO: id_producto}});
-    if (!producto){
+    const producto = await Producto.findOne({ where: { ID_PRODUCTO: id_producto } });
+    if (!producto) {
         return res.status(404).json({
-            msg: "No existe un producto con el id: "+id_producto
+            msg: "No existe un producto con el id: " + id_producto
         });
     };
-    try{
+    try {
         const totalProductos = producto?.dataValues.PRECIO_PRODUCTO * cantidad;
 
         await DetalleReservaHabitacionProducto.create({
@@ -363,66 +364,66 @@ export const agregarProductoReservaHabitacion = async(req: Request, res: Respons
 
         await ReservaHabitacion.update({
             "TOTAL": totalProductos + reserva?.dataValues.TOTAL
-        },{where:{ID_RESERVA_HABITACION: id_reserva}});
-        
+        }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+
         await t.commit(); // si no hay errores en la transacción, commiteamos
         res.json({
-            msg: "Se ha agregado correctamente el producto "+id_producto+" a la reserva de habitacion "+id_reserva
+            msg: "Se ha agregado correctamente el producto " + id_producto + " a la reserva de habitacion " + id_reserva
         });
-    }catch(error){
+    } catch (error) {
         await t.rollback(); // si hay errores, rollback
         res.status(500).json({
-            msg: "Ha ocurrido un error al añadir el producto con id: "+id_producto+" a la reserva de habitacion "+id_reserva,
+            msg: "Ha ocurrido un error al añadir el producto con id: " + id_producto + " a la reserva de habitacion " + id_reserva,
             error
         });
     }
 };
 
-export const updateProductoReservaHabitacion = async(req: Request, res: Response) =>{
-    const {id_reserva} = req.params;
-    const {id_producto, cantidad}= req.body;
+export const updateProductoReservaHabitacion = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    const { id_producto, cantidad } = req.body;
     const t = await sequelize.transaction(); //para el rollback
 
-    const reserva = await ReservaHabitacion.findOne({where: {ID_RESERVA_HABITACION: id_reserva}});
-    if (!reserva){
+    const reserva = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+    if (!reserva) {
         return res.status(404).json({
-            msg: "No existe una reserva con el id: "+id_reserva
+            msg: "No existe una reserva con el id: " + id_reserva
         });
     };
-    const producto = await Producto.findOne({where: {ID_PRODUCTO: id_producto}});
-    if (!producto){
+    const producto = await Producto.findOne({ where: { ID_PRODUCTO: id_producto } });
+    if (!producto) {
         return res.status(404).json({
-            msg: "No existe un producto con el id: "+id_producto
+            msg: "No existe un producto con el id: " + id_producto
         });
     };
     const detalleReservaProducto = await DetalleReservaHabitacionProducto.findOne({
         where: {
-            ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto, 
+            ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto,
             ID_RESERVA_HABITACION_DETALLE_RESERVA_HABITACION_PRODUCTO: id_reserva
         }
     });
-    if (!detalleReservaProducto){
+    if (!detalleReservaProducto) {
         return res.status(404).json({
-            msg: "Aún no se ha agregado ningún producto con id: "+id_producto+" a la reserva con id "+id_reserva
+            msg: "Aún no se ha agregado ningún producto con id: " + id_producto + " a la reserva con id " + id_reserva
         });
     };
-    try{
-        if(cantidad == 0){
+    try {
+        if (cantidad == 0) {
             const totalReservaBorrar = reserva?.dataValues.TOTAL;
             const totalProductosBorrar = detalleReservaProducto?.dataValues.TOTAL;
-    
+
             await ReservaHabitacion.update({
                 "TOTAL": totalReservaBorrar - totalProductosBorrar
-            },{where:{ID_RESERVA_HABITACION: id_reserva}});
+            }, { where: { ID_RESERVA_HABITACION: id_reserva } });
             await DetalleReservaHabitacionProducto.destroy({
                 where: {
-                    ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto, 
+                    ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto,
                     ID_RESERVA_HABITACION_DETALLE_RESERVA_HABITACION_PRODUCTO: id_reserva
                 }
             });
             await t.commit();
             return res.json({
-                msg: "Se han quitado todos los productos con id "+id_producto+" de la reserva "+id_reserva
+                msg: "Se han quitado todos los productos con id " + id_producto + " de la reserva " + id_reserva
             });
         }
 
@@ -431,32 +432,32 @@ export const updateProductoReservaHabitacion = async(req: Request, res: Response
 
         await ReservaHabitacion.update({
             "TOTAL": totalReservaActual - totalProductosActual
-        },{where:{ID_RESERVA_HABITACION: id_reserva}});
-        
+        }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+
         await DetalleReservaHabitacionProducto.update({
             "CANTIDAD": cantidad,
             "TOTAL": producto?.dataValues.PRECIO_PRODUCTO * cantidad
-        },{
+        }, {
             where: {
-                ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto, 
+                ID_PRODUCTO_DETALLE_RESERVA_HABITACION_PRODUCTO: id_producto,
                 ID_RESERVA_HABITACION_DETALLE_RESERVA_HABITACION_PRODUCTO: id_reserva
             }
         });
 
-        const reservaActual = await ReservaHabitacion.findOne({where: {ID_RESERVA_HABITACION: id_reserva}});
+        const reservaActual = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
 
         await ReservaHabitacion.update({
             "TOTAL": reservaActual?.dataValues.TOTAL + producto?.dataValues.PRECIO_PRODUCTO * cantidad
-        },{where:{ID_RESERVA_HABITACION: id_reserva}});
-        
+        }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+
         await t.commit(); // si no hay errores en la transacción, commiteamos
         res.json({
-            msg: "Se ha actualizado correctamente el número de productos con id "+id_producto+" en la reserva "+id_reserva
+            msg: "Se ha actualizado correctamente el número de productos con id " + id_producto + " en la reserva " + id_reserva
         });
-    }catch(error){
+    } catch (error) {
         await t.rollback(); // si hay errores, rollback
         res.status(500).json({
-            msg: "Ha ocurrido un error al actualizar el número de productos con id: "+id_producto+" en la reserva "+id_reserva,
+            msg: "Ha ocurrido un error al actualizar el número de productos con id: " + id_producto + " en la reserva " + id_reserva,
             error
         });
     }
@@ -472,8 +473,8 @@ export const verificarEstadosHabitacion = async () => {
         });
 
         for (const reserva of reservasHoy) {
-            const habitacion = await Habitacion.findOne({where: {ID_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION}});
-            if(habitacion?.dataValues.ID_ESTADO_HABITACION == 1){
+            const habitacion = await Habitacion.findOne({ where: { ID_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION } });
+            if (habitacion?.dataValues.ID_ESTADO_HABITACION == 1) {
                 await Habitacion.update(
                     { ID_ESTADO_HABITACION: 2 },
                     { where: { ID_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION } }
@@ -482,6 +483,58 @@ export const verificarEstadosHabitacion = async () => {
             }
         }
     } catch (error) {
-        console.error("Error verificando estados de habitaciones:",error);
+        console.error("Error verificando estados de habitaciones:", error);
     }
 };
+
+export const finalizarReservaHabitacion = async (req: Request, res: Response) => {
+    const { id_reserva } = req.params;
+    const { trigger } = req.body;
+    const reserva = await ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+    if (!reserva) {
+        return res.status(404).json({
+            msg: "No existe una reserva con el id: " + id_reserva
+        });
+    };
+
+    try {
+        if (trigger == 1) {
+            
+            await ReservaHabitacion.update({
+                "ID_ESTADO_PAGO_RESERVA_HABITACION": 3
+    
+            }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+
+            await Habitacion.update({
+                "ID_ESTADO_HABITACION": 1
+
+            },{where:{ID_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION}});
+            return res.json({
+                msg: "La reserva de habitacion "+id_reserva+" ha sido finalizada correctamente"
+            })
+    
+        }
+        if (trigger == 0) {
+            
+            await ReservaHabitacion.update({
+                "ID_ESTADO_PAGO_RESERVA_HABITACION": 2
+    
+            }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+            await Habitacion.update({
+                "ID_ESTADO_HABITACION": 1
+
+            },{where:{ID_HABITACION: reserva?.dataValues.ID_HABITACION_RESERVA_HABITACION}});
+            return res.json({
+                msg: "La reserva de habitacion "+id_reserva+" ha sido cancelada correctamente"
+            })
+    
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de habitacion",
+            error
+        });
+    }
+        
+    }
+

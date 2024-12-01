@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verificarEstadosHabitacion = exports.updateProductoReservaHabitacion = exports.agregarProductoReservaHabitacion = exports.updateReservaHabitacion = exports.deleteReservaHabitacion = exports.getReservasHabitacion = exports.getReservaHabitacion = exports.newReservaHabitacion = void 0;
+exports.finalizarReservaHabitacion = exports.verificarEstadosHabitacion = exports.updateProductoReservaHabitacion = exports.agregarProductoReservaHabitacion = exports.updateReservaHabitacion = exports.deleteReservaHabitacion = exports.getReservasHabitacion = exports.getReservaHabitacion = exports.newReservaHabitacion = void 0;
 const usuarioModel_1 = require("../models/usuarioModel");
 const sequelize_1 = require("sequelize");
 const dbConnection_1 = __importDefault(require("../db/dbConnection"));
@@ -99,7 +99,8 @@ const newReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, fun
             "ANTICIPO": anticipo,
             "TOTAL": nuevoTotal,
             "ID_HABITACION_RESERVA_HABITACION": id_habitacion,
-            "ID_USUARIO_RESERVA_HABITACION": id_usuario
+            "ID_USUARIO_RESERVA_HABITACION": id_usuario,
+            "ID_ESTADO_PAGO_RESERVA_HABITACION": 1
         });
         const hoy = new Date();
         if (new Date(fecha_inicio).toDateString() === hoy.toDateString()) {
@@ -458,3 +459,45 @@ const verificarEstadosHabitacion = () => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.verificarEstadosHabitacion = verificarEstadosHabitacion;
+const finalizarReservaHabitacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_reserva } = req.params;
+    const { trigger } = req.body;
+    const reserva = yield reservaHabitacionModel_1.ReservaHabitacion.findOne({ where: { ID_RESERVA_HABITACION: id_reserva } });
+    if (!reserva) {
+        return res.status(404).json({
+            msg: "No existe una reserva con el id: " + id_reserva
+        });
+    }
+    ;
+    try {
+        if (trigger == 1) {
+            yield reservaHabitacionModel_1.ReservaHabitacion.update({
+                "ID_ESTADO_PAGO_RESERVA_HABITACION": 3
+            }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+            yield habitacionModel_1.Habitacion.update({
+                "ID_ESTADO_HABITACION": 1
+            }, { where: { ID_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_HABITACION_RESERVA_HABITACION } });
+            return res.json({
+                msg: "La reserva de habitacion " + id_reserva + " ha sido finalizada correctamente"
+            });
+        }
+        if (trigger == 0) {
+            yield reservaHabitacionModel_1.ReservaHabitacion.update({
+                "ID_ESTADO_PAGO_RESERVA_HABITACION": 2
+            }, { where: { ID_RESERVA_HABITACION: id_reserva } });
+            yield habitacionModel_1.Habitacion.update({
+                "ID_ESTADO_HABITACION": 1
+            }, { where: { ID_HABITACION: reserva === null || reserva === void 0 ? void 0 : reserva.dataValues.ID_HABITACION_RESERVA_HABITACION } });
+            return res.json({
+                msg: "La reserva de habitacion " + id_reserva + " ha sido cancelada correctamente"
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: "Ha ocurrido un error al finalizar la reserva de habitacion",
+            error
+        });
+    }
+});
+exports.finalizarReservaHabitacion = finalizarReservaHabitacion;

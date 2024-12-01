@@ -10,4 +10,5 @@ router.get('/list/:id_usuario', reservaHabitacionController_1.getReservasHabitac
 router.get('/:id_reserva', reservaHabitacionController_1.getReservaHabitacion);
 router.put('/agregarproducto/:id_reserva', reservaHabitacionController_1.agregarProductoReservaHabitacion);
 router.put('/updateproducto/:id_reserva', reservaHabitacionController_1.updateProductoReservaHabitacion);
+router.put('/estadoreservahabitacion/:id_reserva', reservaHabitacionController_1.finalizarReservaHabitacion);
 exports.default = router;
