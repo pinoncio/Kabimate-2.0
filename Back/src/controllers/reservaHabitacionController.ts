@@ -472,6 +472,7 @@ export const verificarEstadosHabitacion = async () => {
         const reservasHoy = await ReservaHabitacion.findAll({
             where: {
                 FECHA_INICIO: fechaHoy.toISOString().split('T')[0],
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1
             },
         });
 

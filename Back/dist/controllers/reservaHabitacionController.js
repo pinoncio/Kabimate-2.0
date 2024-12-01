@@ -447,6 +447,7 @@ const verificarEstadosHabitacion = () => __awaiter(void 0, void 0, void 0, funct
         const reservasHoy = yield reservaHabitacionModel_1.ReservaHabitacion.findAll({
             where: {
                 FECHA_INICIO: fechaHoy.toISOString().split('T')[0],
+                ID_ESTADO_PAGO_RESERVA_HABITACION: 1
             },
         });
         for (const reserva of reservasHoy) {
