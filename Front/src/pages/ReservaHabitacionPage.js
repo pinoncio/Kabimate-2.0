@@ -236,7 +236,7 @@ export default function ReservaHabitacionPage() {
           </tbody>
         </table>
         <div className="reserva-actions">
-          <Link to="/reservasC">
+          <Link to="/reservasH">
             <button type="button" className="reserva-button volver-button">
               Volver
             </button>

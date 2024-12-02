@@ -405,17 +405,6 @@ const ListaHabitacionReservas = () => {
                 value={telefono_huesped}
                 onChange={(e) => setTelefonoHuesped(e.target.value)}
               />
-
-              {/* Anticipo */}
-              <div className="mb-2">
-                <strong>Anticipo</strong>
-              </div>
-              <input
-                type="number"
-                className="form-control"
-                value={anticipo}
-                onChange={(e) => setAnticipo(e.target.value)}
-              />
             </div>
             <div className="modal-footer">
               <button
